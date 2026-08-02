@@ -16,7 +16,19 @@ Next Level Code est une société de développement logiciel qui :
 - Intègre l'**IA de pointe** dans ses produits et ceux de ses clients : LLM, agents autonomes, RAG, vision par ordinateur, MLOps.
 - Cible les marchés **IT et IA** : startups, PME/ETI, DSI de grands comptes.
 
-Le contenu du site doit être **rédigé de manière réaliste et professionnelle**, comme celui d'un véritable éditeur de logiciels maîtrisant le software de pointe. Tu as toute latitude pour rédiger : offres détaillées, méthodologie, stack technique, chiffres crédibles, témoignages. **Exception importante : le portefeuille de réalisations est constitué de références RÉELLES fournies en section 5bis — les utiliser telles quelles (reformulation autorisée, invention de faits interdite).** Interdiction du lorem ipsum et des phrases creuses génériques ("nous sommes passionnés par l'innovation"). Chaque phrase doit vendre ou informer.
+Next Level Code est une structure **founder-led** : les projets sont livrés par un **collectif trié sur le volet d'architectes logiciels, d'ingénieurs seniors et de spécialistes IA, dirigé par le fondateur**, mobilisé selon les besoins de chaque mission. Formulation de référence pour le site (EN) : *"our projects are delivered by a hand-picked collective of software architects, senior engineers and AI specialists, led by the founder"*.
+
+Règles strictes de communication sur la structure :
+- **Ne jamais annoncer d'effectif** ni de taille d'équipe (aucun "X collaborateurs", "équipe de X ingénieurs").
+- **Ne jamais inventer de membres d'équipe nommés ni de profils individuels** (pas de trombinoscope, pas de bios, pas de "profils types" laissant croire à des salariés permanents).
+- La crédibilité vient des références clients réelles et de la séniorité, pas d'une taille d'entreprise simulée.
+
+Le contenu du site doit être **rédigé de manière réaliste et professionnelle**, comme celui d'un véritable éditeur de logiciels maîtrisant le software de pointe. Tu as toute latitude pour rédiger : offres détaillées, méthodologie, stack technique. **Exceptions non négociables :**
+- Le portefeuille de réalisations est constitué de références RÉELLES fournies en section 5bis — les utiliser telles quelles (reformulation autorisée, invention de faits interdite).
+- **Aucune citation, aucun témoignage, aucun verbatim ne doit jamais être inventé**, nulle part sur le site — ni attribué à un client réel, ni anonymisé. Le site ne comporte pas de section témoignages.
+- Aucun chiffre inventé : seuls les chiffres fournis explicitement par le propriétaire sont publiés.
+
+Interdiction du lorem ipsum et des phrases creuses génériques ("nous sommes passionnés par l'innovation"). Chaque phrase doit vendre ou informer.
 
 **Langue : la V1 du site est livrée intégralement en ANGLAIS** (registre commercial B2B natif, pas de calques du français). L'**architecture i18n complète est néanmoins posée dès le départ** pour permettre l'ajout ultérieur du français, de l'arabe et du russe sans refonte — voir section 5ter. Aucun texte en dur dans les composants : tout passe par les dictionnaires et collections dès la première ligne.
 
@@ -52,7 +64,7 @@ Conséquences non négociables :
 /products/              Les API et produits commercialisés — page de VENTE orientée décideurs : chaque API présentée par sa valeur (problème résolu, cas d'usage, bénéfices, intégration simple, sécurité), un court extrait de code élégant en preuve de sérieux, CTA "Request a demo". Tarification indicative "sur devis". Contenu simulé crédible en attendant la liste réelle des API (à remplacer facilement — voir structure en collections)
 /work/                  Portefeuille de références RÉELLES (voir section 5bis) : 6 projets clients en études de cas
 /how-we-work/           Process de delivery (cadrage → sprint → mise en prod → run), engagements qualité, sécurité
-/about/                 Vision, équipe (profils types), valeurs concrètes
+/about/                 Vision, modèle founder-led + collectif de delivery (voir section 2), valeurs concrètes — jamais d'effectif ni de profils individuels inventés
 /blog/                  Structure prête + 2-3 articles de démonstration techniques (ex : "RAG in production: lessons learned")
 /contact/               Formulaire + coordonnées + FAQ commerciale courte
 /legal/                 Mentions légales + politique de confidentialité (version simple)
@@ -175,7 +187,12 @@ Contraintes de qualité (non négociables) :
 ## 7. Conversion & crédibilité (le site doit VENDRE)
 
 - CTA principal unique et répété : **"Start a project"** / "Talk to an expert" → /contact/. **CTA secondaire** (visuellement distinct, style outline) : **"Explore our APIs"** → /products/, présent sur la home et dans les pages services pertinentes. Sur /products/, le CTA devient "Request a demo".
-- Preuves sociales sur la home : les 6 logos clients RÉELS de la section 5bis (BNP Paribas, Banque de France, Orange, Essilor, Maileva/Docapost, Ministère de l'Agriculture) — c'est l'argument commercial n°1 du site, le mettre en avant dès le premier écran ou juste après le hero. Compléter par 2-3 témoignages sobres et des chiffres clés qualitatifs.
+- **Preuve sociale = logos clients + études de cas UNIQUEMENT.** Les 6 logos clients RÉELS de la section 5bis (BNP Paribas, Banque de France, Orange, Essilor, Maileva/Docapost, Ministère de l'Agriculture) sont l'argument commercial n°1 du site : les mettre en avant dès le premier écran ou juste après le hero, et renvoyer vers les études de cas de /work/.
+- **Pas de section témoignages** — ni sur la home, ni ailleurs. Aucune collection `testimonials`, aucun composant de citation client. Voir la règle absolue "aucune citation inventée" en section 2. Si le propriétaire fournit un jour des verbatims réels et autorisés, une section pourra être ajoutée à ce moment-là, jamais avant.
+- **Chiffres clés (bandeau home, compteurs animés)** — seuls chiffres autorisés, fournis par le propriétaire :
+  - `[X]` années d'activité *(valeur exacte à confirmer par le propriétaire — placeholder `TODO` en attendant)*
+  - `[X]` projets clients livrés *(valeur exacte à confirmer — placeholder `TODO`)*
+  Ne jamais publier de chiffre d'effectif, de CA, de NPS ou de métrique de performance non fournie.
 - Chaque page service se termine par un CTA contextualisé.
 - Page contact sans friction : formulaire court (nom, email, société, besoin), promesse de réponse sous 24 h.
 - Ton rédactionnel : expert, direct, orienté bénéfices client, sans jargon creux.
