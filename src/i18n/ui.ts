@@ -87,3 +87,72 @@ export function useTranslations(locale: LocaleCode = DEFAULT_LOCALE) {
 }
 
 export type Translator = ReturnType<typeof useTranslations>;
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Structured content
+   ────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * Every path in the dictionary, including ones that resolve to an object or
+ * an array. Arrays are treated as leaves: a page wants the whole list of
+ * pillars, not `pillars.0.title`.
+ */
+type ContentPath<T> = {
+  [K in keyof T & string]: T[K] extends string | readonly unknown[]
+    ? K
+    : T[K] extends object
+      ? K | `${K}.${ContentPath<T[K]>}`
+      : K;
+}[keyof T & string];
+
+/** The type sitting at a given dot-path. */
+type PathValue<T, P extends string> = P extends `${infer Key}.${infer Rest}`
+  ? Key extends keyof T
+    ? PathValue<T[Key], Rest>
+    : never
+  : P extends keyof T
+    ? T[P]
+    : never;
+
+export type ContentKey = ContentPath<Dictionary>;
+
+/**
+ * Reads structured content — lists of pillars, process steps, FAQ entries —
+ * out of the dictionary with its shape preserved.
+ *
+ * `t()` deliberately only returns strings, so page sections built from lists
+ * would otherwise have to hard-code their content in the component, which is
+ * exactly what the i18n architecture exists to prevent.
+ *
+ * ```astro
+ * const c = useContent(locale);
+ * const pillars = c('home.pillars.items'); // typed as {title, body}[]
+ * ```
+ */
+export function useContent(locale: LocaleCode = DEFAULT_LOCALE) {
+  const dictionary = (dictionaries as Partial<Record<LocaleCode, Dictionary>>)[locale] ?? en;
+
+  return function content<P extends ContentKey>(key: P): PathValue<Dictionary, P> {
+    const read = (source: Dictionary): unknown =>
+      key
+        .split('.')
+        .reduce<unknown>(
+          (node, segment) =>
+            node && typeof node === 'object'
+              ? (node as Record<string, unknown>)[segment]
+              : undefined,
+          source,
+        );
+
+    const value = read(dictionary) ?? read(en);
+
+    if (value === undefined) {
+      throw new Error(
+        `[i18n] Missing content key "${key}" (locale "${locale}"). ` +
+          `Add it to src/i18n/${locale}.json.`,
+      );
+    }
+
+    return value as PathValue<Dictionary, P>;
+  };
+}

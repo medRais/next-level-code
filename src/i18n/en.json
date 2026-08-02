@@ -94,6 +94,79 @@
     "secondaryAction": "Browse our work"
   },
 
+  "home": {
+    "seoDescription": "Custom software, applied AI and commercial APIs for organisations where the system has to work. Trusted by BNP Paribas, Banque de France, Orange and Essilor.",
+    "hero": {
+      "eyebrow": "Software & AI engineering",
+      "title": "Software and AI, engineered to reach production",
+      "lead": "We design and build custom software, applied AI and commercial APIs for organisations where the system has to work the first time — banks, public institutions and enterprises."
+    },
+    "pillars": {
+      "eyebrow": "Why teams bring us in",
+      "title": "Three things that decide whether software lands",
+      "items": [
+        {
+          "title": "Senior engineering, directly",
+          "body": "You work with the people writing the code. There is no layer between a decision and the person who has to live with it."
+        },
+        {
+          "title": "Built for the estate you have",
+          "body": "Legacy that cannot be rewritten, constraints that are not negotiable, integrations that must not break. That is the normal case, and we design for it rather than around it."
+        },
+        {
+          "title": "Delivered to production",
+          "body": "The work is finished when it runs under real load with real users. Everything before that is progress, not completion."
+        }
+      ]
+    },
+    "services": {
+      "eyebrow": "What we do",
+      "title": "Four ways we engage",
+      "lead": "Most engagements begin with one of these and grow into another as the work reveals what it actually needs."
+    },
+    "work": {
+      "eyebrow": "Selected work",
+      "title": "Systems running in banking, government and telecoms",
+      "lead": "Six client references across banking, central banking, public institutions, telecommunications and optical retail."
+    },
+    "api": {
+      "eyebrow": "APIs & products",
+      "title": "Capability you integrate, not a project you run",
+      "lead": "Where a problem is well understood and the value is in having it working now, an API is the shorter path. Clear contracts, honest documentation, and the security answers a review actually asks for.",
+      "snippetNote": "Authenticate, call, ship. Every endpoint has full reference documentation."
+    },
+    "process": {
+      "eyebrow": "How we work",
+      "title": "Four stages, each ending in something you can judge",
+      "items": [
+        {
+          "title": "Framing",
+          "body": "We establish what is true before agreeing what to build: the constraints, the systems in scope, and the outcome that would count as success."
+        },
+        {
+          "title": "Sprints",
+          "body": "Short cycles against working software. You see the real thing at each step, early enough that changing direction is still cheap."
+        },
+        {
+          "title": "Production",
+          "body": "Deployment, security review, observability and the operational handover — treated as part of the build, not as a phase that follows it."
+        },
+        {
+          "title": "Run",
+          "body": "Support, evolution and the transfer of ownership to your team. A permanent dependency on us is not a successful outcome."
+        }
+      ]
+    },
+    "metrics": {
+      "eyebrow": "The practice",
+      "title": "A young company on long experience"
+    },
+    "cta": {
+      "title": "Tell us what you are trying to build",
+      "lead": "Send a short description of the project, the timeline and the constraints. We reply within 24 hours on business days."
+    }
+  },
+
   "metrics": {
     "founded": "Founded",
     "projectsDelivered": "Client projects delivered",

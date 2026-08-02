@@ -1,0 +1,91 @@
+---
+/**
+ * A single client logo, greyed at rest and resolving to full colour on hover.
+ *
+ * If the image file is absent the client's name is set in fine display type
+ * instead. The band keeps its rhythm either way, and the build never fails
+ * over a missing asset — which is the brief's explicit requirement.
+ *
+ * The grey-to-colour transition is the one place the site animates `filter`
+ * rather than `transform`/`opacity`. The brief asks for that effect by name,
+ * and browsers composite these filters, so it does not cost frames.
+ */
+
+import { Image } from 'astro:assets';
+import { getClientLogo } from '../../lib/client-logos';
+
+interface Props {
+  /** Key into src/assets/clients/, without extension. */
+  logo: string;
+  /** Client name — the alt text, and the fallback if the file is missing. */
+  name: string;
+  class?: string;
+}
+
+const { logo, name, class: className }: Props = Astro.props;
+
+const image = getClientLogo(logo);
+
+/** Rendered at 2× the display height so the logo stays sharp on dense screens. */
+const RENDER_HEIGHT = 96;
+---
+
+<div class:list={['client-logo', className]}>
+  {
+    image ? (
+      <Image
+        src={image}
+        alt={name}
+        height={RENDER_HEIGHT}
+        loading="lazy"
+        decoding="async"
+        class="client-logo__img"
+      />
+    ) : (
+      <span class="client-logo__fallback">{name}</span>
+    )
+  }
+</div>
+
+<style>
+  .client-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 3rem;
+  }
+
+  .client-logo__img {
+    max-block-size: 2.75rem;
+    inline-size: auto;
+    max-inline-size: 100%;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition:
+      filter var(--duration-hover) var(--ease-swift),
+      opacity var(--duration-hover) var(--ease-swift);
+  }
+
+  .client-logo:hover .client-logo__img {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  /* The graceful degradation path: the client's name, set thin and spaced so
+     it belongs to the same visual family as the logos beside it. */
+  .client-logo__fallback {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--color-slate);
+    transition: color var(--duration-hover) var(--ease-swift);
+  }
+
+  .client-logo:hover .client-logo__fallback {
+    color: var(--color-ink);
+  }
+</style>

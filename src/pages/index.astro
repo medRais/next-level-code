@@ -1,97 +1,335 @@
 ---
-// Foundation preview. Replaced by the real home page in Phase 3.
+import { Icon } from 'astro-icon/components';
+import { Code } from 'astro:components';
+
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import ClientLogos from '../components/sections/ClientLogos.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Counter from '../components/ui/Counter.astro';
 import Reveal from '../components/ui/Reveal.astro';
-import Rule from '../components/ui/Rule.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
-import Accordion from '../components/ui/Accordion.astro';
-import Glyph from '../components/brand/Glyph.astro';
-import { DEFAULT_LOCALE } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
+
+import { DEFAULT_LOCALE, localePath } from '../i18n/config';
+import { useContent, useTranslations } from '../i18n/ui';
+import { entrySlug, getLocalisedCollection } from '../lib/collections';
 import { CLIENT_PROJECTS_DELIVERED, CLIENT_REFERENCES, FOUNDED_YEAR } from '../data/company';
 
-const t = useTranslations(DEFAULT_LOCALE);
+const locale = DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const c = useContent(locale);
 
-const demoCards = [
-  { title: 'Custom software', body: 'Web, mobile and cloud systems built to run in production.' },
-  { title: 'AI solutions', body: 'LLM applications, autonomous agents, RAG and computer vision.' },
-  { title: 'APIs and products', body: 'Productised capabilities your teams can integrate in days.' },
-];
+const services = await getLocalisedCollection('services', locale);
+const work = await getLocalisedCollection('work', locale);
+
+/** The three most recognisable references lead the teaser; the band above
+    already shows all six. */
+const featuredWork = work.slice(0, 3);
+
+const pillars = c('home.pillars.items');
+const processSteps = c('home.process.items');
+
+/** Proof of a clean integration surface, not a tutorial. Kept short on
+    purpose — decision-makers read it as evidence, engineers as a signature. */
+const apiSnippet = `curl https://api.nextlevelcode.tech/v1/documents/extract \\
+  -H "Authorization: Bearer $NLC_API_KEY" \\
+  -F "file=@invoice.pdf"
+
+{
+  "supplier":    "Maileva",
+  "invoice_no":  "F-2026-00412",
+  "total_gross": 1840.00,
+  "currency":    "EUR",
+  "confidence":  0.98
+}`;
+
+/** Service schema for each offer, alongside the site-wide Organization node. */
+const jsonLd = services.map((service) => ({
+  '@type': 'Service',
+  name: service.data.title,
+  description: service.data.summary,
+  provider: { '@id': `${Astro.site?.href}#organization` },
+  url: new URL(localePath(locale, `/services/${entrySlug(service.id)}/`), Astro.site).href,
+}));
 ---
 
-<BaseLayout description={t('site.description')} path="/">
-  <section class="on-ink">
-    <div class="container-site section-y">
-      <div>
-        <Glyph size="2.5rem" animated class="text-porcelain" />
-        <h1 class="text-display-1 text-porcelain mt-8" data-hero-item style="--hero-delay: 320ms;">
-          {t('site.tagline')}
-        </h1>
-        <p class="text-lead text-mist mt-6 max-w-2xl" data-hero-item style="--hero-delay: 440ms;">
-          {t('footer.pitch')}
-        </p>
-        <div class="mt-10 flex flex-wrap gap-4" data-hero-item style="--hero-delay: 560ms;">
-          <Button href="/contact/" size="lg" tone="ink">{t('cta.primary')}</Button>
-          <Button href="/products/" size="lg" variant="outline" tone="ink">
-            {t('cta.secondary')}
-          </Button>
-        </div>
-      </div>
-    </div>
-  </section>
+<BaseLayout description={t('home.seoDescription')} path="/" jsonLd={jsonLd}>
+  <Hero locale={locale} />
 
+  <ClientLogos locale={locale} />
+
+  <!-- Why teams bring us in -->
   <section class="container-site section-y">
-    <SectionHeader
-      eyebrow="Foundation"
-      title="Component primitives"
-      lead="Everything below is driven by the design tokens and the translation dictionary. No component holds a hard-coded string."
-    />
+    <SectionHeader eyebrow={c('home.pillars.eyebrow')} title={c('home.pillars.title')} />
 
-    <Rule class="mt-10" />
-
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-3">
       {
-        demoCards.map((card, index) => (
+        pillars.map((pillar, index) => (
           <Reveal delay={index * 90}>
-            <Card href="/services/" class="h-full">
-              <h3 class="text-display-3">{card.title}</h3>
-              <p class="text-slate mt-3">{card.body}</p>
-            </Card>
+            <div class="pillar">
+              <span class="pillar__index">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="pillar__title">{pillar.title}</h3>
+              <p class="pillar__body">{pillar.body}</p>
+            </div>
           </Reveal>
         ))
       }
     </div>
   </section>
 
-  <section class="on-ink">
+  <!-- What we do -->
+  <section class="services-section">
     <div class="container-site section-y">
-      <div class="grid gap-10 sm:grid-cols-3">
-        <Counter value={FOUNDED_YEAR} label={t('metrics.founded')} tone="ink" animate={false} />
-        <Counter
-          value={CLIENT_PROJECTS_DELIVERED}
-          label={t('metrics.projectsDelivered')}
-          tone="ink"
-        />
-        <Counter value={CLIENT_REFERENCES} label={t('metrics.clientReferences')} tone="ink" />
+      <SectionHeader
+        eyebrow={c('home.services.eyebrow')}
+        title={c('home.services.title')}
+        lead={c('home.services.lead')}
+      />
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2">
+        {
+          services.map((service, index) => (
+            <Reveal delay={index * 80}>
+              <Card href={localePath(locale, `/services/${entrySlug(service.id)}/`)} class="h-full">
+                {/* Tailwind utilities rather than a scoped class: a class
+                    passed to a child component does not inherit this file's
+                    style scope, so a scoped rule would never match. */}
+                <Icon name={service.data.icon} class="size-6 text-cobalt" aria-hidden="true" />
+                <h3 class="service-card__title">{service.data.title}</h3>
+                <p class="service-card__body">{service.data.summary}</p>
+                <span class="service-card__more">{t('cta.learnMore')}</span>
+              </Card>
+            </Reveal>
+          ))
+        }
+      </div>
+
+      <div class="mt-10">
+        <Button href={localePath(locale, '/services/')} variant="ghost">
+          {t('cta.allServices')}
+        </Button>
       </div>
     </div>
   </section>
 
+  <!-- Selected work -->
   <section class="container-site section-y">
-    <SectionHeader eyebrow="FAQ" title="Accordion" as="h2" />
-    <div class="mt-8 max-w-3xl">
-      <Accordion question="Does this work without JavaScript?" open>
-        <p>
-          Yes. Reveals, the header behaviour and the counters are enhancements. With scripting off
-          the page renders complete and static.
-        </p>
-      </Accordion>
-      <Accordion question="What happens under reduced motion?">
-        <p>Every animation is disabled. Nothing moves, and no content is hidden.</p>
-      </Accordion>
+    <SectionHeader
+      eyebrow={c('home.work.eyebrow')}
+      title={c('home.work.title')}
+      lead={c('home.work.lead')}
+    />
+
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      {
+        featuredWork.map((entry, index) => (
+          <Reveal delay={index * 90}>
+            <Card href={localePath(locale, `/work/${entrySlug(entry.id)}/`)} class="h-full">
+              <span class="work-card__sector">{entry.data.sector}</span>
+              <h3 class="work-card__title">
+                {entry.data.client}
+                {entry.data.project && <span class="work-card__project">{entry.data.project}</span>}
+              </h3>
+              <p class="work-card__body">{entry.data.summary}</p>
+              <span class="work-card__more">{t('cta.readCaseStudy')}</span>
+            </Card>
+          </Reveal>
+        ))
+      }
+    </div>
+
+    <div class="mt-10">
+      <Button href={localePath(locale, '/work/')} variant="ghost">{t('cta.allWork')}</Button>
     </div>
   </section>
+
+  <!-- APIs and products -->
+  <section class="on-ink">
+    <div class="container-site section-y api">
+      <div class="api__copy">
+        <SectionHeader
+          eyebrow={c('home.api.eyebrow')}
+          title={c('home.api.title')}
+          lead={c('home.api.lead')}
+          tone="ink"
+        />
+        <div class="api__actions">
+          <Button href={localePath(locale, '/products/')} tone="ink">{t('cta.secondary')}</Button>
+          <Button href={localePath(locale, '/contact/')} variant="ghost" tone="ink">
+            {t('cta.apiExpert')}
+          </Button>
+        </div>
+      </div>
+
+      <Reveal>
+        <Code code={apiSnippet} lang="bash" />
+        <p class="api__note">{c('home.api.snippetNote')}</p>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- How we work -->
+  <section class="container-site section-y">
+    <SectionHeader eyebrow={c('home.process.eyebrow')} title={c('home.process.title')} />
+
+    <ol class="mt-14 grid list-none gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        processSteps.map((step, index) => (
+          <Reveal as="li" delay={index * 80}>
+            <span class="step__index">{String(index + 1).padStart(2, '0')}</span>
+            <h3 class="step__title">{step.title}</h3>
+            <p class="step__body">{step.body}</p>
+          </Reveal>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- The practice -->
+  <section class="metrics-section">
+    <div class="container-site section-y">
+      <SectionHeader eyebrow={c('home.metrics.eyebrow')} title={c('home.metrics.title')} />
+
+      <div class="mt-12 grid gap-10 sm:grid-cols-3">
+        <Counter value={FOUNDED_YEAR} label={t('metrics.founded')} animate={false} />
+        <Counter value={CLIENT_PROJECTS_DELIVERED} label={t('metrics.projectsDelivered')} />
+        <Counter value={CLIENT_REFERENCES} label={t('metrics.clientReferences')} />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand locale={locale} />
 </BaseLayout>
+
+<style>
+  /* ── Pillars ───────────────────────────────────────────────────────────── */
+  .pillar__index {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--color-cobalt);
+  }
+
+  .pillar__title {
+    margin: 1rem 0 0;
+    font-size: 1.375rem;
+    font-weight: 400;
+  }
+
+  .pillar__body {
+    margin: 0.75rem 0 0;
+    color: var(--color-slate);
+  }
+
+  /* ── Services ──────────────────────────────────────────────────────────── */
+  .services-section {
+    background-color: color-mix(in oklab, var(--color-ink) 3%, var(--color-porcelain));
+    border-block: 1px solid var(--color-hairline);
+  }
+
+  .service-card__title {
+    margin: 1.25rem 0 0;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .service-card__body {
+    margin: 0.75rem 0 0;
+    color: var(--color-slate);
+  }
+
+  .service-card__more,
+  .work-card__more {
+    margin-block-start: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-cobalt);
+  }
+
+  /* ── Work ──────────────────────────────────────────────────────────────── */
+  .work-card__sector {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
+  .work-card__title {
+    margin: 1rem 0 0;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .work-card__project {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-slate);
+  }
+
+  .work-card__body {
+    margin: 0.75rem 0 0;
+    color: var(--color-slate);
+  }
+
+  /* ── API band ──────────────────────────────────────────────────────────── */
+  .api {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .api__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-block-start: 2rem;
+  }
+
+  .api__note {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-mist);
+  }
+
+  @media (width >= 64rem) {
+    .api {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 4rem;
+    }
+  }
+
+  /* ── Process ───────────────────────────────────────────────────────────── */
+  .step__index {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--color-cobalt);
+  }
+
+  .step__title {
+    margin: 0.875rem 0 0;
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+
+  .step__body {
+    margin: 0.625rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  /* ── Metrics ───────────────────────────────────────────────────────────── */
+  .metrics-section {
+    background-color: color-mix(in oklab, var(--color-ink) 3%, var(--color-porcelain));
+    border-block-start: 1px solid var(--color-hairline);
+  }
+</style>

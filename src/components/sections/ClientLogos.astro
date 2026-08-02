@@ -1,0 +1,110 @@
+---
+/**
+ * The social-proof band.
+ *
+ * The brief calls these six references the site's single strongest commercial
+ * argument, so the band sits immediately below the hero — the first thing a
+ * visitor sees after the positioning statement.
+ *
+ * It is driven by the work collection rather than a hard-coded list, so a
+ * seventh reference appears here the moment its case study exists.
+ */
+
+import ClientLogo from '../ui/ClientLogo.astro';
+import { getLocalisedCollection, entrySlug } from '../../lib/collections';
+import { localePath, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  locale: LocaleCode;
+  /** Links each logo through to its case study. */
+  linkToCaseStudy?: boolean;
+  class?: string;
+}
+
+const { locale, linkToCaseStudy = true, class: className }: Props = Astro.props;
+
+const t = useTranslations(locale);
+const references = await getLocalisedCollection('work', locale);
+---
+
+<section class:list={['clients', className]} aria-labelledby="clients-heading">
+  <div class="container-site clients__inner">
+    <h2 id="clients-heading" class="clients__heading">{t('common.clientsHeading')}</h2>
+
+    <ul class="clients__grid">
+      {
+        references.map((entry) => {
+          const label = entry.data.project
+            ? `${entry.data.client} — ${entry.data.project}`
+            : entry.data.client;
+
+          return (
+            <li class="clients__item">
+              {linkToCaseStudy ? (
+                <a
+                  class="clients__link"
+                  href={localePath(locale, `/work/${entrySlug(entry.id)}/`)}
+                  aria-label={label}
+                >
+                  <ClientLogo logo={entry.data.logo} name={entry.data.client} />
+                </a>
+              ) : (
+                <ClientLogo logo={entry.data.logo} name={entry.data.client} />
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding-block: clamp(2.5rem, 2rem + 2vw, 4rem);
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .clients__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .clients__heading {
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--color-slate);
+    margin: 0;
+  }
+
+  .clients__grid {
+    display: grid;
+    /* Three across on the narrowest screens, six on wide ones — the band
+       never breaks into an orphan row. */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 2rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .clients__link {
+    display: block;
+    text-decoration: none;
+    border-radius: var(--radius-hair);
+  }
+
+  @media (width >= 48rem) {
+    .clients__grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+  }
+</style>

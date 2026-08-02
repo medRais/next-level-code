@@ -1,0 +1,90 @@
+---
+/**
+ * The closing conversion band, on ink.
+ *
+ * Repeated at the end of the home page and every service page — the brief
+ * asks for one contextualised call to action per page, and this is the
+ * component that delivers it consistently.
+ */
+
+import Button from '../ui/Button.astro';
+import Rule from '../ui/Rule.astro';
+import { localePath, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  locale: LocaleCode;
+  title?: string;
+  lead?: string;
+  /** Label for the primary action. Defaults to the site-wide CTA. */
+  primaryLabel?: string;
+  primaryHref?: string;
+  /** Set false on /products/, where the secondary action would loop back. */
+  showSecondary?: boolean;
+}
+
+const {
+  locale,
+  title,
+  lead,
+  primaryLabel,
+  primaryHref,
+  showSecondary = true,
+}: Props = Astro.props;
+
+const t = useTranslations(locale);
+---
+
+<section class="cta on-ink">
+  <div class="container-site cta__inner">
+    <Rule tone="ink" />
+    <h2 class="cta__title">{title ?? t('home.cta.title')}</h2>
+    <p class="cta__lead">{lead ?? t('home.cta.lead')}</p>
+
+    <div class="cta__actions">
+      <Button href={primaryHref ?? localePath(locale, '/contact/')} size="lg" tone="ink">
+        {primaryLabel ?? t('cta.primary')}
+      </Button>
+      {
+        showSecondary && (
+          <Button href={localePath(locale, '/products/')} size="lg" variant="outline" tone="ink">
+            {t('cta.secondary')}
+          </Button>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1.5rem;
+    padding-block: clamp(3.5rem, 3rem + 4vw, 6.5rem);
+    max-inline-size: 52rem;
+  }
+
+  .cta__title {
+    margin: 0.5rem 0 0;
+    font-size: var(--text-display-2);
+    font-weight: 300;
+    line-height: 1.06;
+    color: var(--color-porcelain);
+  }
+
+  .cta__lead {
+    margin: 0;
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    color: var(--color-mist);
+  }
+
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-start: 1rem;
+  }
+</style>

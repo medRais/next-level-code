@@ -60,7 +60,12 @@ const currentPath = localePath(locale, path);
 
     <div class="header__actions">
       <LangSwitcher locale={locale} path={path} />
-      <Button href={localePath(locale, '/contact/')} class="header__cta">{t('cta.primary')}</Button>
+      {/* Wrapped, not styled through a passed class: a class handed to a
+          child component does not inherit this file's style scope, so the
+          rule hiding this on mobile would never match. */}
+      <div class="header__cta">
+        <Button href={localePath(locale, '/contact/')}>{t('cta.primary')}</Button>
+      </div>
 
       <button
         type="button"
@@ -100,9 +105,9 @@ const currentPath = localePath(locale, path);
           })
         }
       </ul>
-      <Button href={localePath(locale, '/contact/')} size="lg" class="header__panel-cta">
-        {t('cta.primary')}
-      </Button>
+      <div class="header__panel-cta">
+        <Button href={localePath(locale, '/contact/')} size="lg">{t('cta.primary')}</Button>
+      </div>
     </nav>
   </div>
 </header>
@@ -308,6 +313,7 @@ const currentPath = localePath(locale, path);
   }
 
   .header__panel-cta {
+    display: flex;
     align-self: start;
   }
 

@@ -148,6 +148,15 @@
     text-wrap: balance;
   }
 
+  /* Headings default to ink, which is invisible on an ink section. Flipping
+     them wherever `.on-ink` is in force fixes the whole class of bug at the
+     source, rather than leaving every dark section to remember an override —
+     a heading that silently renders dark-on-dark is easy to ship and hard to
+     notice. */
+  .on-ink :is(h1, h2, h3, h4) {
+    color: var(--color-porcelain);
+  }
+
   p {
     text-wrap: pretty;
   }

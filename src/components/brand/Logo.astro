@@ -35,7 +35,7 @@ const { size = '1.375rem', wordmarkOnly = false, animated = false, class: classN
 >
   <span class="logo__wordmark" aria-hidden="true">
     <span class="logo__letter">N</span>
-    <Glyph size="calc(var(--logo-size) * 0.55)" class="logo__e" animated={animated} />
+    <Glyph size="calc(var(--logo-size) * 0.55)" animated={animated} />
     <span class="logo__letter">X</span>
     <span class="logo__letter">T</span>
   </span>
@@ -75,13 +75,9 @@ const { size = '1.375rem', wordmarkOnly = false, animated = false, class: classN
     line-height: 1;
   }
 
-  /* Optical alignment: the letters are positioned by their line box, the mark
-     by its own height, so the two do not agree by default. This nudge lines
-     the bars up with the cap height of N, X and T. Tuned against the rendered
-     lockup — adjust here if the display face is ever changed. */
-  .logo__e {
-    transform: translateY(calc(var(--logo-size) * -0.015));
-  }
+  /* No optical nudge is applied to the ≡: centring it on the flex line lands
+     it on the cap height of N, X and T, verified against the rendered lockup
+     at 3.5rem, 2rem and 1.375rem on both porcelain and ink. */
 
   .logo__sub {
     font-size: calc(var(--logo-size) * 0.46);
