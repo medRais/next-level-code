@@ -1,0 +1,156 @@
+---
+/**
+ * Legal pages, rendered from Markdown.
+ *
+ * These are excluded from search indexing: they carry no commercial value,
+ * and while the `TODO` placeholders remain they should not be surfaced at all.
+ */
+
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Rule from '../../components/ui/Rule.astro';
+
+import { PUBLISHED_LOCALES, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+import { entrySlug, getLocalisedCollection } from '../../lib/collections';
+
+type Props = {
+  entry: CollectionEntry<'legal'>;
+  locale: LocaleCode;
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths: Array<{ params: { slug: string }; props: Props }> = [];
+
+  for (const locale of PUBLISHED_LOCALES) {
+    const entries = await getLocalisedCollection('legal', locale);
+    for (const entry of entries) {
+      paths.push({ params: { slug: entrySlug(entry.id) }, props: { entry, locale } });
+    }
+  }
+
+  return paths;
+};
+
+const { entry, locale } = Astro.props as Props;
+const { data } = entry;
+
+const t = useTranslations(locale);
+const { Content } = await render(entry);
+
+const formattedDate = new Intl.DateTimeFormat(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(data.lastUpdated);
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  path={`/legal/${entrySlug(entry.id)}/`}
+  locale={locale}
+  noindex
+>
+  <article class="container-site legal">
+    <header class="legal__header">
+      <h1 class="legal__title">{data.title}</h1>
+      <Rule class="mt-6" />
+      <p class="legal__date">
+        {t('legalPage.lastUpdatedLabel')} — <time datetime={data.lastUpdated.toISOString()}>{formattedDate}</time>
+      </p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5rem);
+    max-inline-size: var(--container-prose);
+  }
+
+  .legal__title {
+    margin: 0;
+    font-size: var(--text-display-2);
+    font-weight: 300;
+  }
+
+  .legal__date {
+    margin: 1.5rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-slate);
+  }
+
+  /* Long-form typography. Scoped here rather than global: this is the only
+     place on the site that renders unstructured Markdown prose. */
+  .prose {
+    margin-block-start: 3rem;
+    color: var(--color-slate);
+    line-height: 1.75;
+  }
+
+  .prose :global(h2) {
+    margin: 3rem 0 1rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-ink);
+  }
+
+  .prose :global(h3) {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .prose :global(p) {
+    margin: 0 0 1.25rem;
+  }
+
+  .prose :global(ul) {
+    margin: 0 0 1.5rem;
+    padding-inline-start: 1.25rem;
+  }
+
+  .prose :global(li) {
+    margin-block-end: 0.5rem;
+  }
+
+  .prose :global(a) {
+    color: var(--color-cobalt);
+    text-underline-offset: 0.2em;
+  }
+
+  .prose :global(strong) {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  .prose :global(code) {
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-hair);
+    background-color: color-mix(in oklab, var(--color-ink) 6%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    color: var(--color-ink);
+  }
+
+  /* The incompleteness warning at the top of each page. */
+  .prose :global(blockquote) {
+    margin: 0 0 2.5rem;
+    padding: 1.25rem 1.5rem;
+    border-inline-start: 2px solid var(--color-cobalt);
+    background-color: color-mix(in oklab, var(--color-cobalt) 5%, transparent);
+  }
+
+  .prose :global(blockquote p:last-child) {
+    margin-block-end: 0;
+  }
+</style>

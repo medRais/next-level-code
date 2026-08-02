@@ -61,5 +61,15 @@ export default defineConfig({
 
   // astro-icon inlines each used glyph as SVG at build time — no icon font,
   // no runtime JS, no network request.
-  integrations: [sitemap(), mdx(), icon({ iconDir: 'src/icons' })],
+  integrations: [
+    sitemap({
+      // The sitemap integration does not read `<meta name="robots">`, so
+      // pages marked noindex have to be excluded here too. Submitting a URL
+      // and then telling the crawler not to index it wastes crawl budget and
+      // reads as a configuration mistake.
+      filter: (page) => !page.includes('/legal/'),
+    }),
+    mdx(),
+    icon({ iconDir: 'src/icons' }),
+  ],
 });

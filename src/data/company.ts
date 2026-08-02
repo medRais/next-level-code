@@ -39,3 +39,20 @@ export const CLIENT_PROJECTS_DELIVERED = 25;
 
 /** Named client references published on the site — see AGENTS.md §5bis. */
 export const CLIENT_REFERENCES = 6;
+
+/**
+ * Public contact address. Also the fallback the contact form offers if the
+ * submission fails, so a visitor is never left without a way to reach us.
+ *
+ * TODO(owner): confirm the address this should be.
+ */
+export const CONTACT_EMAIL = 'contact@nextlevelcode.tech';
+
+/**
+ * Web3Forms access key.
+ *
+ * Public by design: it authorises delivery to the mailbox it is bound to and
+ * nothing else, which is why it is safe in client-side markup. It is not a
+ * secret and does not belong in an environment variable.
+ */
+export const WEB3FORMS_ACCESS_KEY = '01dfdc7f-4d1f-4d4e-aa7f-83cd12f79be1';

@@ -167,6 +167,54 @@
     }
   },
 
+  "contactPage": {
+    "seoTitle": "Contact",
+    "seoDescription": "Tell us about your project, your timeline and your constraints. We reply to every qualified enquiry within 24 hours on business days.",
+    "eyebrow": "Contact",
+    "title": "Tell us what you are trying to build",
+    "lead": "A short description is enough to start. We reply within 24 hours on business days — including when the honest answer is that we are not the right people for it.",
+    "formHeading": "Send us a message",
+    "directHeading": "Or reach us directly",
+    "emailLabel": "Email",
+    "expectHeading": "What happens next",
+    "expect": [
+      "We read it ourselves — there is no qualification layer between you and the engineers.",
+      "You get a reply within 24 hours on business days, with a straight answer about fit.",
+      "If it looks like a match, we propose a short call to establish the constraints before anything is quoted."
+    ],
+    "faqEyebrow": "Before you write",
+    "faqTitle": "Questions we are usually asked first",
+    "faq": [
+      {
+        "question": "What size of engagement do you take on?",
+        "answer": "From a two-week discovery sprint to a multi-month build. What matters more than size is whether the outcome is definable — if nobody can say what success looks like, that is the first piece of work."
+      },
+      {
+        "question": "Do you work fixed-price or time-and-materials?",
+        "answer": "Both. Fixed price suits work whose scope is genuinely settled, which is rarer than people expect. Otherwise an agreed capacity with reviewed scope gives you the same budget control without pricing in the risk of guessing wrong."
+      },
+      {
+        "question": "Can you work with our existing team?",
+        "answer": "Yes. A good deal of our work is embedded alongside an in-house team, to their process and standards. We are equally comfortable owning a delivery end to end."
+      },
+      {
+        "question": "Do you sign NDAs and work under our security requirements?",
+        "answer": "Routinely. Most of our references are in banking, central banking and the public sector, so contractual and security review is a normal part of starting work rather than an obstacle to it."
+      },
+      {
+        "question": "Where are you based, and does it matter?",
+        "answer": "We work remotely with clients across Europe and are used to regulated environments where data residency and access control are contractual. If your project requires on-site presence, say so and we will tell you honestly whether we can meet it."
+      }
+    ]
+  },
+
+  "legalPage": {
+    "noticeTitle": "Legal notice",
+    "privacyTitle": "Privacy policy",
+    "lastUpdatedLabel": "Last updated",
+    "todoNotice": "This page is awaiting the company's registered details. It must be completed before the site goes live."
+  },
+
   "howWeWorkPage": {
     "seoTitle": "How we work",
     "seoDescription": "Framing, sprints, production and run — how Next Level Code delivers software, with the quality and security commitments that come with it.",
