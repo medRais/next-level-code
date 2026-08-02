@@ -1,0 +1,88 @@
+---
+/**
+ * Language switcher.
+ *
+ * Written and styled in V1 but rendered only once a second locale is
+ * published — a switcher offering one language is noise. It activates on its
+ * own when `PUBLISHED_LOCALES` grows; nothing here needs revisiting.
+ */
+
+import {
+  IS_MULTILINGUAL,
+  PUBLISHED_LOCALES,
+  getLocale,
+  localePath,
+  type LocaleCode,
+} from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  locale: LocaleCode;
+  /** Locale-less path of the current page, so switching stays in place. */
+  path: string;
+  tone?: 'light' | 'ink';
+}
+
+const { locale, path, tone = 'light' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+{
+  IS_MULTILINGUAL && (
+    <nav class:list={['lang', `lang--${tone}`]} aria-label={t('language.label')}>
+      <ul class="lang__list">
+        {PUBLISHED_LOCALES.map((code) => {
+          const definition = getLocale(code);
+          const isCurrent = code === locale;
+          return (
+            <li>
+              <a
+                href={localePath(code, path)}
+                hreflang={definition.htmlLang}
+                lang={definition.htmlLang}
+                class:list={['lang__link', isCurrent && 'is-current']}
+                aria-current={isCurrent ? 'true' : undefined}
+              >
+                {definition.shortLabel}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .lang__list {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lang__link {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--color-slate);
+    transition: color var(--duration-micro) var(--ease-swift);
+  }
+
+  .lang--ink .lang__link {
+    color: var(--color-mist);
+  }
+
+  .lang__link:hover,
+  .lang__link.is-current {
+    color: var(--color-cobalt);
+  }
+
+  .lang--ink .lang__link:hover,
+  .lang--ink .lang__link.is-current {
+    color: var(--color-cobalt-light);
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+/**
+ * Structured data.
+ *
+ * The Organization graph is emitted on every page; individual pages pass
+ * additional nodes (Service, Article, BreadcrumbList) through `graph`.
+ *
+ * `sameAs` is deliberately absent until real social profile URLs are
+ * supplied — pointing search engines at profiles that do not exist is worse
+ * than omitting the property.
+ */
+
+import { DEFAULT_LOCALE, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  locale?: LocaleCode;
+  /** Extra schema.org nodes for this page. */
+  graph?: Record<string, unknown>[];
+}
+
+const { locale = DEFAULT_LOCALE, graph = [] } = Astro.props;
+
+const t = useTranslations(locale);
+const siteUrl = Astro.site?.href ?? 'https://www.nextlevelcode.tech/';
+
+const organisation = {
+  '@type': 'Organization',
+  '@id': `${siteUrl}#organization`,
+  name: t('site.name'),
+  url: siteUrl,
+  logo: new URL('/android-chrome-512x512.png', siteUrl).href,
+  description: t('site.description'),
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${siteUrl}#website`,
+  url: siteUrl,
+  name: t('site.name'),
+  publisher: { '@id': `${siteUrl}#organization` },
+  inLanguage: locale,
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [organisation, website, ...graph],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

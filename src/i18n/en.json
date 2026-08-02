@@ -19,6 +19,13 @@
     "closeMenu": "Close menu"
   },
 
+  "services": {
+    "customSoftware": "Custom software",
+    "aiSolutions": "AI solutions",
+    "apisAndProducts": "APIs & products",
+    "consultingAndAudit": "Consulting & audit"
+  },
+
   "cta": {
     "primary": "Start a project",
     "secondary": "Explore our APIs",

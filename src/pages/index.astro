@@ -1,55 +1,91 @@
 ---
-// Temporary foundation preview. Replaced by the real home page in Phase 3.
-import '../styles/global.css';
-import { DEFAULT_LOCALE, getLocale } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
-import Logo from '../components/brand/Logo.astro';
+// Foundation preview. Replaced by the real home page in Phase 3.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Counter from '../components/ui/Counter.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import Rule from '../components/ui/Rule.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Accordion from '../components/ui/Accordion.astro';
 import Glyph from '../components/brand/Glyph.astro';
+import { DEFAULT_LOCALE } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
 
-const locale = getLocale(DEFAULT_LOCALE);
 const t = useTranslations(DEFAULT_LOCALE);
+
+const demoCards = [
+  { title: 'Custom software', body: 'Web, mobile and cloud systems built to run in production.' },
+  { title: 'AI solutions', body: 'LLM applications, autonomous agents, RAG and computer vision.' },
+  { title: 'APIs and products', body: 'Productised capabilities your teams can integrate in days.' },
+];
 ---
 
-<html lang={locale.htmlLang} dir={locale.dir}>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{t('site.name')}</title>
-  </head>
-  <body>
-    <section class="container-site section-y">
-      <p class="text-eyebrow tracking-brand text-cobalt uppercase">Brand system</p>
-
-      <div class="mt-12 flex flex-col gap-12 text-ink">
-        <Logo size="3.5rem" />
-        <Logo size="2rem" />
-        <Logo size="1.375rem" />
-        <Logo size="1.375rem" wordmarkOnly />
-      </div>
-
-      <div class="mt-12 flex items-center gap-8 text-ink">
-        <Glyph size="3rem" label="Next Level Code" />
-        <Glyph size="1.5rem" label="Next Level Code" />
-        <Glyph size="1.5rem" weight="hairline" label="Next Level Code" />
-      </div>
-    </section>
-
-    <section class="on-ink">
-      <div class="container-site section-y">
-        <p class="text-eyebrow tracking-brand uppercase" style="color: var(--color-cobalt-light)">
-          On ink
+<BaseLayout description={t('site.description')} path="/">
+  <section class="on-ink">
+    <div class="container-site section-y">
+      <div>
+        <Glyph size="2.5rem" animated class="text-porcelain" />
+        <h1 class="text-display-1 text-porcelain mt-8" data-hero-item style="--hero-delay: 320ms;">
+          {t('site.tagline')}
+        </h1>
+        <p class="text-lead text-mist mt-6 max-w-2xl" data-hero-item style="--hero-delay: 440ms;">
+          {t('footer.pitch')}
         </p>
-        <div class="mt-12 flex flex-col gap-12 text-porcelain">
-          <Logo size="3.5rem" />
-          <Logo size="1.375rem" />
+        <div class="mt-10 flex flex-wrap gap-4" data-hero-item style="--hero-delay: 560ms;">
+          <Button href="/contact/" size="lg" tone="ink">{t('cta.primary')}</Button>
+          <Button href="/products/" size="lg" variant="outline" tone="ink">
+            {t('cta.secondary')}
+          </Button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="container-site section-y">
-      <h1 class="text-display-1">{t('site.tagline')}</h1>
-      <p class="text-lead text-slate mt-6 max-w-prose">{t('footer.pitch')}</p>
-    </section>
-  </body>
-</html>
+  <section class="container-site section-y">
+    <SectionHeader
+      eyebrow="Foundation"
+      title="Component primitives"
+      lead="Everything below is driven by the design tokens and the translation dictionary. No component holds a hard-coded string."
+    />
+
+    <Rule class="mt-10" />
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        demoCards.map((card, index) => (
+          <Reveal delay={index * 90}>
+            <Card href="/services/" class="h-full">
+              <h3 class="text-display-3">{card.title}</h3>
+              <p class="text-slate mt-3">{card.body}</p>
+            </Card>
+          </Reveal>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="on-ink">
+    <div class="container-site section-y">
+      <div class="grid gap-10 sm:grid-cols-2">
+        <Counter value={12} suffix="+" label="Placeholder — awaiting confirmed figures" tone="ink" />
+        <Counter value={6} label="Client references on this site" tone="ink" />
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site section-y">
+    <SectionHeader eyebrow="FAQ" title="Accordion" as="h2" />
+    <div class="mt-8 max-w-3xl">
+      <Accordion question="Does this work without JavaScript?" open>
+        <p>
+          Yes. Reveals, the header behaviour and the counters are enhancements. With scripting off
+          the page renders complete and static.
+        </p>
+      </Accordion>
+      <Accordion question="What happens under reduced motion?">
+        <p>Every animation is disabled. Nothing moves, and no content is hidden.</p>
+      </Accordion>
+    </div>
+  </section>
+</BaseLayout>

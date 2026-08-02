@@ -1,0 +1,133 @@
+---
+/**
+ * The document shell every page renders through.
+ *
+ * Owns the `<html>` attributes (which come from the locale registry, so
+ * Arabic gets `dir="rtl"` automatically), the head, the skip link, the
+ * header, the footer, and the single client script bundle.
+ */
+
+import { ClientRouter } from 'astro:transitions';
+
+import '../styles/global.css';
+
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Seo from '../components/seo/Seo.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { DEFAULT_LOCALE, getLocale, type LocaleCode } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description: string;
+  /** Locale-less path of this page, e.g. `/services/`. */
+  path: string;
+  locale?: LocaleCode;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  /** Extra schema.org nodes for this page. */
+  jsonLd?: Record<string, unknown>[];
+  /** Lets the hero sit under a transparent header on pages that want it. */
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  path,
+  locale = DEFAULT_LOCALE,
+  image,
+  type,
+  noindex,
+  publishedTime,
+  modifiedTime,
+  jsonLd,
+  bodyClass,
+} = Astro.props;
+
+const localeDefinition = getLocale(locale);
+const t = useTranslations(locale);
+---
+
+<html
+  lang={localeDefinition.htmlLang}
+  dir={localeDefinition.dir}
+  data-letter-spacing={localeDefinition.allowsLetterSpacing ? 'on' : 'off'}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      Sets the `.js` hook before first paint. Every animation is gated behind
+      it, so the page renders complete and static if this never runs, and
+      there is no flash of hidden content when it does.
+    -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0B1220" />
+
+    <Seo
+      title={title}
+      description={description}
+      path={path}
+      locale={locale}
+      image={image}
+      type={type}
+      noindex={noindex}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+    />
+    <JsonLd locale={locale} graph={jsonLd} />
+
+    <!-- Page-to-page navigation without a white flash. -->
+    <ClientRouter />
+  </head>
+
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">{t('a11y.skipToContent')}</a>
+
+    <Header locale={locale} path={path} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer locale={locale} />
+
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>
+
+<style>
+  /* Off-screen until focused, then anchored over the header. */
+  .skip-link {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--color-ink);
+    color: var(--color-porcelain);
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transform: translateY(-120%);
+    transition: transform var(--duration-micro) var(--ease-swift);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+</style>
