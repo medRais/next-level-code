@@ -1,0 +1,209 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import Card from '../../components/ui/Card.astro';
+import Reveal from '../../components/ui/Reveal.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+import { DEFAULT_LOCALE, localePath } from '../../i18n/config';
+import { useContent, useTranslations } from '../../i18n/ui';
+import { entrySlug, getLocalisedCollection } from '../../lib/collections';
+
+const locale = DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const c = useContent(locale);
+
+const services = await getLocalisedCollection('services', locale);
+const engagementModels = c('servicesPage.engagement.items');
+
+const jsonLd = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('site.name'),
+        item: new URL(localePath(locale, '/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('servicesPage.eyebrow'),
+        item: new URL(localePath(locale, '/services/'), Astro.site).href,
+      },
+    ],
+  },
+  ...services.map((service) => ({
+    '@type': 'Service',
+    name: service.data.title,
+    description: service.data.summary,
+    provider: { '@id': `${Astro.site?.href}#organization` },
+    url: new URL(localePath(locale, `/services/${entrySlug(service.id)}/`), Astro.site).href,
+  })),
+];
+---
+
+<BaseLayout
+  title={t('servicesPage.seoTitle')}
+  description={t('servicesPage.seoDescription')}
+  path="/services/"
+  jsonLd={jsonLd}
+>
+  <section class="container-site section-y">
+    <SectionHeader
+      eyebrow={t('servicesPage.eyebrow')}
+      title={t('servicesPage.title')}
+      lead={t('servicesPage.lead')}
+      as="h1"
+    />
+  </section>
+
+  <section class="container-site pb-24">
+    <ul class="service-grid">
+      {
+        services.map((service, index) => (
+          <Reveal as="li" delay={index * 80}>
+            <Card href={localePath(locale, `/services/${entrySlug(service.id)}/`)} class="h-full">
+              <Icon name={service.data.icon} class="size-6 text-cobalt" aria-hidden="true" />
+              <h2 class="service__title">{service.data.title}</h2>
+              <p class="service__summary">{service.data.summary}</p>
+
+              <ul class="service__capabilities">
+                {service.data.capabilities.slice(0, 4).map((capability) => (
+                  <li>{capability.title}</li>
+                ))}
+              </ul>
+
+              <span class="service__more">{t('cta.learnMore')}</span>
+            </Card>
+          </Reveal>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Engagement models -->
+  <section class="engagement">
+    <div class="container-site section-y">
+      <SectionHeader
+        eyebrow={t('servicesPage.engagement.eyebrow')}
+        title={t('servicesPage.engagement.title')}
+      />
+
+      <ol class="engagement__list">
+        {
+          engagementModels.map((model, index) => (
+            <Reveal as="li" delay={index * 80}>
+              <span class="engagement__index">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="engagement__title">{model.title}</h3>
+              <p class="engagement__body">{model.body}</p>
+            </Reveal>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand
+    locale={locale}
+    title={t('servicesPage.ctaTitle')}
+    lead={t('servicesPage.ctaLead')}
+  />
+</BaseLayout>
+
+<style>
+  .service-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .service__title {
+    margin: 1.25rem 0 0;
+    font-size: 1.75rem;
+    font-weight: 400;
+  }
+
+  .service__summary {
+    margin: 0.875rem 0 0;
+    color: var(--color-slate);
+  }
+
+  /* A glance at what sits inside the offer, so the card answers "is this the
+     one I need?" without a click. */
+  .service__capabilities {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .service__capabilities li {
+    padding: 0.3125rem 0.75rem;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-pill);
+    font-size: 0.8125rem;
+    color: var(--color-slate);
+  }
+
+  .service__more {
+    margin-block-start: auto;
+    padding-block-start: 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-cobalt);
+  }
+
+  .engagement {
+    background-color: color-mix(in oklab, var(--color-ink) 3%, var(--color-porcelain));
+    border-block: 1px solid var(--color-hairline);
+  }
+
+  .engagement__list {
+    display: grid;
+    gap: 2.5rem;
+    margin: 3.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .engagement__index {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    letter-spacing: 0.2em;
+    color: var(--color-cobalt);
+  }
+
+  .engagement__title {
+    margin: 0.875rem 0 0;
+    font-size: 1.375rem;
+    font-weight: 400;
+  }
+
+  .engagement__body {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  @media (width >= 48rem) {
+    .service-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64rem) {
+    .engagement__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 3rem;
+    }
+  }
+</style>

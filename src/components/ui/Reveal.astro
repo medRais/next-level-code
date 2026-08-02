@@ -13,11 +13,17 @@ interface Props {
   delay?: number;
   as?: 'div' | 'section' | 'article' | 'li' | 'header';
   class?: string;
+  [key: string]: unknown;
 }
 
-const { delay = 0, as: Tag = 'div', class: className }: Props = Astro.props;
+const { delay = 0, as: Tag = 'div', class: className, ...rest }: Props = Astro.props;
 ---
 
-<Tag data-reveal class={className} style={delay > 0 ? `--reveal-delay: ${delay}ms;` : undefined}>
+<Tag
+  data-reveal
+  class={className}
+  style={delay > 0 ? `--reveal-delay: ${delay}ms;` : undefined}
+  {...rest}
+>
   <slot />
 </Tag>

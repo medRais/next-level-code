@@ -17,9 +17,10 @@ interface Props {
   /** Turns off the hover treatment for static, non-navigational cards. */
   interactive?: boolean;
   class?: string;
+  [key: string]: unknown;
 }
 
-const { href, tone = 'light', interactive = Boolean(href), class: className } = Astro.props;
+const { href, tone = 'light', interactive = Boolean(href), class: className, ...rest } = Astro.props;
 
 const Tag = href ? 'a' : 'div';
 ---
@@ -27,6 +28,7 @@ const Tag = href ? 'a' : 'div';
 <Tag
   href={href}
   class:list={['card', `card--${tone}`, interactive && 'card--interactive', className]}
+  {...rest}
 >
   <span class="card__line" aria-hidden="true"></span>
   <slot />

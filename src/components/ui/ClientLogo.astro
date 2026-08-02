@@ -25,9 +25,10 @@ interface Props {
    */
   treatment?: 'image' | 'wordmark';
   class?: string;
+  [key: string]: unknown;
 }
 
-const { logo, name, treatment = 'image', class: className }: Props = Astro.props;
+const { logo, name, treatment = 'image', class: className, ...rest }: Props = Astro.props;
 
 /** A missing file lands on the same typographic treatment, so the band keeps
     its rhythm and the build never fails over an absent asset. */
@@ -37,7 +38,7 @@ const image = treatment === 'wordmark' ? undefined : getClientLogo(logo);
 const RENDER_HEIGHT = 96;
 ---
 
-<div class:list={['client-logo', className]}>
+<div class:list={['client-logo', className]} {...rest}>
   {
     image ? (
       <Image

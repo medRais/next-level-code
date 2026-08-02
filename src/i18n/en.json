@@ -167,6 +167,39 @@
     }
   },
 
+  "servicesPage": {
+    "seoTitle": "Services",
+    "seoDescription": "Custom software, applied AI, commercial APIs and technical consulting — four ways to engage senior engineers who deliver to production.",
+    "eyebrow": "Services",
+    "title": "Four ways we engage",
+    "lead": "Most engagements begin with one of these and grow into another as the work reveals what it actually needs. All of them are delivered by senior engineers, to production.",
+    "engagement": {
+      "eyebrow": "Engagement models",
+      "title": "Three ways to start",
+      "items": [
+        {
+          "title": "Discovery sprint",
+          "body": "A short, fixed-scope engagement that turns a problem into a costed plan: constraints mapped, architecture proposed, risks named. It ends with a decision you can take to a budget holder — including the decision not to build."
+        },
+        {
+          "title": "Project delivery",
+          "body": "A defined outcome, delivered end to end and taken into production. Fixed scope with a fixed price, or an agreed capacity with a scope that adapts as the work teaches you something."
+        },
+        {
+          "title": "Embedded capacity",
+          "body": "Senior engineers working inside your team, to your process and your standards, for a defined period. Useful when the constraint is bandwidth rather than direction."
+        }
+      ]
+    },
+    "outcomesHeading": "What you get",
+    "capabilitiesHeading": "What that involves",
+    "stackHeading": "Technologies we work with",
+    "relatedWorkHeading": "Where we have done this",
+    "backToServices": "All services",
+    "ctaTitle": "Start with a conversation, not a specification",
+    "ctaLead": "Tell us the problem and the constraints. If we are not the right fit we will say so. We reply within 24 hours on business days."
+  },
+
   "workPage": {
     "seoTitle": "Client work",
     "seoDescription": "Case studies from BNP Paribas, Banque de France, Orange, Essilor, Maileva and the French Ministry of Agriculture — systems built to run in production.",

@@ -22,9 +22,10 @@ interface Props {
   /** Plays the hero opening sequence on the ≡ bars. Home hero only. */
   animated?: boolean;
   class?: string;
+  [key: string]: unknown;
 }
 
-const { size = '1.375rem', wordmarkOnly = false, animated = false, class: className } = Astro.props;
+const { size = '1.375rem', wordmarkOnly = false, animated = false, class: className, ...rest } = Astro.props;
 ---
 
 <span
@@ -32,6 +33,7 @@ const { size = '1.375rem', wordmarkOnly = false, animated = false, class: classN
   style={`--logo-size: ${size};`}
   role="img"
   aria-label="Next Level Code"
+  {...rest}
 >
   <span class="logo__wordmark" aria-hidden="true">
     <span class="logo__letter">N</span>

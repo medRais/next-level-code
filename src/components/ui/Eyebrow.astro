@@ -10,12 +10,13 @@ interface Props {
   tone?: 'light' | 'ink';
   as?: 'p' | 'span' | 'h2';
   class?: string;
+  [key: string]: unknown;
 }
 
-const { tone = 'light', as: Tag = 'p', class: className }: Props = Astro.props;
+const { tone = 'light', as: Tag = 'p', class: className, ...rest }: Props = Astro.props;
 ---
 
-<Tag class:list={['eyebrow', `eyebrow--${tone}`, className]}>
+<Tag class:list={['eyebrow', `eyebrow--${tone}`, className]} {...rest}>
   <slot />
 </Tag>
 

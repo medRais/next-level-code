@@ -8,9 +8,10 @@ interface Props {
   tone?: 'light' | 'ink';
   align?: 'start' | 'center';
   class?: string;
+  [key: string]: unknown;
 }
 
-const { tone = 'light', align = 'start', class: className } = Astro.props;
+const { tone = 'light', align = 'start', class: className, ...rest } = Astro.props;
 
 /** Decreasing widths give the mark direction without adding a new shape. */
 const BAR_WIDTHS = ['3rem', '2rem', '1.125rem'];
@@ -19,6 +20,7 @@ const BAR_WIDTHS = ['3rem', '2rem', '1.125rem'];
 <div
   class:list={['rule', `rule--${tone}`, `rule--${align}`, className]}
   aria-hidden="true"
+  {...rest}
 >
   {BAR_WIDTHS.map((width) => <span class="rule__bar" style={`--bar-width: ${width};`} />)}
 </div>

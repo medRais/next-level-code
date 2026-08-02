@@ -23,6 +23,7 @@ interface Props {
    */
   animate?: boolean;
   class?: string;
+  [key: string]: unknown;
 }
 
 const {
@@ -32,10 +33,11 @@ const {
   tone = 'light',
   animate = true,
   class: className,
+  ...rest
 }: Props = Astro.props;
 ---
 
-<div class:list={['counter', `counter--${tone}`, className]}>
+<div class:list={['counter', `counter--${tone}`, className]} {...rest}>
   <span class="counter__value" data-counter={animate ? value : undefined}>{value}{suffix}</span>
   <span class="counter__label">{label}</span>
 </div>

@@ -16,6 +16,7 @@ interface Props {
   /** Heading level — sections inside a page should not all be `h2`. */
   as?: 'h1' | 'h2' | 'h3';
   class?: string;
+  [key: string]: unknown;
 }
 
 const {
@@ -26,11 +27,13 @@ const {
   align = 'start',
   as: Heading = 'h2',
   class: className,
+  ...rest
 }: Props = Astro.props;
 ---
 
 <div
   class:list={['section-header', `section-header--${align}`, `section-header--${tone}`, className]}
+  {...rest}
 >
   {eyebrow && <Eyebrow tone={tone}>{eyebrow}</Eyebrow>}
 

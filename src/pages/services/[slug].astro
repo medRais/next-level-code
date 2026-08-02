@@ -1,0 +1,371 @@
+---
+/**
+ * Service detail page.
+ *
+ * Routes are generated from the services collection for every published
+ * locale, so a translated offer publishes without a change here.
+ */
+
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import Card from '../../components/ui/Card.astro';
+import ClientLogo from '../../components/ui/ClientLogo.astro';
+import Eyebrow from '../../components/ui/Eyebrow.astro';
+import Glyph from '../../components/brand/Glyph.astro';
+import Reveal from '../../components/ui/Reveal.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+import { PUBLISHED_LOCALES, localePath, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+import { entrySlug, getLocalisedCollection } from '../../lib/collections';
+
+/** Type alias, not an interface — Astro's GetStaticPathsItem expects an
+    implicit index signature, which interfaces do not get. */
+type Props = {
+  entry: CollectionEntry<'services'>;
+  locale: LocaleCode;
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths: Array<{ params: { slug: string }; props: Props }> = [];
+
+  for (const locale of PUBLISHED_LOCALES) {
+    const entries = await getLocalisedCollection('services', locale);
+    for (const entry of entries) {
+      paths.push({ params: { slug: entrySlug(entry.id) }, props: { entry, locale } });
+    }
+  }
+
+  return paths;
+};
+
+const { entry, locale } = Astro.props as Props;
+const { data } = entry;
+
+const t = useTranslations(locale);
+
+const work = await getLocalisedCollection('work', locale);
+const relatedWork = work.filter((item) => data.relatedWork.includes(entrySlug(item.id)));
+
+const canonicalPath = `/services/${entrySlug(entry.id)}/`;
+
+const jsonLd = [
+  {
+    '@type': 'Service',
+    name: data.title,
+    description: data.summary,
+    provider: { '@id': `${Astro.site?.href}#organization` },
+    url: new URL(localePath(locale, canonicalPath), Astro.site).href,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('site.name'),
+        item: new URL(localePath(locale, '/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('servicesPage.eyebrow'),
+        item: new URL(localePath(locale, '/services/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: data.title,
+        item: new URL(localePath(locale, canonicalPath), Astro.site).href,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  path={canonicalPath}
+  locale={locale}
+  jsonLd={jsonLd}
+>
+  <!-- Header -->
+  <header class="service-hero on-ink">
+    <div class="container-site service-hero__inner">
+      <a class="service-hero__back" href={localePath(locale, '/services/')}>
+        ← {t('servicesPage.backToServices')}
+      </a>
+
+      <div class="service-hero__mark">
+        <Icon name={data.icon} class="size-7" aria-hidden="true" />
+      </div>
+
+      <Eyebrow tone="ink">{data.heroEyebrow}</Eyebrow>
+      <h1 class="service-hero__title">{data.heroTitle}</h1>
+      <p class="service-hero__lead">{data.heroLead}</p>
+    </div>
+  </header>
+
+  <!-- Outcomes -->
+  <section class="container-site section-y">
+    <SectionHeader title={t('servicesPage.outcomesHeading')} />
+
+    <div class="outcomes">
+      {
+        data.outcomes.map((outcome, index) => (
+          <Reveal delay={index * 80}>
+            <div class="outcome">
+              <Glyph size="1rem" weight="hairline" class="text-cobalt" />
+              <h3 class="outcome__title">{outcome.title}</h3>
+              <p class="outcome__body">{outcome.body}</p>
+            </div>
+          </Reveal>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section class="capabilities-section">
+    <div class="container-site section-y">
+      <SectionHeader title={t('servicesPage.capabilitiesHeading')} />
+
+      <ul class="capabilities">
+        {
+          data.capabilities.map((capability, index) => (
+            <Reveal as="li" delay={index * 60}>
+              <h3 class="capability__title">{capability.title}</h3>
+              <p class="capability__body">{capability.body}</p>
+            </Reveal>
+          ))
+        }
+      </ul>
+
+      {
+        data.stack.length > 0 && (
+          <div class="stack">
+            <h3 class="stack__heading">{t('servicesPage.stackHeading')}</h3>
+            <ul class="stack__list">
+              {data.stack.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- Proof -->
+  {
+    relatedWork.length > 0 && (
+      <section class="container-site section-y">
+        <SectionHeader title={t('servicesPage.relatedWorkHeading')} />
+
+        <div class="related">
+          {relatedWork.map((item, index) => (
+            <Reveal delay={index * 80}>
+              <Card href={localePath(locale, `/work/${entrySlug(item.id)}/`)} class="h-full">
+                <div class="related__logo">
+                  <ClientLogo
+                    logo={item.data.logo}
+                    name={item.data.client}
+                    treatment={item.data.logoTreatment}
+                  />
+                </div>
+                <h3 class="related__title">{item.data.client}</h3>
+                <p class="related__body">{item.data.summary}</p>
+                <span class="related__more">{t('cta.readCaseStudy')}</span>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <CtaBand
+    locale={locale}
+    title={t('servicesPage.ctaTitle')}
+    lead={t('servicesPage.ctaLead')}
+  />
+</BaseLayout>
+
+<style>
+  /* ── Header ────────────────────────────────────────────────────────────── */
+  .service-hero__inner {
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5rem);
+    max-inline-size: 54rem;
+  }
+
+  .service-hero__back {
+    font-size: 0.875rem;
+    color: var(--color-mist);
+    text-decoration: none;
+    transition: color var(--duration-micro) var(--ease-swift);
+  }
+
+  .service-hero__back:hover {
+    color: var(--color-porcelain);
+  }
+
+  .service-hero__mark {
+    display: flex;
+    color: var(--color-cobalt-light);
+    margin-block: 2.5rem 1.5rem;
+  }
+
+  .service-hero__title {
+    margin: 0.75rem 0 0;
+    font-size: var(--text-display-1);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    max-inline-size: 18ch;
+  }
+
+  .service-hero__lead {
+    margin: 1.75rem 0 0;
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    color: var(--color-mist);
+    max-inline-size: 58ch;
+  }
+
+  /* ── Outcomes ──────────────────────────────────────────────────────────── */
+  .outcomes {
+    display: grid;
+    gap: 2.5rem;
+    margin-block-start: 3.5rem;
+  }
+
+  .outcome__title {
+    margin: 1.25rem 0 0;
+    font-size: 1.375rem;
+    font-weight: 400;
+  }
+
+  .outcome__body {
+    margin: 0.75rem 0 0;
+    color: var(--color-slate);
+  }
+
+  /* ── Capabilities ──────────────────────────────────────────────────────── */
+  .capabilities-section {
+    background-color: color-mix(in oklab, var(--color-ink) 3%, var(--color-porcelain));
+    border-block: 1px solid var(--color-hairline);
+  }
+
+  .capabilities {
+    display: grid;
+    gap: 2.5rem;
+    margin: 3.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .capability__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 400;
+    padding-block-start: 1.25rem;
+    border-block-start: 1px solid var(--color-hairline-strong);
+  }
+
+  .capability__body {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  /* ── Stack ─────────────────────────────────────────────────────────────── */
+  .stack {
+    margin-block-start: 4rem;
+    padding-block-start: 2.5rem;
+    border-block-start: 1px solid var(--color-hairline);
+  }
+
+  .stack__heading {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
+  .stack__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stack__list li {
+    padding: 0.4375rem 0.875rem;
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-ink);
+  }
+
+  /* ── Related work ──────────────────────────────────────────────────────── */
+  .related {
+    display: grid;
+    gap: 1.5rem;
+    margin-block-start: 3.5rem;
+  }
+
+  .related__logo {
+    display: flex;
+    block-size: 2.5rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .related__title {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 400;
+  }
+
+  .related__body {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  .related__more {
+    margin-block-start: auto;
+    padding-block-start: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-cobalt);
+  }
+
+  @media (width >= 48rem) {
+    .outcomes,
+    .capabilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem 2.5rem;
+    }
+
+    .related {
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    }
+  }
+
+  @media (width >= 64rem) {
+    .outcomes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

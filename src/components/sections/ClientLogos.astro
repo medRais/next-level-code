@@ -20,15 +20,16 @@ interface Props {
   /** Links each logo through to its case study. */
   linkToCaseStudy?: boolean;
   class?: string;
+  [key: string]: unknown;
 }
 
-const { locale, linkToCaseStudy = true, class: className }: Props = Astro.props;
+const { locale, linkToCaseStudy = true, class: className, ...rest }: Props = Astro.props;
 
 const t = useTranslations(locale);
 const references = await getLocalisedCollection('work', locale);
 ---
 
-<section class:list={['clients', className]} aria-labelledby="clients-heading">
+<section class:list={['clients', className]} aria-labelledby="clients-heading" {...rest}>
   <div class="container-site clients__inner">
     <h2 id="clients-heading" class="clients__heading">{t('common.clientsHeading')}</h2>
 
