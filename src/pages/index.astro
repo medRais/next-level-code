@@ -1,21 +1,26 @@
 ---
 import '../styles/global.css';
+import { DEFAULT_LOCALE, getLocale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+const locale = getLocale(DEFAULT_LOCALE);
+const t = useTranslations(DEFAULT_LOCALE);
 ---
 
-<html lang="en">
+<html lang={locale.htmlLang} dir={locale.dir}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Next Level Code</title>
+    <title>{t('site.name')}</title>
+    <meta name="description" content={t('site.description')} />
   </head>
   <body>
     <main class="container-site section-y">
-      <p class="text-eyebrow tracking-brand text-cobalt uppercase">Design system</p>
-      <h1 class="text-display-1 mt-6">Foundation in place</h1>
-      <p class="text-lead text-slate mt-6 max-w-prose">
-        Tokens, typography and motion primitives compile. Pages land in Phase 3.
-      </p>
+      <p class="text-eyebrow tracking-brand text-cobalt uppercase">{t('common.clientsHeading')}</p>
+      <h1 class="text-display-1 mt-6">{t('site.tagline')}</h1>
+      <p class="text-lead text-slate mt-6 max-w-prose">{t('footer.pitch')}</p>
+      <p class="mt-10 text-sm text-slate">{t('footer.copyright', { year: 2026 })}</p>
     </main>
   </body>
 </html>

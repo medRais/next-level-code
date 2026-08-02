@@ -1,0 +1,99 @@
+{
+  "site": {
+    "name": "Next Level Code",
+    "tagline": "Custom software and applied AI, engineered for production.",
+    "description": "Custom software, applied AI and commercial APIs, engineered for production. Trusted by BNP Paribas, Banque de France, Orange and Essilor.",
+    "titleTemplate": "%s — Next Level Code"
+  },
+
+  "nav": {
+    "ariaLabel": "Primary",
+    "services": "Services",
+    "products": "APIs & Products",
+    "work": "Work",
+    "howWeWork": "How we work",
+    "about": "About",
+    "blog": "Insights",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+
+  "cta": {
+    "primary": "Start a project",
+    "secondary": "Explore our APIs",
+    "demo": "Request a demo",
+    "expert": "Talk to an expert",
+    "apiExpert": "Talk to an API expert",
+    "readCaseStudy": "Read the case study",
+    "allWork": "See all work",
+    "allServices": "See all services",
+    "learnMore": "Learn more",
+    "readArticle": "Read the article"
+  },
+
+  "footer": {
+    "pitch": "Custom software, applied AI and commercial APIs. Our projects are delivered by a hand-picked collective of software architects, senior engineers and AI specialists, led by the founder.",
+    "servicesHeading": "Services",
+    "companyHeading": "Company",
+    "resourcesHeading": "Resources",
+    "contactHeading": "Contact",
+    "legalNotice": "Legal notice",
+    "privacyPolicy": "Privacy policy",
+    "copyright": "© {year} Next Level Code. All rights reserved.",
+    "socialHeading": "Follow",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "backToTop": "Back to top",
+    "opensInNewTab": "Opens in a new tab",
+    "homeLink": "Next Level Code — home",
+    "breadcrumb": "Breadcrumb"
+  },
+
+  "language": {
+    "label": "Language",
+    "switchTo": "Switch language"
+  },
+
+  "form": {
+    "nameLabel": "Full name",
+    "namePlaceholder": "Jane Doe",
+    "emailLabel": "Work email",
+    "emailPlaceholder": "jane@company.com",
+    "companyLabel": "Company",
+    "companyPlaceholder": "Company name",
+    "needLabel": "What do you need?",
+    "needPlaceholder": "A short description of your project, your timeline and your constraints.",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Message sent",
+    "successBody": "Thank you. We reply to every qualified enquiry within 24 hours on business days.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "The message could not be sent. Please email us directly and we will pick it up straight away.",
+    "requiredHint": "Required",
+    "emailFallback": "Or email us directly",
+    "responsePromise": "We reply within 24 hours on business days."
+  },
+
+  "notFound": {
+    "eyebrow": "404",
+    "title": "This page does not exist",
+    "body": "The address may have changed, or the link that brought you here may be out of date.",
+    "primaryAction": "Back to home",
+    "secondaryAction": "Browse our work"
+  },
+
+  "common": {
+    "loading": "Loading…",
+    "clients": "Clients",
+    "clientsHeading": "Trusted by",
+    "onRequest": "On request",
+    "published": "Published",
+    "updated": "Updated",
+    "readingTime": "{minutes} min read"
+  }
+}
