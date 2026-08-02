@@ -167,6 +167,148 @@
     }
   },
 
+  "howWeWorkPage": {
+    "seoTitle": "How we work",
+    "seoDescription": "Framing, sprints, production and run — how Next Level Code delivers software, with the quality and security commitments that come with it.",
+    "eyebrow": "How we work",
+    "title": "A method built around being wrong early",
+    "lead": "Every engagement is an argument about what should exist. The point of the process is to make that argument cheap to lose at the start, when changing direction costs a conversation, rather than expensive to lose at the end.",
+    "phases": {
+      "eyebrow": "Delivery",
+      "title": "Four stages, each ending in something you can judge",
+      "items": [
+        {
+          "title": "Framing",
+          "body": "We establish what is true before agreeing what to build: the systems in scope, the constraints that are not negotiable, the people who will operate the result, and the outcome that would count as success. It ends in a plan specific enough to cost.",
+          "output": "A costed plan, a named architecture, and the risks ranked"
+        },
+        {
+          "title": "Sprints",
+          "body": "Short cycles against working software. You see the real thing at every step — not a mock-up — early enough that changing your mind is still cheap. Scope is reviewed at each boundary rather than defended.",
+          "output": "Working software at the end of every cycle"
+        },
+        {
+          "title": "Production",
+          "body": "Deployment, security review, observability and operational handover are part of the build, not a phase that follows it. A system that works only on the machine that built it is not finished.",
+          "output": "Running under real load, with monitoring you can read"
+        },
+        {
+          "title": "Run",
+          "body": "Support, evolution and the transfer of ownership to your team: documentation, walkthroughs and the code review habits that let them take it on. A permanent dependency on us is not a successful outcome.",
+          "output": "Your team able to change the system without us"
+        }
+      ]
+    },
+    "commitments": {
+      "eyebrow": "Quality",
+      "title": "What we hold ourselves to",
+      "items": [
+        {
+          "title": "Tests where they earn their keep",
+          "body": "Coverage of the logic that carries risk, not a percentage target. A suite nobody trusts is worse than no suite, because it is still slow."
+        },
+        {
+          "title": "Review before merge, always",
+          "body": "Every change is read by someone other than its author. It is the cheapest defect-finding mechanism in software and the first one teams abandon under pressure."
+        },
+        {
+          "title": "Decisions written down",
+          "body": "Architecture choices are recorded with the alternatives and the reasoning, so a future maintainer inherits the argument rather than just the outcome."
+        },
+        {
+          "title": "No silent scope",
+          "body": "If something is going to take longer or cost more, you hear it when we find out, not at the end. Bad news does not improve with age."
+        }
+      ]
+    },
+    "security": {
+      "eyebrow": "Security",
+      "title": "Practices that apply to every engagement",
+      "items": [
+        "Least privilege by default: access is granted for a task and a period, not held indefinitely.",
+        "Secrets never live in source control; credentials are rotated on handover as a matter of course.",
+        "Dependencies are pinned and monitored, and upgrades are treated as routine work rather than emergencies.",
+        "Personal data handling is decided in the design phase, because retrofitting it onto a live system is expensive and sometimes impossible.",
+        "Anything we build to run in production is reviewed against the security expectations of your sector, not ours."
+      ]
+    },
+    "communication": {
+      "eyebrow": "Working together",
+      "title": "How the engagement actually feels",
+      "body": "You have direct access to the people writing the code — no account layer between a question and the person who can answer it. A written update every week covering what moved, what did not, and what is next. A live review at every sprint boundary. And an honest answer when you ask whether something is worth doing, including when it is not.",
+      "items": [
+        { "title": "Weekly", "body": "A written update: what moved, what did not, what is next." },
+        { "title": "Every sprint", "body": "A live review against working software, not a status deck." },
+        { "title": "Always", "body": "Direct access to the engineers, in your channel of choice." }
+      ]
+    },
+    "ctaTitle": "Start with framing",
+    "ctaLead": "Most engagements begin with a short, fixed-scope piece of work that turns the problem into a costed plan. Tell us what you are facing."
+  },
+
+  "aboutPage": {
+    "seoTitle": "About",
+    "seoDescription": "Next Level Code is a founder-led software practice, delivering custom software, applied AI and commercial APIs for banks, public institutions and enterprises.",
+    "eyebrow": "About",
+    "title": "A small practice built for consequential systems",
+    "lead": "Next Level Code exists because the software that matters most to an organisation is rarely the software that is easiest to buy. It has to fit an estate that already exists, satisfy people who did not ask for it, and keep working after everyone involved has moved on.",
+    "model": {
+      "eyebrow": "How we are built",
+      "title": "Founder-led, delivered by a collective",
+      "body": "Founded in {foundedYear}, Next Level Code is a founder-led practice. Our projects are delivered by a hand-picked collective of software architects, senior engineers and AI specialists, led by the founder — assembled for the shape of each engagement rather than staffed from a bench.",
+      "rationale": "That structure is deliberate. It means the people on your project were chosen for it, that the person accountable for the outcome is also close enough to the work to see it going wrong, and that we can say no to engagements we are not right for. The trade is that we take on fewer projects at once — which is the point."
+    },
+    "principles": {
+      "eyebrow": "What we optimise for",
+      "title": "Four positions we actually hold",
+      "items": [
+        {
+          "title": "The estate as it is, not as it should be",
+          "body": "Every interesting system has history. Treating that history as an obstacle to be cleared is how modernisation projects fail; treating it as the design constraint is how they land."
+        },
+        {
+          "title": "Boring where it counts",
+          "body": "We use well-understood technology for the parts that must not fail, and spend the novelty budget where it creates advantage. Interesting infrastructure is a liability someone inherits."
+        },
+        {
+          "title": "Written for the next reader",
+          "body": "Code is read far more often than it is written, usually by someone with less context and less time. That reader is who we optimise for."
+        },
+        {
+          "title": "An honest no",
+          "body": "We will tell you when a project should be smaller, delayed, bought instead of built, or not done. It costs us revenue and it is the reason clients come back."
+        }
+      ]
+    },
+    "expertise": {
+      "eyebrow": "Where we work",
+      "title": "Sectors and capabilities",
+      "sectorsHeading": "Sectors",
+      "sectors": [
+        "Banking and central banking",
+        "Public institutions",
+        "Telecommunications",
+        "Document and business services",
+        "Retail and partner networks"
+      ],
+      "capabilitiesHeading": "Capabilities",
+      "capabilities": [
+        "Custom web, mobile and cloud systems",
+        "Legacy integration and modernisation",
+        "Applied AI: LLM applications, RAG, agents, computer vision",
+        "Commercial APIs and productisation",
+        "Architecture audit and technical due diligence"
+      ]
+    },
+    "facts": {
+      "eyebrow": "The practice",
+      "title": "Where we stand today",
+      "yearsLabel": "Years in operation"
+    },
+    "ctaTitle": "Tell us what you are trying to build",
+    "ctaLead": "We reply within 24 hours on business days — with a straight answer about whether we are the right people for it."
+  },
+
   "productsPage": {
     "seoTitle": "APIs & products",
     "seoDescription": "Commercial APIs your teams can integrate in days: document intelligence, grounded knowledge answers and document verification. Pricing on request.",

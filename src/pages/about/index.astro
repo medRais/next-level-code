@@ -1,0 +1,279 @@
+---
+/**
+ * About.
+ *
+ * Strictly company-level. The brief forbids any individual's years of
+ * experience, tenure, career timeline, biography, name or photo — including
+ * here. The only age stated is the company's own, computed from FOUNDED_YEAR,
+ * and the practice is described through its structure and its work rather
+ * than through a personal history.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import ClientLogos from '../../components/sections/ClientLogos.astro';
+import Counter from '../../components/ui/Counter.astro';
+import Glyph from '../../components/brand/Glyph.astro';
+import Reveal from '../../components/ui/Reveal.astro';
+import Rule from '../../components/ui/Rule.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+import { DEFAULT_LOCALE, localePath } from '../../i18n/config';
+import { useContent, useTranslations } from '../../i18n/ui';
+import {
+  CLIENT_PROJECTS_DELIVERED,
+  CLIENT_REFERENCES,
+  FOUNDED_YEAR,
+  companyAgeYears,
+} from '../../data/company';
+
+const locale = DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const c = useContent(locale);
+
+const principles = c('aboutPage.principles.items');
+const sectors = c('aboutPage.expertise.sectors');
+const capabilities = c('aboutPage.expertise.capabilities');
+
+const jsonLd = [
+  {
+    '@type': 'AboutPage',
+    name: t('aboutPage.seoTitle'),
+    description: t('aboutPage.seoDescription'),
+    url: new URL(localePath(locale, '/about/'), Astro.site).href,
+    about: { '@id': `${Astro.site?.href}#organization` },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('site.name'),
+        item: new URL(localePath(locale, '/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('aboutPage.eyebrow'),
+        item: new URL(localePath(locale, '/about/'), Astro.site).href,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={t('aboutPage.seoTitle')}
+  description={t('aboutPage.seoDescription')}
+  path="/about/"
+  jsonLd={jsonLd}
+>
+  <section class="on-ink">
+    <div class="container-site page-hero">
+      <SectionHeader
+        eyebrow={t('aboutPage.eyebrow')}
+        title={t('aboutPage.title')}
+        lead={t('aboutPage.lead')}
+        tone="ink"
+        as="h1"
+      />
+    </div>
+  </section>
+
+  <!-- How the practice is structured -->
+  <section class="container-site section-y">
+    <div class="model">
+      <SectionHeader
+        eyebrow={t('aboutPage.model.eyebrow')}
+        title={t('aboutPage.model.title')}
+      />
+
+      <Reveal class="model__body">
+        <p class="model__lead">
+          {t('aboutPage.model.body', { foundedYear: FOUNDED_YEAR })}
+        </p>
+        <Rule class="my-8" />
+        <p class="model__rationale">{t('aboutPage.model.rationale')}</p>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section class="tinted">
+    <div class="container-site section-y">
+      <SectionHeader
+        eyebrow={t('aboutPage.principles.eyebrow')}
+        title={t('aboutPage.principles.title')}
+      />
+
+      <div class="principles">
+        {
+          principles.map((principle, index) => (
+            <Reveal delay={index * 70}>
+              <Glyph size="0.875rem" weight="hairline" class="text-cobalt" />
+              <h3 class="principle__title">{principle.title}</h3>
+              <p class="principle__body">{principle.body}</p>
+            </Reveal>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Sectors and capabilities -->
+  <section class="container-site section-y">
+    <SectionHeader
+      eyebrow={t('aboutPage.expertise.eyebrow')}
+      title={t('aboutPage.expertise.title')}
+    />
+
+    <div class="expertise">
+      <Reveal>
+        <h3 class="expertise__heading">{t('aboutPage.expertise.sectorsHeading')}</h3>
+        <ul class="expertise__list">
+          {sectors.map((sector) => <li>{sector}</li>)}
+        </ul>
+      </Reveal>
+
+      <Reveal delay={80}>
+        <h3 class="expertise__heading">{t('aboutPage.expertise.capabilitiesHeading')}</h3>
+        <ul class="expertise__list">
+          {capabilities.map((capability) => <li>{capability}</li>)}
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Company facts. Company-level only, by design. -->
+  <section class="tinted">
+    <div class="container-site section-y">
+      <SectionHeader
+        eyebrow={t('aboutPage.facts.eyebrow')}
+        title={t('aboutPage.facts.title')}
+      />
+
+      <div class="facts">
+        <Counter value={FOUNDED_YEAR} label={t('metrics.founded')} animate={false} />
+        <Counter value={companyAgeYears()} label={t('aboutPage.facts.yearsLabel')} />
+        <Counter value={CLIENT_PROJECTS_DELIVERED} label={t('metrics.projectsDelivered')} />
+        <Counter value={CLIENT_REFERENCES} label={t('metrics.clientReferences')} />
+      </div>
+    </div>
+  </section>
+
+  <ClientLogos locale={locale} />
+
+  <CtaBand locale={locale} title={t('aboutPage.ctaTitle')} lead={t('aboutPage.ctaLead')} />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+  }
+
+  .tinted {
+    background-color: color-mix(in oklab, var(--color-ink) 3%, var(--color-porcelain));
+    border-block: 1px solid var(--color-hairline);
+  }
+
+  /* ── Model ─────────────────────────────────────────────────────────────── */
+  .model {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .model__lead {
+    margin: 0;
+    font-size: var(--text-lead);
+    line-height: 1.7;
+    color: var(--color-ink);
+  }
+
+  .model__rationale {
+    margin: 0;
+    color: var(--color-slate);
+  }
+
+  /* ── Principles ────────────────────────────────────────────────────────── */
+  .principles {
+    display: grid;
+    gap: 2.75rem;
+    margin-block-start: 3.5rem;
+  }
+
+  .principle__title {
+    margin: 1rem 0 0;
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+
+  .principle__body {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  /* ── Expertise ─────────────────────────────────────────────────────────── */
+  .expertise {
+    display: grid;
+    gap: 3rem;
+    margin-block-start: 3.5rem;
+  }
+
+  .expertise__heading {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
+  .expertise__list {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .expertise__list li {
+    padding-block: 0.875rem;
+    border-block-end: 1px solid var(--color-hairline);
+    font-size: 1.0625rem;
+  }
+
+  /* ── Facts ─────────────────────────────────────────────────────────────── */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+    margin-block-start: 3.5rem;
+  }
+
+  @media (width >= 48rem) {
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem 2.5rem;
+    }
+
+    .expertise {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4rem;
+    }
+
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64rem) {
+    .model {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: 4rem;
+    }
+  }
+</style>
