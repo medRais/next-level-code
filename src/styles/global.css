@@ -250,8 +250,12 @@
   }
 
   /* Hero opening sequence: the three bars of the ≡ assemble, the title
-     follows, then the calls to action. Under 1.5s end to end. */
-  .js [data-hero-seq] > * {
+     follows, then the calls to action. Under 1.5s end to end.
+
+     Items opt in individually rather than by being a child of the sequence:
+     the ≡ mark animates its own bars, and it must not also be fading and
+     rising as a block while they draw. */
+  .js [data-hero-item] {
     opacity: 0;
     animation: hero-rise 800ms var(--ease-precise) forwards;
     animation-delay: var(--hero-delay, 0ms);
@@ -305,7 +309,7 @@
   }
 
   .js [data-reveal],
-  .js [data-hero-seq] > *,
+  .js [data-hero-item],
   .js [data-hero-bar] {
     opacity: 1;
     transform: none;

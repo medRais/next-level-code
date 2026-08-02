@@ -1,0 +1,54 @@
+---
+/**
+ * Section separator built from the ≡ signature: three bars of decreasing
+ * width. Decorative, so it is hidden from assistive technology.
+ */
+
+interface Props {
+  tone?: 'light' | 'ink';
+  align?: 'start' | 'center';
+  class?: string;
+}
+
+const { tone = 'light', align = 'start', class: className } = Astro.props;
+
+/** Decreasing widths give the mark direction without adding a new shape. */
+const BAR_WIDTHS = ['3rem', '2rem', '1.125rem'];
+---
+
+<div
+  class:list={['rule', `rule--${tone}`, `rule--${align}`, className]}
+  aria-hidden="true"
+>
+  {BAR_WIDTHS.map((width) => <span class="rule__bar" style={`--bar-width: ${width};`} />)}
+</div>
+
+<style>
+  .rule {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3125rem;
+  }
+
+  .rule--center {
+    align-items: center;
+  }
+
+  .rule--start {
+    align-items: start;
+  }
+
+  .rule__bar {
+    display: block;
+    inline-size: var(--bar-width);
+    block-size: 2px;
+  }
+
+  .rule--light .rule__bar {
+    background-color: var(--color-ink);
+  }
+
+  .rule--ink .rule__bar {
+    background-color: var(--color-porcelain);
+  }
+</style>

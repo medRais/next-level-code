@@ -1,0 +1,76 @@
+---
+/**
+ * Standard section opening: eyebrow, heading, optional lead paragraph, and an
+ * optional trailing action. Keeping it in one component is what stops the
+ * vertical rhythm drifting from page to page.
+ */
+
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  tone?: 'light' | 'ink';
+  align?: 'start' | 'center';
+  /** Heading level — sections inside a page should not all be `h2`. */
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  tone = 'light',
+  align = 'start',
+  as: Heading = 'h2',
+  class: className,
+}: Props = Astro.props;
+---
+
+<div class:list={['section-header', `section-header--${align}`, className]}>
+  {eyebrow && <Eyebrow tone={tone}>{eyebrow}</Eyebrow>}
+
+  <Heading class:list={['section-header__title', Heading === 'h1' ? 'text-display-1' : 'text-display-2']}>
+    {title}
+  </Heading>
+
+  {
+    lead && (
+      <p class:list={['section-header__lead', 'text-lead', tone === 'ink' ? 'text-mist' : 'text-slate']}>
+        {lead}
+      </p>
+    )
+  }
+
+  <slot name="action" />
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-inline-size: 46rem;
+  }
+
+  .section-header--center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .section-header--start {
+    align-items: start;
+    text-align: start;
+  }
+
+  .section-header__title {
+    margin: 0;
+  }
+
+  .section-header__lead {
+    margin: 0;
+  }
+</style>

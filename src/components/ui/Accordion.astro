@@ -1,0 +1,92 @@
+---
+/**
+ * FAQ item, built on `<details>`/`<summary>`.
+ *
+ * No JavaScript: the element is keyboard accessible, announced correctly and
+ * findable by in-page search for free. The only custom motion is the ≡ mark
+ * rotating to a cross, which is a transform.
+ */
+
+interface Props {
+  question: string;
+  /** Opens the first item so the pattern is legible at a glance. */
+  open?: boolean;
+  class?: string;
+}
+
+const { question, open = false, class: className } = Astro.props;
+---
+
+<details class:list={['accordion', className]} open={open}>
+  <summary class="accordion__summary">
+    <span class="accordion__question">{question}</span>
+    <span class="accordion__marker" aria-hidden="true">
+      <span class="accordion__bar"></span>
+      <span class="accordion__bar"></span>
+    </span>
+  </summary>
+  <div class="accordion__body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .accordion {
+    border-block-end: 1px solid var(--color-hairline);
+  }
+
+  .accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--color-ink);
+  }
+
+  /* Safari renders a disclosure triangle unless this is removed. */
+  .accordion__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion__question {
+    text-wrap: balance;
+  }
+
+  .accordion__marker {
+    position: relative;
+    flex-shrink: 0;
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+  }
+
+  .accordion__bar {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 1.5px;
+    background-color: var(--color-cobalt);
+    transition: transform var(--duration-hover) var(--ease-precise);
+  }
+
+  /* The second bar is vertical, making a plus; it rotates away on open. */
+  .accordion__bar:last-child {
+    transform: rotate(90deg);
+  }
+
+  .accordion[open] .accordion__bar:last-child {
+    transform: rotate(0deg);
+  }
+
+  .accordion__body {
+    padding-block-end: 1.5rem;
+    color: var(--color-slate);
+    max-inline-size: 42rem;
+  }
+</style>

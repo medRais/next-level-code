@@ -1,0 +1,39 @@
+---
+/**
+ * Section label in spaced capitals — the "N E X T" treatment applied to
+ * running text. Latin and Cyrillic only; the tracking is neutralised
+ * automatically for scripts that forbid it (see global.css).
+ */
+
+interface Props {
+  /** The surface it sits on. */
+  tone?: 'light' | 'ink';
+  as?: 'p' | 'span' | 'h2';
+  class?: string;
+}
+
+const { tone = 'light', as: Tag = 'p', class: className }: Props = Astro.props;
+---
+
+<Tag class:list={['eyebrow', `eyebrow--${tone}`, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow--light {
+    color: var(--color-cobalt);
+  }
+
+  .eyebrow--ink {
+    color: var(--color-cobalt-light);
+  }
+</style>

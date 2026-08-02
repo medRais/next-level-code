@@ -1,0 +1,92 @@
+---
+/**
+ * Surface for grids of services, case studies and products.
+ *
+ * At rest it is a hairline outline and nothing else. On hover a cobalt line
+ * draws across the top edge and the card lifts a single pixel — the brief
+ * puts the sensation of quality in the hover state, so this is where the
+ * craft goes. The line is a `scaleX` transform, so it composites.
+ *
+ * Passing `href` makes the whole card a link, with the accessible name coming
+ * from the heading inside it.
+ */
+
+interface Props {
+  href?: string;
+  tone?: 'light' | 'ink';
+  /** Turns off the hover treatment for static, non-navigational cards. */
+  interactive?: boolean;
+  class?: string;
+}
+
+const { href, tone = 'light', interactive = Boolean(href), class: className } = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  href={href}
+  class:list={['card', `card--${tone}`, interactive && 'card--interactive', className]}
+>
+  <span class="card__line" aria-hidden="true"></span>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-card);
+    background-color: transparent;
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform var(--duration-hover) var(--ease-precise),
+      border-color var(--duration-hover) var(--ease-swift),
+      box-shadow var(--duration-hover) var(--ease-precise);
+  }
+
+  .card--ink {
+    border-color: var(--color-hairline-dark);
+    background-color: var(--color-ink-surface);
+  }
+
+  /* The cobalt line that draws in along the top edge. */
+  .card__line {
+    position: absolute;
+    inset-block-start: -1px;
+    inset-inline: -1px;
+    block-size: 2px;
+    background-color: var(--color-cobalt);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--duration-hover) var(--ease-precise);
+  }
+
+  :global([dir='rtl']) .card__line {
+    transform-origin: right center;
+  }
+
+  .card--ink .card__line {
+    background-color: var(--color-cobalt-light);
+  }
+
+  .card--interactive:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-hairline-strong);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .card--interactive.card--ink:hover {
+    border-color: var(--color-hairline-dark-strong);
+    box-shadow: var(--shadow-lift-dark);
+  }
+
+  .card--interactive:hover .card__line,
+  .card--interactive:focus-visible .card__line {
+    transform: scaleX(1);
+  }
+</style>
