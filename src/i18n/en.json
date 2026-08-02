@@ -94,6 +94,12 @@
     "secondaryAction": "Browse our work"
   },
 
+  "metrics": {
+    "yearsInBusiness": "Years in business",
+    "projectsDelivered": "Client projects delivered",
+    "clientReferences": "Named client references"
+  },
+
   "common": {
     "loading": "Loading…",
     "clients": "Clients",

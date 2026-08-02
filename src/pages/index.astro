@@ -11,6 +11,7 @@ import Accordion from '../components/ui/Accordion.astro';
 import Glyph from '../components/brand/Glyph.astro';
 import { DEFAULT_LOCALE } from '../i18n/config';
 import { useTranslations } from '../i18n/ui';
+import { CLIENT_PROJECTS_DELIVERED, CLIENT_REFERENCES, yearsInBusiness } from '../data/company';
 
 const t = useTranslations(DEFAULT_LOCALE);
 
@@ -67,9 +68,14 @@ const demoCards = [
 
   <section class="on-ink">
     <div class="container-site section-y">
-      <div class="grid gap-10 sm:grid-cols-2">
-        <Counter value={12} suffix="+" label="Placeholder — awaiting confirmed figures" tone="ink" />
-        <Counter value={6} label="Client references on this site" tone="ink" />
+      <div class="grid gap-10 sm:grid-cols-3">
+        <Counter value={yearsInBusiness()} label={t('metrics.yearsInBusiness')} tone="ink" />
+        <Counter
+          value={CLIENT_PROJECTS_DELIVERED}
+          label={t('metrics.projectsDelivered')}
+          tone="ink"
+        />
+        <Counter value={CLIENT_REFERENCES} label={t('metrics.clientReferences')} tone="ink" />
       </div>
     </div>
   </section>
