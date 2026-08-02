@@ -99,6 +99,16 @@ const work = defineCollection({
     /** Key into src/assets/clients/, resolved with a typographic fallback so
         a missing image degrades gracefully instead of failing the build. */
     logo: z.string(),
+    /**
+     * How the client is represented in the logo band.
+     *
+     * `wordmark` renders the client's name in the site's own display type
+     * instead of their artwork. It is the correct choice where a brand's
+     * logo is inseparable from a coloured lockup that cannot be rendered
+     * monochrome without distorting it: a plain text attribution sits more
+     * safely within fair use than a recoloured or reconstructed mark.
+     */
+    logoTreatment: z.enum(['image', 'wordmark']).default('image'),
     sector: z.string(),
     order: z.number().int(),
     seo,

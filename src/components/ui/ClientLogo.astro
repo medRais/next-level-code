@@ -17,14 +17,21 @@ import { getClientLogo } from '../../lib/client-logos';
 interface Props {
   /** Key into src/assets/clients/, without extension. */
   logo: string;
-  /** Client name — the alt text, and the fallback if the file is missing. */
+  /** Client name — the alt text, and what the wordmark treatment renders. */
   name: string;
+  /**
+   * `wordmark` sets the client's name in our own display type rather than
+   * using their artwork. Chosen deliberately per client, not as a fallback.
+   */
+  treatment?: 'image' | 'wordmark';
   class?: string;
 }
 
-const { logo, name, class: className }: Props = Astro.props;
+const { logo, name, treatment = 'image', class: className }: Props = Astro.props;
 
-const image = getClientLogo(logo);
+/** A missing file lands on the same typographic treatment, so the band keeps
+    its rhythm and the build never fails over an absent asset. */
+const image = treatment === 'wordmark' ? undefined : getClientLogo(logo);
 
 /** Rendered at 2× the display height so the logo stays sharp on dense screens. */
 const RENDER_HEIGHT = 96;
@@ -42,7 +49,7 @@ const RENDER_HEIGHT = 96;
         class="client-logo__img"
       />
     ) : (
-      <span class="client-logo__fallback">{name}</span>
+      <span class="client-logo__wordmark">{name}</span>
     )
   }
 </div>
@@ -72,20 +79,27 @@ const RENDER_HEIGHT = 96;
     opacity: 1;
   }
 
-  /* The graceful degradation path: the client's name, set thin and spaced so
-     it belongs to the same visual family as the logos beside it. */
-  .client-logo__fallback {
+  /* The client's name set in the site's own display type — thin, spaced and
+     monochrome, so it reads as a peer to the greyed marks beside it rather
+     than as a missing image. It resolves to full ink on hover, matching the
+     grey-to-colour movement of the logos. */
+  .client-logo__wordmark {
     font-family: var(--font-display);
-    font-size: 0.9375rem;
+    font-size: 1.125rem;
     font-weight: 300;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-align: center;
+    white-space: nowrap;
     color: var(--color-slate);
-    transition: color var(--duration-hover) var(--ease-swift);
+    opacity: 0.75;
+    transition:
+      color var(--duration-hover) var(--ease-swift),
+      opacity var(--duration-hover) var(--ease-swift);
   }
 
-  .client-logo:hover .client-logo__fallback {
+  .client-logo:hover .client-logo__wordmark {
     color: var(--color-ink);
+    opacity: 1;
   }
 </style>

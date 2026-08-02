@@ -47,10 +47,18 @@ const references = await getLocalisedCollection('work', locale);
                   href={localePath(locale, `/work/${entrySlug(entry.id)}/`)}
                   aria-label={label}
                 >
-                  <ClientLogo logo={entry.data.logo} name={entry.data.client} />
+                  <ClientLogo
+                  logo={entry.data.logo}
+                  name={entry.data.client}
+                  treatment={entry.data.logoTreatment}
+                />
                 </a>
               ) : (
-                <ClientLogo logo={entry.data.logo} name={entry.data.client} />
+                <ClientLogo
+                  logo={entry.data.logo}
+                  name={entry.data.client}
+                  treatment={entry.data.logoTreatment}
+                />
               )}
             </li>
           );

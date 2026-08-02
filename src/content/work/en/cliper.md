@@ -2,6 +2,11 @@
 client: Orange
 project: CLIPER
 logo: orange
+# Orange's mark is a white wordmark on a solid orange square — inseparable
+# from its colour. Rendering it monochrome turns it into a grey block, and
+# reconstructing it on a transparent ground would mean altering the mark.
+# The client's name set in our own type is both cleaner and safer.
+logoTreatment: wordmark
 sector: Telecommunications
 order: 6
 seo:

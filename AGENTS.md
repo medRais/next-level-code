@@ -191,15 +191,14 @@ Contraintes de qualité (non négociables) :
 - **Pas de section témoignages** — ni sur la home, ni ailleurs. Aucune collection `testimonials`, aucun composant de citation client. Voir la règle absolue "aucune citation inventée" en section 2. Si le propriétaire fournit un jour des verbatims réels et autorisés, une section pourra être ajoutée à ce moment-là, jamais avant.
 - **Chiffres clés** — seuls chiffres autorisés, confirmés par le propriétaire. Ils vivent dans `src/data/company.ts`, **source de vérité unique** : aucune page ne publie un chiffre absent de ce fichier.
 
-  **Faits d'entreprise** (autorisés partout : bandeau home, footer, etc.) :
+  **Seuls faits chiffrés publiables** (autorisés partout : bandeau home, footer, etc.) :
   - **Société fondée en 2024** — l'âge de la société est toujours *calculé* à partir de cette date, jamais codé en dur.
   - **25 projets clients livrés**
   - **6 références clients nommées** (section 5bis)
 
-  **Fait personnel du fondateur** (usage strictement encadré) :
-  - **13 années d'expérience d'ingénierie senior du fondateur**, antérieures à la création de la société.
+  ⚠️ **Aucune donnée personnelle ni parcours individuel, nulle part sur le site — /about/ compris.** Interdits : « X années d'expérience », ancienneté du fondateur, chronologie de carrière, biographie, nom ou photo d'individu. Le site s'exprime **exclusivement au niveau entreprise**. La seule ancienneté citable est celle de Next Level Code elle-même (fondée en 2024).
 
-  ⚠️ **Ne JAMAIS présenter les 13 ans comme l'ancienneté de la société.** C'est l'expérience personnelle du fondateur, pas l'âge de Next Level Code (fondée en 2024). Les deux chiffres ne doivent jamais être fusionnés en une formule ambiguë du type « 13 ans d'activité ». Les 13 ans n'apparaissent **que sur /about/**, explicitement rattachés au parcours du fondateur — formulation de référence : *"Founded in 2024, Next Level Code is built on 13 years of hands-on senior engineering experience."* Interdits ailleurs (home, footer, pages services), où seuls les faits d'entreprise sont publiés.
+  Le positionnement se dit ainsi : une pratique **founder-led** dont les projets sont livrés par un **collectif d'architectes logiciels, d'ingénieurs seniors et de spécialistes IA** (voir section 2). La crédibilité repose sur les références clients réelles, les projets livrés et les domaines d'expertise — jamais sur le CV d'une personne.
 
   Ne jamais publier d'effectif, de CA, de NPS ni de métrique de performance non fournie explicitement par le propriétaire.
 - Chaque page service se termine par un CTA contextualisé.

@@ -170,8 +170,7 @@
   "metrics": {
     "founded": "Founded",
     "projectsDelivered": "Client projects delivered",
-    "clientReferences": "Named client references",
-    "founderExperience": "Years of senior engineering experience behind the practice"
+    "clientReferences": "Named client references"
   },
 
   "common": {

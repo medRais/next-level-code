@@ -22,22 +22,17 @@ export function companyAgeYears(now: Date = new Date()): number {
   return Math.max(0, now.getFullYear() - FOUNDED_YEAR);
 }
 
-/**
- * The founder's individual senior engineering experience, which predates the
- * company.
+/*
+ * There is deliberately no figure for the founder's individual experience,
+ * tenure or career timeline, and none may be added.
  *
- * ── This is NOT company age, and the two must never be merged. ──
- * Presenting 13 years as "years in business" would overstate the age of a
- * company founded in 2024. This figure may appear only where it is explicitly
- * attributed to the founder's personal track record — /about/ is the intended
- * place, phrased so the distinction is unmissable, e.g. "Founded in 2024,
- * Next Level Code is built on 13 years of hands-on senior engineering
- * experience."
- *
- * It must not appear in the home metrics band, the footer, or anywhere the
- * surrounding context reads as a company statistic.
+ * The site speaks at company level only. Next Level Code is presented as a
+ * founder-led practice with a delivery collective of software architects,
+ * senior engineers and AI specialists — never through one person's personal
+ * history. Any "N years of experience" claim is out of scope for every page,
+ * /about/ included: the only age the site states is the company's own,
+ * derived from FOUNDED_YEAR above.
  */
-export const FOUNDER_EXPERIENCE_YEARS = 13;
 
 /** Client projects delivered. Confirmed by the owner; update by hand. */
 export const CLIENT_PROJECTS_DELIVERED = 25;
