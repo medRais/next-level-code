@@ -10,20 +10,34 @@
  */
 
 /**
- * Years in business.
+ * The year Next Level Code was founded. A verifiable public fact.
  *
- * The owner confirmed 13 years as of 2026. Storing that statement and
- * counting forward keeps the figure true on every rebuild instead of
- * quietly going stale next January. A founding year is deliberately not
- * recorded: deriving one from "13 years" would be an assumption, and would
- * be off by one for most of any given year.
+ * Company age is always computed from this rather than stored, so it cannot
+ * drift out of date.
  */
-const YEARS_IN_BUSINESS_ANCHOR = { years: 13, asOfYear: 2026 } as const;
+export const FOUNDED_YEAR = 2024;
 
-export function yearsInBusiness(now: Date = new Date()): number {
-  const elapsed = now.getFullYear() - YEARS_IN_BUSINESS_ANCHOR.asOfYear;
-  return YEARS_IN_BUSINESS_ANCHOR.years + Math.max(0, elapsed);
+/** How long the company has existed. Derived — never hard-coded. */
+export function companyAgeYears(now: Date = new Date()): number {
+  return Math.max(0, now.getFullYear() - FOUNDED_YEAR);
 }
+
+/**
+ * The founder's individual senior engineering experience, which predates the
+ * company.
+ *
+ * ── This is NOT company age, and the two must never be merged. ──
+ * Presenting 13 years as "years in business" would overstate the age of a
+ * company founded in 2024. This figure may appear only where it is explicitly
+ * attributed to the founder's personal track record — /about/ is the intended
+ * place, phrased so the distinction is unmissable, e.g. "Founded in 2024,
+ * Next Level Code is built on 13 years of hands-on senior engineering
+ * experience."
+ *
+ * It must not appear in the home metrics band, the footer, or anywhere the
+ * surrounding context reads as a company statistic.
+ */
+export const FOUNDER_EXPERIENCE_YEARS = 13;
 
 /** Client projects delivered. Confirmed by the owner; update by hand. */
 export const CLIENT_PROJECTS_DELIVERED = 25;

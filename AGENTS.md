@@ -189,12 +189,19 @@ Contraintes de qualité (non négociables) :
 - CTA principal unique et répété : **"Start a project"** / "Talk to an expert" → /contact/. **CTA secondaire** (visuellement distinct, style outline) : **"Explore our APIs"** → /products/, présent sur la home et dans les pages services pertinentes. Sur /products/, le CTA devient "Request a demo".
 - **Preuve sociale = logos clients + études de cas UNIQUEMENT.** Les 6 logos clients RÉELS de la section 5bis (BNP Paribas, Banque de France, Orange, Essilor, Maileva/Docapost, Ministère de l'Agriculture) sont l'argument commercial n°1 du site : les mettre en avant dès le premier écran ou juste après le hero, et renvoyer vers les études de cas de /work/.
 - **Pas de section témoignages** — ni sur la home, ni ailleurs. Aucune collection `testimonials`, aucun composant de citation client. Voir la règle absolue "aucune citation inventée" en section 2. Si le propriétaire fournit un jour des verbatims réels et autorisés, une section pourra être ajoutée à ce moment-là, jamais avant.
-- **Chiffres clés (bandeau home, compteurs animés)** — seuls chiffres autorisés, confirmés par le propriétaire :
-  - **13 années d'activité** (valeur confirmée en 2026 ; le code recalcule automatiquement à chaque build — voir `src/data/company.ts`)
-  - **25 projets clients livrés**
-  - 6 références clients nommées (section 5bis)
+- **Chiffres clés** — seuls chiffres autorisés, confirmés par le propriétaire. Ils vivent dans `src/data/company.ts`, **source de vérité unique** : aucune page ne publie un chiffre absent de ce fichier.
 
-  Ces valeurs vivent dans `src/data/company.ts`, **source de vérité unique**. Aucune page ne publie un chiffre absent de ce fichier. Ne jamais publier d'effectif, de CA, de NPS ni de métrique de performance non fournie explicitement par le propriétaire.
+  **Faits d'entreprise** (autorisés partout : bandeau home, footer, etc.) :
+  - **Société fondée en 2024** — l'âge de la société est toujours *calculé* à partir de cette date, jamais codé en dur.
+  - **25 projets clients livrés**
+  - **6 références clients nommées** (section 5bis)
+
+  **Fait personnel du fondateur** (usage strictement encadré) :
+  - **13 années d'expérience d'ingénierie senior du fondateur**, antérieures à la création de la société.
+
+  ⚠️ **Ne JAMAIS présenter les 13 ans comme l'ancienneté de la société.** C'est l'expérience personnelle du fondateur, pas l'âge de Next Level Code (fondée en 2024). Les deux chiffres ne doivent jamais être fusionnés en une formule ambiguë du type « 13 ans d'activité ». Les 13 ans n'apparaissent **que sur /about/**, explicitement rattachés au parcours du fondateur — formulation de référence : *"Founded in 2024, Next Level Code is built on 13 years of hands-on senior engineering experience."* Interdits ailleurs (home, footer, pages services), où seuls les faits d'entreprise sont publiés.
+
+  Ne jamais publier d'effectif, de CA, de NPS ni de métrique de performance non fournie explicitement par le propriétaire.
 - Chaque page service se termine par un CTA contextualisé.
 - Page contact sans friction : formulaire court (nom, email, société, besoin), promesse de réponse sous 24 h.
 - Ton rédactionnel : expert, direct, orienté bénéfices client, sans jargon creux.

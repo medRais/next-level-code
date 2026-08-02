@@ -17,14 +17,26 @@ interface Props {
   suffix?: string;
   label: string;
   tone?: 'light' | 'ink';
+  /**
+   * Set false for values that are not quantities — a year counting up from
+   * zero reads as a loading state, not as an achievement.
+   */
+  animate?: boolean;
   class?: string;
 }
 
-const { value, suffix = '', label, tone = 'light', class: className } = Astro.props;
+const {
+  value,
+  suffix = '',
+  label,
+  tone = 'light',
+  animate = true,
+  class: className,
+}: Props = Astro.props;
 ---
 
 <div class:list={['counter', `counter--${tone}`, className]}>
-  <span class="counter__value" data-counter={value}>{value}{suffix}</span>
+  <span class="counter__value" data-counter={animate ? value : undefined}>{value}{suffix}</span>
   <span class="counter__label">{label}</span>
 </div>
 

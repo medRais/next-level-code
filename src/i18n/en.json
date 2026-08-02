@@ -95,9 +95,10 @@
   },
 
   "metrics": {
-    "yearsInBusiness": "Years in business",
+    "founded": "Founded",
     "projectsDelivered": "Client projects delivered",
-    "clientReferences": "Named client references"
+    "clientReferences": "Named client references",
+    "founderExperience": "Years of senior engineering experience behind the practice"
   },
 
   "common": {
