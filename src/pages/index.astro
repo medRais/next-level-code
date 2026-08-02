@@ -1,7 +1,10 @@
 ---
+// Temporary foundation preview. Replaced by the real home page in Phase 3.
 import '../styles/global.css';
 import { DEFAULT_LOCALE, getLocale } from '../i18n/config';
 import { useTranslations } from '../i18n/ui';
+import Logo from '../components/brand/Logo.astro';
+import Glyph from '../components/brand/Glyph.astro';
 
 const locale = getLocale(DEFAULT_LOCALE);
 const t = useTranslations(DEFAULT_LOCALE);
@@ -13,14 +16,40 @@ const t = useTranslations(DEFAULT_LOCALE);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{t('site.name')}</title>
-    <meta name="description" content={t('site.description')} />
   </head>
   <body>
-    <main class="container-site section-y">
-      <p class="text-eyebrow tracking-brand text-cobalt uppercase">{t('common.clientsHeading')}</p>
-      <h1 class="text-display-1 mt-6">{t('site.tagline')}</h1>
+    <section class="container-site section-y">
+      <p class="text-eyebrow tracking-brand text-cobalt uppercase">Brand system</p>
+
+      <div class="mt-12 flex flex-col gap-12 text-ink">
+        <Logo size="3.5rem" />
+        <Logo size="2rem" />
+        <Logo size="1.375rem" />
+        <Logo size="1.375rem" wordmarkOnly />
+      </div>
+
+      <div class="mt-12 flex items-center gap-8 text-ink">
+        <Glyph size="3rem" label="Next Level Code" />
+        <Glyph size="1.5rem" label="Next Level Code" />
+        <Glyph size="1.5rem" weight="hairline" label="Next Level Code" />
+      </div>
+    </section>
+
+    <section class="on-ink">
+      <div class="container-site section-y">
+        <p class="text-eyebrow tracking-brand uppercase" style="color: var(--color-cobalt-light)">
+          On ink
+        </p>
+        <div class="mt-12 flex flex-col gap-12 text-porcelain">
+          <Logo size="3.5rem" />
+          <Logo size="1.375rem" />
+        </div>
+      </div>
+    </section>
+
+    <section class="container-site section-y">
+      <h1 class="text-display-1">{t('site.tagline')}</h1>
       <p class="text-lead text-slate mt-6 max-w-prose">{t('footer.pitch')}</p>
-      <p class="mt-10 text-sm text-slate">{t('footer.copyright', { year: 2026 })}</p>
-    </main>
+    </section>
   </body>
 </html>

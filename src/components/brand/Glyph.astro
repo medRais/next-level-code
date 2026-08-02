@@ -1,0 +1,89 @@
+---
+/**
+ * The ≡ mark — the stylised "E" of the wordmark, lifted out as a standalone
+ * signature. This is the site's one proprietary graphic gesture; the brief
+ * asks for it to be used sparingly and consistently, so it lives in exactly
+ * one component rather than being redrawn per section.
+ *
+ * Pure geometry, no font dependency, `currentColor` throughout — it inverts
+ * on ink surfaces for free.
+ */
+
+interface Props {
+  /** Overall width. Bar thickness and gaps scale from it. */
+  size?: string;
+  /** Bar thickness as a fraction of the mark's height. */
+  weight?: 'hairline' | 'regular';
+  /**
+   * Plays the hero opening sequence: the three bars draw in, staggered.
+   * Only the home hero should set this — it is a single moment, not a motif.
+   */
+  animated?: boolean;
+  /**
+   * Accessible name. Omit when the mark sits next to text that already names
+   * it, which is the usual case; it is then hidden from assistive tech.
+   */
+  label?: string;
+  class?: string;
+}
+
+const {
+  size = '1em',
+  weight = 'regular',
+  animated = false,
+  label,
+  class: className,
+} = Astro.props;
+
+const BAR_COUNT = 3;
+/** Matches the reveal cadence in global.css; three bars land in ~270ms. */
+const STAGGER_MS = 90;
+---
+
+<span
+  class:list={['glyph', `glyph--${weight}`, className]}
+  style={`--glyph-size: ${size};`}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {
+    Array.from({ length: BAR_COUNT }, (_, index) => (
+      <span
+        class="glyph__bar"
+        data-hero-bar={animated ? '' : undefined}
+        style={animated ? `--hero-delay: ${index * STAGGER_MS}ms;` : undefined}
+      />
+    ))
+  }
+</span>
+
+<style>
+  .glyph {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    inline-size: var(--glyph-size);
+    /* Cap height of the surrounding capitals, so the mark reads as a letter
+       when it is standing in for the "E" in the wordmark. Ratio measured off
+       the original wordmark: bar-to-gap lands at roughly 1:2.7. */
+    block-size: calc(var(--glyph-size) * 1.31);
+    vertical-align: baseline;
+  }
+
+  .glyph__bar {
+    display: block;
+    inline-size: 100%;
+    background-color: currentColor;
+    /* Squared ends: the brand is precision, not softness. */
+    border-radius: 0;
+  }
+
+  .glyph--regular .glyph__bar {
+    block-size: calc(var(--glyph-size) * 0.155);
+  }
+
+  .glyph--hairline .glyph__bar {
+    block-size: max(1px, calc(var(--glyph-size) * 0.075));
+  }
+</style>
