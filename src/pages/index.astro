@@ -280,8 +280,16 @@ const jsonLd = services.map((service) => ({
   /* ── API band ──────────────────────────────────────────────────────────── */
   .api {
     display: grid;
+    /* An implicit `auto` track sizes to its content, so the code sample would
+       widen the column and push the whole page into horizontal overflow on a
+       narrow screen. `minmax(0, 1fr)` lets the block scroll inside itself. */
+    grid-template-columns: minmax(0, 1fr);
     gap: 3rem;
     align-items: center;
+  }
+
+  .api > * {
+    min-inline-size: 0;
   }
 
   .api__actions {

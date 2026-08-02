@@ -1,0 +1,405 @@
+---
+/**
+ * The API sales page.
+ *
+ * Written for decision-makers rather than integrators: each product leads
+ * with the problem it solves and the business case, and the code sample sits
+ * at the end as evidence that the integration is clean — not as a tutorial.
+ *
+ * Every product is one entry in the collection, so replacing the placeholder
+ * catalogue with the real one is a content edit.
+ */
+
+import { Icon } from 'astro-icon/components';
+import { render } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import Button from '../../components/ui/Button.astro';
+import Glyph from '../../components/brand/Glyph.astro';
+import Reveal from '../../components/ui/Reveal.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+import { DEFAULT_LOCALE, localePath } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+import { entrySlug, getLocalisedCollection } from '../../lib/collections';
+
+const locale = DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const products = await getLocalisedCollection('products', locale);
+
+/** The snippet lives in each entry's Markdown body, so it stays editable
+    alongside the copy rather than being embedded in this template. */
+const rendered = await Promise.all(
+  products.map(async (product) => ({
+    product,
+    Content: (await render(product)).Content,
+  })),
+);
+
+const jsonLd = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('site.name'),
+        item: new URL(localePath(locale, '/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('productsPage.eyebrow'),
+        item: new URL(localePath(locale, '/products/'), Astro.site).href,
+      },
+    ],
+  },
+  ...products.map((product) => ({
+    '@type': 'Product',
+    name: product.data.name,
+    description: product.data.tagline,
+    brand: { '@id': `${Astro.site?.href}#organization` },
+    // Deliberately no price: it is quoted per engagement, and publishing a
+    // figure schema.org would treat as firm would be wrong.
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        description: t('productsPage.pricingOnRequest'),
+      },
+    },
+  })),
+];
+---
+
+<BaseLayout
+  title={t('productsPage.seoTitle')}
+  description={t('productsPage.seoDescription')}
+  path="/products/"
+  jsonLd={jsonLd}
+>
+  <!-- Header -->
+  <section class="products-hero on-ink">
+    <div class="container-site products-hero__inner">
+      <SectionHeader
+        eyebrow={t('productsPage.eyebrow')}
+        title={t('productsPage.title')}
+        lead={t('productsPage.lead')}
+        tone="ink"
+        as="h1"
+      />
+
+      <nav class="products-index" aria-label={t('productsPage.eyebrow')}>
+        {
+          products.map((product) => (
+            <a class="products-index__link" href={`#${entrySlug(product.id)}`}>
+              <Icon name={product.data.icon} class="size-5" aria-hidden="true" />
+              {product.data.name}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+
+  <!-- One block per API -->
+  {
+    rendered.map(({ product, Content }, index) => (
+      <section
+        id={entrySlug(product.id)}
+        class:list={['product', index % 2 === 1 && 'product--tinted']}
+      >
+        <div class="container-site section-y">
+          <Reveal>
+            <header class="product__header">
+              <Icon name={product.data.icon} class="size-7 text-cobalt" aria-hidden="true" />
+              <h2 class="product__name">{product.data.name}</h2>
+              <p class="product__tagline">{product.data.tagline}</p>
+            </header>
+          </Reveal>
+
+          <div class="product__grid">
+            <div class="product__column">
+              <Reveal>
+                <h3 class="product__heading">{t('productsPage.problemHeading')}</h3>
+                <p class="product__text">{product.data.problem}</p>
+              </Reveal>
+
+              <Reveal>
+                <h3 class="product__heading">{t('productsPage.useCasesHeading')}</h3>
+                <ul class="use-cases">
+                  {product.data.useCases.map((useCase) => (
+                    <li class="use-case">
+                      <h4 class="use-case__title">{useCase.title}</h4>
+                      <p class="use-case__body">{useCase.body}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+
+              <Reveal>
+                <h3 class="product__heading">{t('productsPage.benefitsHeading')}</h3>
+                <ul class="benefits">
+                  {product.data.benefits.map((benefit) => (
+                    <li class="benefit">
+                      <Glyph size="0.75rem" weight="hairline" class="mt-2 text-cobalt" />
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+
+            <aside class="product__column">
+              <Reveal>
+                <h3 class="product__heading">{t('productsPage.integrationHeading')}</h3>
+                <div class="product__snippet">
+                  <Content />
+                </div>
+                <p class="product__docs">{t('productsPage.docsNote')}</p>
+              </Reveal>
+
+              <Reveal>
+                <h3 class="product__heading">{t('productsPage.assurancesHeading')}</h3>
+                <ul class="assurances">
+                  {product.data.assurances.map((assurance) => (
+                    <li>{assurance}</li>
+                  ))}
+                </ul>
+              </Reveal>
+
+              {product.data.pricingOnRequest && (
+                <Reveal>
+                  <div class="pricing">
+                    <h3 class="product__heading">{t('productsPage.pricingLabel')}</h3>
+                    <p class="pricing__value">{t('productsPage.pricingOnRequest')}</p>
+                  </div>
+                </Reveal>
+              )}
+
+              <Reveal>
+                <div class="product__actions">
+                  <Button href={localePath(locale, '/contact/')}>{t('cta.demo')}</Button>
+                  <Button href={localePath(locale, '/contact/')} variant="ghost">
+                    {t('cta.apiExpert')}
+                  </Button>
+                </div>
+              </Reveal>
+            </aside>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <CtaBand
+    locale={locale}
+    title={t('productsPage.ctaTitle')}
+    lead={t('productsPage.ctaLead')}
+    primaryLabel={t('cta.demo')}
+    showSecondary={false}
+  />
+</BaseLayout>
+
+<style>
+  /* ── Header ────────────────────────────────────────────────────────────── */
+  .products-hero__inner {
+    padding-block: clamp(3.5rem, 3rem + 3vw, 6rem);
+  }
+
+  .products-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block-start: 3rem;
+  }
+
+  .products-index__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    border: 1px solid var(--color-hairline-dark-strong);
+    border-radius: var(--radius-pill);
+    font-size: 0.9375rem;
+    color: var(--color-porcelain);
+    text-decoration: none;
+    transition:
+      border-color var(--duration-micro) var(--ease-swift),
+      color var(--duration-micro) var(--ease-swift);
+  }
+
+  .products-index__link:hover {
+    border-color: var(--color-cobalt-light);
+    color: var(--color-cobalt-light);
+  }
+
+  /* ── Product block ─────────────────────────────────────────────────────── */
+  .product {
+    border-block-end: 1px solid var(--color-hairline);
+    /* Anchors from the index must clear the sticky header. */
+    scroll-margin-block-start: 5rem;
+  }
+
+  .product--tinted {
+    background-color: color-mix(in oklab, var(--color-ink) 3%, var(--color-porcelain));
+  }
+
+  .product__name {
+    margin: 1.25rem 0 0;
+    font-size: var(--text-display-2);
+    font-weight: 300;
+  }
+
+  .product__tagline {
+    margin: 1rem 0 0;
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    color: var(--color-slate);
+    max-inline-size: 56ch;
+  }
+
+  .product__grid {
+    display: grid;
+    gap: 3rem;
+    margin-block-start: 3.5rem;
+    align-items: start;
+  }
+
+  .product__column {
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+    /* Grid and flex items default to `min-width: auto`, which lets a wide
+       code block stretch the column rather than scroll inside it. Both the
+       column and its children need the override. */
+    min-inline-size: 0;
+  }
+
+  .product__column > * {
+    min-inline-size: 0;
+  }
+
+  .product__heading {
+    margin: 0 0 1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-cobalt);
+  }
+
+  .product__text {
+    margin: 0;
+    line-height: 1.75;
+    color: var(--color-ink);
+    max-inline-size: 62ch;
+  }
+
+  /* ── Use cases ─────────────────────────────────────────────────────────── */
+  .use-cases {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .use-case {
+    padding-inline-start: 1.25rem;
+    border-inline-start: 2px solid var(--color-hairline-strong);
+  }
+
+  .use-case__title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    font-family: var(--font-body);
+  }
+
+  .use-case__body {
+    margin: 0.5rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  /* ── Benefits ──────────────────────────────────────────────────────────── */
+  .benefits {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .benefit {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+    color: var(--color-slate);
+  }
+
+  /* ── Integration ───────────────────────────────────────────────────────── */
+  .product__docs {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-slate);
+  }
+
+  /* ── Assurances ────────────────────────────────────────────────────────── */
+  .assurances {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  .assurances li {
+    padding-inline-start: 1.25rem;
+    position: relative;
+  }
+
+  .assurances li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0.6875rem;
+    inline-size: 0.5rem;
+    block-size: 1px;
+    background-color: var(--color-cobalt);
+  }
+
+  /* ── Pricing ───────────────────────────────────────────────────────────── */
+  .pricing__value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 300;
+    color: var(--color-ink);
+  }
+
+  .product__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  @media (width >= 64rem) {
+    .product__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+  }
+</style>

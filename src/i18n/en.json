@@ -167,6 +167,24 @@
     }
   },
 
+  "productsPage": {
+    "seoTitle": "APIs & products",
+    "seoDescription": "Commercial APIs your teams can integrate in days: document intelligence, grounded knowledge answers and document verification. Pricing on request.",
+    "eyebrow": "APIs & products",
+    "title": "Capability you integrate, not a project you run",
+    "lead": "Where a problem is well understood and the value is in having it working now, an API is the shorter path. Each of these solves one problem properly, with the contracts and documentation to make adoption a scheduled task rather than an investigation.",
+    "problemHeading": "The problem it solves",
+    "useCasesHeading": "Where it is used",
+    "benefitsHeading": "What you get",
+    "integrationHeading": "Integration",
+    "assurancesHeading": "Security and reliability",
+    "pricingLabel": "Pricing",
+    "pricingOnRequest": "On request — priced against volume and support level",
+    "docsNote": "Every endpoint has full reference documentation, with worked examples and predictable versioning.",
+    "ctaTitle": "See it working against your own data",
+    "ctaLead": "A demo runs against a sample of your documents, not ours. Tell us the use case and we will set it up. We reply within 24 hours on business days."
+  },
+
   "servicesPage": {
     "seoTitle": "Services",
     "seoDescription": "Custom software, applied AI, commercial APIs and technical consulting — four ways to engage senior engineers who deliver to production.",

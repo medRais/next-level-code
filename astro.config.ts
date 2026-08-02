@@ -48,7 +48,10 @@ export default defineConfig({
       // Code samples sit on ink surfaces; the background is overridden in
       // global.css so the highlighter blends with our palette.
       theme: 'github-dark-default',
-      wrap: true,
+      // Wrapping destroys the column alignment that makes a JSON payload
+      // readable. The block scrolls horizontally inside its own container
+      // instead (see `.astro-code` in global.css), so the page never does.
+      wrap: false,
     },
   },
 

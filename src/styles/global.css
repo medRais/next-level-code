@@ -339,6 +339,10 @@
   padding: 1.25rem 1.5rem;
   font-size: 0.875rem;
   line-height: 1.7;
+  /* Long lines scroll inside the block. `max-inline-size` is what actually
+     keeps that promise: without it the block sizes to its content and pushes
+     its container wider, taking the whole page into horizontal overflow. */
+  max-inline-size: 100%;
   overflow-x: auto;
   /* Code is left-to-right in every locale, including Arabic. */
   direction: ltr;
