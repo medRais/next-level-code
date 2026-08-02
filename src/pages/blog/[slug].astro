@@ -1,0 +1,343 @@
+---
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import Card from '../../components/ui/Card.astro';
+import Rule from '../../components/ui/Rule.astro';
+
+import { PUBLISHED_LOCALES, localePath, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+import { entrySlug, getLocalisedCollection } from '../../lib/collections';
+import { readingTimeMinutes } from '../../lib/reading-time';
+
+type Props = {
+  entry: CollectionEntry<'blog'>;
+  locale: LocaleCode;
+  related: CollectionEntry<'blog'>[];
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths: Array<{ params: { slug: string }; props: Props }> = [];
+
+  for (const locale of PUBLISHED_LOCALES) {
+    const entries = (await getLocalisedCollection('blog', locale)).sort(
+      (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+    );
+
+    for (const entry of entries) {
+      paths.push({
+        params: { slug: entrySlug(entry.id) },
+        props: {
+          entry,
+          locale,
+          related: entries.filter((other) => other.id !== entry.id).slice(0, 2),
+        },
+      });
+    }
+  }
+
+  return paths;
+};
+
+const { entry, locale, related } = Astro.props as Props;
+const { data } = entry;
+
+const t = useTranslations(locale);
+const { Content } = await render(entry);
+
+const dateFormatter = new Intl.DateTimeFormat(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const canonicalPath = `/blog/${entrySlug(entry.id)}/`;
+const minutes = readingTimeMinutes(entry.body ?? '');
+
+const jsonLd = [
+  {
+    '@type': 'BlogPosting',
+    headline: data.title,
+    description: data.description,
+    datePublished: data.pubDate.toISOString(),
+    ...(data.updatedDate && { dateModified: data.updatedDate.toISOString() }),
+    // The author is the practice, not an individual — the site publishes no
+    // personal profiles.
+    author: { '@id': `${Astro.site?.href}#organization` },
+    publisher: { '@id': `${Astro.site?.href}#organization` },
+    keywords: data.tags.join(', '),
+    mainEntityOfPage: new URL(localePath(locale, canonicalPath), Astro.site).href,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('site.name'),
+        item: new URL(localePath(locale, '/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('blogPage.eyebrow'),
+        item: new URL(localePath(locale, '/blog/'), Astro.site).href,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: data.title,
+        item: new URL(localePath(locale, canonicalPath), Astro.site).href,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  path={canonicalPath}
+  locale={locale}
+  type="article"
+  publishedTime={data.pubDate}
+  modifiedTime={data.updatedDate}
+  jsonLd={jsonLd}
+>
+  <article>
+    <header class="article-hero on-ink">
+      <div class="container-site article-hero__inner">
+        <a class="article-hero__back" href={localePath(locale, '/blog/')}>
+          ← {t('blogPage.backToBlog')}
+        </a>
+
+        <h1 class="article-hero__title">{data.title}</h1>
+
+        <p class="article-hero__meta">
+          <time datetime={data.pubDate.toISOString()}>{dateFormatter.format(data.pubDate)}</time>
+          <span aria-hidden="true">·</span>
+          <span>{t('common.readingTime', { minutes })}</span>
+          <span aria-hidden="true">·</span>
+          <span>{data.author}</span>
+        </p>
+
+        <ul class="article-hero__tags">
+          {data.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </div>
+    </header>
+
+    <div class="container-site article">
+      <p class="article__standfirst">{data.description}</p>
+      <Rule class="my-10" />
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="container-site pb-24">
+        <h2 class="related__heading">{t('blogPage.moreArticles')}</h2>
+        <ul class="related">
+          {related.map((post) => (
+            <li>
+              <Card href={localePath(locale, `/blog/${entrySlug(post.id)}/`)} class="h-full">
+                <h3 class="related__title">{post.data.title}</h3>
+                <p class="related__description">{post.data.description}</p>
+                <span class="related__more">{t('cta.readArticle')}</span>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <CtaBand locale={locale} title={t('blogPage.ctaTitle')} lead={t('blogPage.ctaLead')} />
+</BaseLayout>
+
+<style>
+  /* ── Header ────────────────────────────────────────────────────────────── */
+  .article-hero__inner {
+    padding-block: clamp(3rem, 2.5rem + 3vw, 5rem);
+    max-inline-size: 52rem;
+  }
+
+  .article-hero__back {
+    font-size: 0.875rem;
+    color: var(--color-mist);
+    text-decoration: none;
+  }
+
+  .article-hero__back:hover {
+    color: var(--color-porcelain);
+  }
+
+  .article-hero__title {
+    margin: 1.5rem 0 0;
+    font-size: clamp(2.125rem, 1.5rem + 2.6vw, 3.25rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: 0.005em;
+  }
+
+  .article-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+    margin: 1.75rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-mist);
+  }
+
+  .article-hero__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .article-hero__tags li {
+    padding: 0.25rem 0.625rem;
+    border: 1px solid var(--color-hairline-dark-strong);
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    color: var(--color-mist);
+  }
+
+  /* ── Body ──────────────────────────────────────────────────────────────── */
+  .article {
+    padding-block: clamp(2.5rem, 2rem + 2vw, 4rem);
+    max-inline-size: var(--container-prose);
+  }
+
+  .article__standfirst {
+    margin: 0;
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    color: var(--color-ink);
+  }
+
+  /* Long-form typography. Measure is capped by the container above, which is
+     what keeps lines in the 60–75 character range that reads comfortably. */
+  .prose {
+    color: var(--color-slate);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .prose :global(h2) {
+    margin: 3.5rem 0 1.25rem;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--color-ink);
+  }
+
+  .prose :global(h3) {
+    margin: 2.5rem 0 0.875rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .prose :global(p) {
+    margin: 0 0 1.5rem;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1.75rem;
+    padding-inline-start: 1.5rem;
+  }
+
+  .prose :global(li) {
+    margin-block-end: 0.75rem;
+  }
+
+  .prose :global(li::marker) {
+    color: var(--color-cobalt);
+  }
+
+  .prose :global(strong) {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  .prose :global(a) {
+    color: var(--color-cobalt);
+    text-underline-offset: 0.2em;
+  }
+
+  .prose :global(code) {
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-hair);
+    background-color: color-mix(in oklab, var(--color-ink) 6%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    color: var(--color-ink);
+  }
+
+  .prose :global(pre) {
+    margin: 0 0 1.75rem;
+  }
+
+  .prose :global(em) {
+    font-style: italic;
+  }
+
+  /* ── Related ───────────────────────────────────────────────────────────── */
+  .related__heading {
+    margin: 0 0 2rem;
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
+  .related {
+    display: grid;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .related__description {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-slate);
+  }
+
+  .related__more {
+    margin-block-start: auto;
+    padding-block-start: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-cobalt);
+  }
+
+  @media (width >= 48rem) {
+    .related {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

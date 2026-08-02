@@ -167,6 +167,21 @@
     }
   },
 
+  "blogPage": {
+    "seoTitle": "Insights",
+    "seoDescription": "Notes on applied AI, software architecture and enterprise integration, written from engagements rather than from conference talks.",
+    "eyebrow": "Insights",
+    "title": "Notes from work that shipped",
+    "lead": "Written from engagements rather than from conference talks. Mostly about the parts that turn out to be harder than the parts everyone warns you about.",
+    "backToBlog": "All insights",
+    "publishedLabel": "Published",
+    "updatedLabel": "Updated",
+    "tagsLabel": "Topics",
+    "moreArticles": "More insights",
+    "ctaTitle": "Facing one of these problems?",
+    "ctaLead": "If any of this looks like the system you are working on, tell us about it. We reply within 24 hours on business days."
+  },
+
   "contactPage": {
     "seoTitle": "Contact",
     "seoDescription": "Tell us about your project, your timeline and your constraints. We reply to every qualified enquiry within 24 hours on business days.",
