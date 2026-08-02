@@ -167,6 +167,25 @@
     }
   },
 
+  "workPage": {
+    "seoTitle": "Client work",
+    "seoDescription": "Case studies from BNP Paribas, Banque de France, Orange, Essilor, Maileva and the French Ministry of Agriculture — systems built to run in production.",
+    "eyebrow": "Client work",
+    "title": "Six references, all in production",
+    "lead": "Banking, central banking, public institutions, telecommunications and optical retail. Each of these systems was built to operate inside an estate that already existed.",
+    "contextHeading": "Context",
+    "solutionHeading": "Solution",
+    "benefitsHeading": "Benefits",
+    "servicesHeading": "Services involved",
+    "sectorLabel": "Sector",
+    "projectLabel": "Project",
+    "previous": "Previous",
+    "next": "Next",
+    "backToWork": "All client work",
+    "ctaTitle": "Facing something comparable?",
+    "ctaLead": "Tell us about the system, the constraints and the timeline. We reply within 24 hours on business days."
+  },
+
   "metrics": {
     "founded": "Founded",
     "projectsDelivered": "Client projects delivered",
