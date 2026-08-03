@@ -12,7 +12,7 @@ This website is published by **Next Level Code**.
 
 - **Legal form:** SASU (société par actions simplifiée unipersonnelle)
 - **Share capital:** €1,000
-- **Registered address:** 7 rue Du 8 Mai 1845, 92340 Bourg-la-Reine, France
+- **Registered address:** 7 rue Du 8 Mai 1945, 92340 Bourg-la-Reine, France
 - **SIREN:** 933 215 741
 - **Publication director:** RAIS Mohamed
 - **Email:** contact@nextlevelcode.tech

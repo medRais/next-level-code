@@ -102,9 +102,21 @@ grep -rn -A10 "^stack:" src/content/services/en/*.md
       French, which follows from the SASU form and the French registered
       office. Remove that section if it is wrong.
 
-      Optional: the notice states the SIREN but not the RCS registry city. A
-      registered office in 92340 would normally fall under RCS Nanterre, but
-      that has not been confirmed, so it is left out.
+      Optional: the notice states the SIREN but not the RCS registry city.
+      The public register (recherche-entreprises.api.gouv.fr) does not expose
+      the greffe, so it remains unconfirmed and is deliberately left out. The
+      Kbis extract, or data.inpi.fr, is the authoritative source if you want
+      to add it.
+
+      **Address corrected against the register.** The published address was
+      first entered as "7 rue Du 8 Mai 1845". The public register lists
+      "7 RUE DU 8 MAI 1945" — VE Day, which is the usual street name; there is
+      no 8 May 1845. Both legal pages now say 1945. If the register itself is
+      wrong, the correction needs reversing here and fixing at the registry.
+
+      The same lookup independently corroborated two published facts: the
+      company was created on 2024-09-25, matching `FOUNDED_YEAR = 2024`, and
+      its legal form code 5710 is SAS/SASU.
 
 - [ ] **Test the contact form end to end.**
       The address is confirmed: `CONTACT_EMAIL` in `src/data/company.ts` is
