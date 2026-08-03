@@ -9,7 +9,8 @@ seo:
 ## Who is responsible for your data
 
 The data controller is **Next Level Code**, a SASU registered under SIREN
-933 215 741, with its registered office at 7 rue Du 8 Mai 1845.
+933 215 741, with its registered office at 7 rue Du 8 Mai 1845, 92340
+Bourg-la-Reine, France.
 
 For any question about this policy or about your data, write to
 contact@nextlevelcode.tech.

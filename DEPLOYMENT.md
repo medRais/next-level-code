@@ -89,25 +89,22 @@ grep -rn -A10 "^stack:" src/content/services/en/*.md
       gone. Verified mechanically: nothing outside the confirmed list appears,
       and no confirmed item was dropped.
 
-- [x] ~~**Complete the legal pages.**~~ **RESOLVED**, with two caveats below.
-      Both pages now carry the confirmed identity — SASU, Next Level Code,
-      7 rue Du 8 Mai 1845, SIREN 933 215 741, publication director RAIS
-      Mohamed, contact email and telephone, GitHub as host. No `TODO(owner)`
-      marker remains anywhere in the codebase and the warning banners are gone.
+- [x] ~~**Complete the legal pages.**~~ **RESOLVED.**
+      Both pages carry the confirmed identity: Next Level Code, SASU, share
+      capital €1,000, registered office 7 rue Du 8 Mai 1845, 92340
+      Bourg-la-Reine, France, SIREN 933 215 741, publication director RAIS
+      Mohamed, contact email and telephone, GitHub as host. That satisfies what
+      Article R123-238 of the Code de commerce requires of a SASU. No
+      `TODO(owner)` marker remains anywhere in the codebase and the
+      incompleteness banners are gone.
 
-      Two things the owner declined to supply, both worth a second look before
-      launch:
+      One detail is inferred rather than supplied: applicable law is stated as
+      French, which follows from the SASU form and the French registered
+      office. Remove that section if it is wrong.
 
-      1. **The registered address has no postcode or city.** French
-         *mentions légales* require the full registered office address. As it
-         stands the address is incomplete.
-      2. **Share capital is not stated.** Article R123-238 of the Code de
-         commerce requires a SASU to state its share capital in its legal
-         notice. It is currently absent.
-
-      Also inferred rather than supplied: applicable law is stated as French,
-      which follows from the SASU form and the French registered office.
-      Remove that section if it is wrong.
+      Optional: the notice states the SIREN but not the RCS registry city. A
+      registered office in 92340 would normally fall under RCS Nanterre, but
+      that has not been confirmed, so it is left out.
 
 - [ ] **Test the contact form end to end.**
       The address is confirmed: `CONTACT_EMAIL` in `src/data/company.ts` is
