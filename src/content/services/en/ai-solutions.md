@@ -50,12 +50,11 @@ capabilities:
       Versioning, evaluation, deployment and monitoring for models, so an AI
       capability is operated with the same rigour as the rest of your estate.
 stack:
-  - Claude
-  - OpenAI
-  - LangGraph
-  - Vector databases
-  - Python
-  - PyTorch
-  - MLflow
+  - group: Models & APIs
+    items: [Anthropic Claude API, OpenAI API]
+  - group: Retrieval
+    items: [RAG pipelines, LangChain, pgvector, Pinecone]
+  - group: Systems
+    items: [Agentic workflows, MLOps]
 relatedWork: []
 ---

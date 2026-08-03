@@ -150,11 +150,18 @@ const jsonLd = [
         data.stack.length > 0 && (
           <div class="stack">
             <h3 class="stack__heading">{t('servicesPage.stackHeading')}</h3>
-            <ul class="stack__list">
-              {data.stack.map((item) => (
-                <li>{item}</li>
+            <div class="stack__groups">
+              {data.stack.map((group) => (
+                <div class="stack__group">
+                  <h4 class="stack__group-title">{group.group}</h4>
+                  <ul class="stack__list">
+                    {group.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )
       }
@@ -309,11 +316,27 @@ const jsonLd = [
     color: var(--color-slate);
   }
 
+  .stack__groups {
+    display: grid;
+    gap: 2rem;
+    margin-block-start: 2rem;
+  }
+
+  .stack__group-title {
+    margin: 0 0 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
   .stack__list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.625rem;
-    margin: 1.25rem 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
@@ -369,6 +392,13 @@ const jsonLd = [
 
     .related {
       grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    }
+
+    /* Groups sit side by side once there is room, so the whole stack reads
+       as one block rather than a long column. */
+    .stack__groups {
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 2.5rem;
     }
   }
 

@@ -58,8 +58,24 @@ const services = defineCollection({
     outcomes: z.array(pointSchema).min(2),
     /** What we actually do under this offer. */
     capabilities: z.array(pointSchema).min(3),
-    /** Technologies worth naming for credibility. Optional by design. */
-    stack: z.array(z.string()).default([]),
+    /**
+     * Technologies worth naming for credibility, grouped by concern.
+     *
+     * Grouped rather than flat: a service page can legitimately name fifteen
+     * or more technologies, and an undifferentiated row of pills that long
+     * stops being scannable. The groups also let each page carry only the
+     * part of the stack that is relevant to it.
+     *
+     * Optional by design — `stack: []` renders no section at all.
+     */
+    stack: z
+      .array(
+        z.object({
+          group: z.string(),
+          items: z.array(z.string()).min(1),
+        }),
+      )
+      .default([]),
     /** Case-study slugs (without locale prefix) to surface as proof. */
     relatedWork: z.array(z.string()).default([]),
     draft: z.boolean().default(false),

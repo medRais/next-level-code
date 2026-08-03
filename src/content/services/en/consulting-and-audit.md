@@ -44,6 +44,12 @@ capabilities:
     body: >-
       When shipping has slowed and nobody can say precisely why, an outside
       read on where the time is actually going.
-stack: []
+stack:
+  - group: Practices
+    items: [Domain-driven design, TDD, Security by design, GDPR compliance]
+  - group: Architecture
+    items: [Microservices, Event-driven architectures, REST]
+  - group: Cloud
+    items: [GCP, AWS, Azure]
 relatedWork: []
 ---

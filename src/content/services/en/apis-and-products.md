@@ -47,12 +47,12 @@ capabilities:
       Connecting systems that were never designed to meet, without demanding
       changes to either side.
 stack:
-  - REST
-  - GraphQL
-  - OpenAPI
-  - OAuth 2.0
-  - Webhooks
-  - Kubernetes
+  - group: API & integration
+    items: [REST, Event-driven architectures, Kafka, Microservices]
+  - group: Runtime
+    items: [Node.js, Spring Boot, TypeScript, Java]
+  - group: Platform
+    items: [Docker, Kubernetes, Terraform, GitHub Actions, CI/CD]
 relatedWork:
   - cliper
   - bnp-paribas

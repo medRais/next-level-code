@@ -49,14 +49,14 @@ capabilities:
       by carving out and replacing one seam at a time rather than betting on a
       single cutover.
 stack:
-  - TypeScript
-  - Node.js
-  - Java
-  - Python
-  - React
-  - PostgreSQL
-  - Kubernetes
-  - AWS
+  - group: Languages
+    items: [TypeScript, JavaScript, Java, Python, SQL]
+  - group: Backend
+    items: [Node.js, Spring Boot, Microservices, Event-driven architectures, Kafka]
+  - group: Frontend
+    items: [React, Angular, Astro, Tailwind CSS]
+  - group: Data
+    items: [PostgreSQL, MongoDB, Redis, Elasticsearch]
 relatedWork:
   - bnp-paribas
   - maileva-smb-invoices

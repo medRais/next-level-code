@@ -50,9 +50,10 @@ domain is set to the `www` host — you do not configure the apex separately.
 
 ## Content gates — clear these before merging
 
-**Status: all four PENDING.** The site is technically complete and the build is
-green, but four pieces of content are deliberately left as placeholders or
-unconfirmed values, to be filled in directly in the code by the owner.
+**Status: 3 of 4 PENDING** (technology stacks resolved). The site is
+technically complete and the build is green, but three pieces of content are
+still placeholders or unconfirmed values, to be filled in directly in the code
+by the owner.
 
 None of them breaks the build — that is precisely why this list exists. `npm
 run check` passes, `npm run build` passes, CI passes and Lighthouse scores 100
@@ -78,14 +79,16 @@ grep -rn -A10 "^stack:" src/content/services/en/*.md
       products themselves must be swapped for the real list before launch.
       Replacing them is a content edit; no code changes.
 
-- [ ] **Confirm or correct the technology stacks.**
-      `stack:` in `src/content/services/en/*.md` — four files. These are
-      plausible defaults written under the latitude of AGENTS.md §2, and on a
-      commercial site they read as claims about what the practice actually
-      works with. Edit the lists to the real technologies, or delete them
-      entirely (`stack: []`) if you would rather claim nothing — the service
-      pages render correctly either way, since the section is conditional on
-      the list being non-empty.
+- [x] ~~**Confirm or correct the technology stacks.**~~ **RESOLVED.**
+      The owner supplied the confirmed stack and it is now published across
+      the four service pages, grouped by concern and distributed by relevance:
+      custom-software carries languages, backend, frontend and data;
+      ai-solutions the AI and ML block; apis-and-products the integration,
+      runtime and platform items; consulting-and-audit the practices,
+      architecture and cloud. Every previously invented entry was removed —
+      LangGraph, PyTorch, MLflow, GraphQL, OpenAPI, OAuth 2.0 and Webhooks are
+      gone. Verified mechanically: nothing outside the confirmed list appears,
+      and no confirmed item was dropped.
 
 - [ ] **Complete the legal pages.**
       13 `TODO(owner)` markers across `src/content/legal/en/notice.md` and
