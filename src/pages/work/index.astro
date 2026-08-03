@@ -57,12 +57,17 @@ const jsonLd = [
       {
         references.map((entry, index) => (
           <Reveal as="li" delay={index * 70}>
-            <Card href={localePath(locale, `/work/${entrySlug(entry.id)}/`)} class="h-full">
+            <Card
+              href={localePath(locale, `/work/${entrySlug(entry.id)}/`)}
+              ariaLabel={`${entry.data.client}${entry.data.project ? ` — ${entry.data.project}` : ''} — ${t('cta.readCaseStudy')}`}
+              class="h-full"
+            >
               <div class="work-item__logo">
                 <ClientLogo
                   logo={entry.data.logo}
                   name={entry.data.client}
                   treatment={entry.data.logoTreatment}
+                  decorative
                 />
               </div>
 

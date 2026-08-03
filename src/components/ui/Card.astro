@@ -16,17 +16,34 @@ interface Props {
   tone?: 'light' | 'ink';
   /** Turns off the hover treatment for static, non-navigational cards. */
   interactive?: boolean;
+  /**
+   * Concise accessible name for a linked card.
+   *
+   * Without it the link's name is computed from everything inside the card —
+   * sector, heading, summary and call to action concatenated, which runs to
+   * 200+ characters and is read out in full. Always set this on a card that
+   * wraps more than a heading.
+   */
+  ariaLabel?: string;
   class?: string;
   [key: string]: unknown;
 }
 
-const { href, tone = 'light', interactive = Boolean(href), class: className, ...rest } = Astro.props;
+const {
+  href,
+  tone = 'light',
+  interactive = Boolean(href),
+  ariaLabel,
+  class: className,
+  ...rest
+} = Astro.props;
 
 const Tag = href ? 'a' : 'div';
 ---
 
 <Tag
   href={href}
+  aria-label={href ? ariaLabel : undefined}
   class:list={['card', `card--${tone}`, interactive && 'card--interactive', className]}
   {...rest}
 >

@@ -2,6 +2,7 @@
   "site": {
     "name": "Next Level Code",
     "tagline": "Custom software and applied AI, engineered for production.",
+    "homeTitle": "Custom software and applied AI",
     "description": "Custom software, applied AI and commercial APIs, engineered for production. Trusted by BNP Paribas, Banque de France, Orange and Essilor.",
     "titleTemplate": "%s — Next Level Code"
   },

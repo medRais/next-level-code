@@ -92,7 +92,11 @@ const jsonLd = services.map((service) => ({
         {
           services.map((service, index) => (
             <Reveal delay={index * 80}>
-              <Card href={localePath(locale, `/services/${entrySlug(service.id)}/`)} class="h-full">
+              <Card
+                href={localePath(locale, `/services/${entrySlug(service.id)}/`)}
+                ariaLabel={`${service.data.title} — ${t('cta.learnMore')}`}
+                class="h-full"
+              >
                 {/* Tailwind utilities rather than a scoped class: a class
                     passed to a child component does not inherit this file's
                     style scope, so a scoped rule would never match. */}
@@ -126,7 +130,11 @@ const jsonLd = services.map((service) => ({
       {
         featuredWork.map((entry, index) => (
           <Reveal delay={index * 90}>
-            <Card href={localePath(locale, `/work/${entrySlug(entry.id)}/`)} class="h-full">
+            <Card
+              href={localePath(locale, `/work/${entrySlug(entry.id)}/`)}
+              ariaLabel={`${entry.data.client}${entry.data.project ? ` — ${entry.data.project}` : ''} — ${t('cta.readCaseStudy')}`}
+              class="h-full"
+            >
               <span class="work-card__sector">{entry.data.sector}</span>
               <h3 class="work-card__title">
                 {entry.data.client}

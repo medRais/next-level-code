@@ -170,12 +170,17 @@ const jsonLd = [
         <div class="related">
           {relatedWork.map((item, index) => (
             <Reveal delay={index * 80}>
-              <Card href={localePath(locale, `/work/${entrySlug(item.id)}/`)} class="h-full">
+              <Card
+                href={localePath(locale, `/work/${entrySlug(item.id)}/`)}
+                ariaLabel={`${item.data.client} — ${t('cta.readCaseStudy')}`}
+                class="h-full"
+              >
                 <div class="related__logo">
                   <ClientLogo
                     logo={item.data.logo}
                     name={item.data.client}
                     treatment={item.data.logoTreatment}
+                    decorative
                   />
                 </div>
                 <h3 class="related__title">{item.data.client}</h3>

@@ -24,11 +24,24 @@ interface Props {
    * using their artwork. Chosen deliberately per client, not as a fallback.
    */
   treatment?: 'image' | 'wordmark';
+  /**
+   * Hides the mark from assistive technology. Correct wherever the client is
+   * already named in adjacent text or by the enclosing link's label —
+   * otherwise the name is announced twice.
+   */
+  decorative?: boolean;
   class?: string;
   [key: string]: unknown;
 }
 
-const { logo, name, treatment = 'image', class: className, ...rest }: Props = Astro.props;
+const {
+  logo,
+  name,
+  treatment = 'image',
+  decorative = false,
+  class: className,
+  ...rest
+}: Props = Astro.props;
 
 /** A missing file lands on the same typographic treatment, so the band keeps
     its rhythm and the build never fails over an absent asset. */
@@ -43,14 +56,16 @@ const RENDER_HEIGHT = 96;
     image ? (
       <Image
         src={image}
-        alt={name}
+        alt={decorative ? '' : name}
         height={RENDER_HEIGHT}
         loading="lazy"
         decoding="async"
         class="client-logo__img"
       />
     ) : (
-      <span class="client-logo__wordmark">{name}</span>
+      <span class="client-logo__wordmark" aria-hidden={decorative ? 'true' : undefined}>
+        {name}
+      </span>
     )
   }
 </div>

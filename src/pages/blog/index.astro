@@ -57,7 +57,11 @@ const jsonLd = [
       {
         posts.map((post, index) => (
           <Reveal as="li" delay={index * 70}>
-            <Card href={localePath(locale, `/blog/${entrySlug(post.id)}/`)} class="h-full">
+            <Card
+              href={localePath(locale, `/blog/${entrySlug(post.id)}/`)}
+              ariaLabel={`${post.data.title} — ${t('cta.readArticle')}`}
+              class="h-full"
+            >
               <p class="post__meta">
                 <time datetime={post.data.pubDate.toISOString()}>
                   {dateFormatter.format(post.data.pubDate)}

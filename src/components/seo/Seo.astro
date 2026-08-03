@@ -51,7 +51,14 @@ const t = useTranslations(locale);
 const localeDefinition = getLocale(locale);
 
 const siteName = t('site.name');
-const fullTitle = title ? t('site.titleTemplate').replace('%s', title) : `${siteName} — ${t('site.tagline')}`;
+
+/**
+ * The home page has no page title of its own, so it falls back to a short
+ * positioning phrase rather than the full tagline — the tagline is a
+ * sentence, and prepending the brand pushed the result past 70 characters,
+ * which search results truncate.
+ */
+const fullTitle = t('site.titleTemplate').replace('%s', title ?? t('site.homeTitle'));
 
 const canonical = new URL(localePath(locale, path), Astro.site);
 const imageUrl = new URL(image, Astro.site);

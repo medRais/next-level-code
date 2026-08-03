@@ -147,7 +147,11 @@ const jsonLd = [
         <ul class="related">
           {related.map((post) => (
             <li>
-              <Card href={localePath(locale, `/blog/${entrySlug(post.id)}/`)} class="h-full">
+              <Card
+                href={localePath(locale, `/blog/${entrySlug(post.id)}/`)}
+                ariaLabel={`${post.data.title} — ${t('cta.readArticle')}`}
+                class="h-full"
+              >
                 <h3 class="related__title">{post.data.title}</h3>
                 <p class="related__description">{post.data.description}</p>
                 <span class="related__more">{t('cta.readArticle')}</span>
