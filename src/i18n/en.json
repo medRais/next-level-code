@@ -1,0 +1,462 @@
+{
+  "site": {
+    "name": "Next Level Code",
+    "tagline": "Custom software and applied AI, engineered for production.",
+    "homeTitle": "Custom software and applied AI",
+    "description": "Custom software, applied AI and commercial APIs, engineered for production. Trusted by BNP Paribas, Banque de France, Orange and Essilor.",
+    "titleTemplate": "%s — Next Level Code"
+  },
+
+  "nav": {
+    "ariaLabel": "Primary",
+    "services": "Services",
+    "products": "APIs & Products",
+    "work": "Work",
+    "howWeWork": "How we work",
+    "about": "About",
+    "blog": "Insights",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+
+  "services": {
+    "customSoftware": "Custom software",
+    "aiSolutions": "AI solutions",
+    "apisAndProducts": "APIs & products",
+    "consultingAndAudit": "Consulting & audit"
+  },
+
+  "cta": {
+    "primary": "Start a project",
+    "secondary": "Explore our APIs",
+    "demo": "Request a demo",
+    "expert": "Talk to an expert",
+    "apiExpert": "Talk to an API expert",
+    "readCaseStudy": "Read the case study",
+    "allWork": "See all work",
+    "allServices": "See all services",
+    "learnMore": "Learn more",
+    "readArticle": "Read the article"
+  },
+
+  "footer": {
+    "pitch": "Custom software, applied AI and commercial APIs. Our projects are delivered by a hand-picked collective of software architects, senior engineers and AI specialists, led by the founder.",
+    "servicesHeading": "Services",
+    "companyHeading": "Company",
+    "resourcesHeading": "Resources",
+    "contactHeading": "Contact",
+    "legalNotice": "Legal notice",
+    "privacyPolicy": "Privacy policy",
+    "copyright": "© {year} Next Level Code. All rights reserved.",
+    "socialHeading": "Follow",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "backToTop": "Back to top",
+    "opensInNewTab": "Opens in a new tab",
+    "homeLink": "Next Level Code — home",
+    "breadcrumb": "Breadcrumb"
+  },
+
+  "language": {
+    "label": "Language",
+    "switchTo": "Switch language"
+  },
+
+  "form": {
+    "nameLabel": "Full name",
+    "namePlaceholder": "Jane Doe",
+    "emailLabel": "Work email",
+    "emailPlaceholder": "jane@company.com",
+    "companyLabel": "Company",
+    "companyPlaceholder": "Company name",
+    "needLabel": "What do you need?",
+    "needPlaceholder": "A short description of your project, your timeline and your constraints.",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Message sent",
+    "successBody": "Thank you. We reply to every qualified enquiry within 24 hours on business days.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "The message could not be sent — the network or the form service may be unavailable.",
+    "requiredHint": "Required",
+    "emailFallback": "Email us directly",
+    "responsePromise": "We reply within 24 hours on business days."
+  },
+
+  "notFound": {
+    "eyebrow": "404",
+    "title": "This page does not exist",
+    "body": "The address may have changed, or the link that brought you here may be out of date.",
+    "primaryAction": "Back to home",
+    "secondaryAction": "Browse our work"
+  },
+
+  "home": {
+    "seoDescription": "Custom software, applied AI and commercial APIs for organisations where the system has to work. Trusted by BNP Paribas, Banque de France, Orange and Essilor.",
+    "hero": {
+      "eyebrow": "Software & AI engineering",
+      "title": "Software and AI, engineered to reach production",
+      "lead": "We design and build custom software, applied AI and commercial APIs for organisations where the system has to work the first time — banks, public institutions and enterprises."
+    },
+    "pillars": {
+      "eyebrow": "Why teams bring us in",
+      "title": "Three things that decide whether software lands",
+      "items": [
+        {
+          "title": "Senior engineering, directly",
+          "body": "You work with the people writing the code. There is no layer between a decision and the person who has to live with it."
+        },
+        {
+          "title": "Built for the estate you have",
+          "body": "Legacy that cannot be rewritten, constraints that are not negotiable, integrations that must not break. That is the normal case, and we design for it rather than around it."
+        },
+        {
+          "title": "Delivered to production",
+          "body": "The work is finished when it runs under real load with real users. Everything before that is progress, not completion."
+        }
+      ]
+    },
+    "services": {
+      "eyebrow": "What we do",
+      "title": "Four ways we engage",
+      "lead": "Most engagements begin with one of these and grow into another as the work reveals what it actually needs."
+    },
+    "work": {
+      "eyebrow": "Selected work",
+      "title": "Systems running in banking, government and telecoms",
+      "lead": "Six client references across banking, central banking, public institutions, telecommunications and optical retail."
+    },
+    "api": {
+      "eyebrow": "APIs & products",
+      "title": "Capability you integrate, not a project you run",
+      "lead": "Where a problem is well understood and the value is in having it working now, an API is the shorter path. Clear contracts, honest documentation, and the security answers a review actually asks for.",
+      "snippetNote": "Authenticate, call, ship. Every endpoint has full reference documentation."
+    },
+    "process": {
+      "eyebrow": "How we work",
+      "title": "Four stages, each ending in something you can judge",
+      "items": [
+        {
+          "title": "Framing",
+          "body": "We establish what is true before agreeing what to build: the constraints, the systems in scope, and the outcome that would count as success."
+        },
+        {
+          "title": "Sprints",
+          "body": "Short cycles against working software. You see the real thing at each step, early enough that changing direction is still cheap."
+        },
+        {
+          "title": "Production",
+          "body": "Deployment, security review, observability and the operational handover — treated as part of the build, not as a phase that follows it."
+        },
+        {
+          "title": "Run",
+          "body": "Support, evolution and the transfer of ownership to your team. A permanent dependency on us is not a successful outcome."
+        }
+      ]
+    },
+    "metrics": {
+      "eyebrow": "The practice",
+      "title": "A young company on long experience"
+    },
+    "cta": {
+      "title": "Tell us what you are trying to build",
+      "lead": "Send a short description of the project, the timeline and the constraints. We reply within 24 hours on business days."
+    }
+  },
+
+  "blogPage": {
+    "seoTitle": "Insights",
+    "seoDescription": "Notes on applied AI, software architecture and enterprise integration, written from engagements rather than from conference talks.",
+    "eyebrow": "Insights",
+    "title": "Notes from work that shipped",
+    "lead": "Written from engagements rather than from conference talks. Mostly about the parts that turn out to be harder than the parts everyone warns you about.",
+    "backToBlog": "All insights",
+    "publishedLabel": "Published",
+    "updatedLabel": "Updated",
+    "tagsLabel": "Topics",
+    "moreArticles": "More insights",
+    "ctaTitle": "Facing one of these problems?",
+    "ctaLead": "If any of this looks like the system you are working on, tell us about it. We reply within 24 hours on business days."
+  },
+
+  "contactPage": {
+    "seoTitle": "Contact",
+    "seoDescription": "Tell us about your project, your timeline and your constraints. We reply to every qualified enquiry within 24 hours on business days.",
+    "eyebrow": "Contact",
+    "title": "Tell us what you are trying to build",
+    "lead": "A short description is enough to start. We reply within 24 hours on business days — including when the honest answer is that we are not the right people for it.",
+    "formHeading": "Send us a message",
+    "directHeading": "Or reach us directly",
+    "emailLabel": "Email",
+    "phoneLabel": "Telephone",
+    "expectHeading": "What happens next",
+    "expect": [
+      "We read it ourselves — there is no qualification layer between you and the engineers.",
+      "You get a reply within 24 hours on business days, with a straight answer about fit.",
+      "If it looks like a match, we propose a short call to establish the constraints before anything is quoted."
+    ],
+    "faqEyebrow": "Before you write",
+    "faqTitle": "Questions we are usually asked first",
+    "faq": [
+      {
+        "question": "What size of engagement do you take on?",
+        "answer": "From a two-week discovery sprint to a multi-month build. What matters more than size is whether the outcome is definable — if nobody can say what success looks like, that is the first piece of work."
+      },
+      {
+        "question": "Do you work fixed-price or time-and-materials?",
+        "answer": "Both. Fixed price suits work whose scope is genuinely settled, which is rarer than people expect. Otherwise an agreed capacity with reviewed scope gives you the same budget control without pricing in the risk of guessing wrong."
+      },
+      {
+        "question": "Can you work with our existing team?",
+        "answer": "Yes. A good deal of our work is embedded alongside an in-house team, to their process and standards. We are equally comfortable owning a delivery end to end."
+      },
+      {
+        "question": "Do you sign NDAs and work under our security requirements?",
+        "answer": "Routinely. Most of our references are in banking, central banking and the public sector, so contractual and security review is a normal part of starting work rather than an obstacle to it."
+      },
+      {
+        "question": "Where are you based, and does it matter?",
+        "answer": "We work remotely with clients across Europe and are used to regulated environments where data residency and access control are contractual. If your project requires on-site presence, say so and we will tell you honestly whether we can meet it."
+      }
+    ]
+  },
+
+  "legalPage": {
+    "noticeTitle": "Legal notice",
+    "privacyTitle": "Privacy policy",
+    "lastUpdatedLabel": "Last updated",
+    "todoNotice": "This page is awaiting the company's registered details. It must be completed before the site goes live."
+  },
+
+  "howWeWorkPage": {
+    "seoTitle": "How we work",
+    "seoDescription": "Framing, sprints, production and run — how Next Level Code delivers software, with the quality and security commitments that come with it.",
+    "eyebrow": "How we work",
+    "title": "A method built around being wrong early",
+    "lead": "Every engagement is an argument about what should exist. The point of the process is to make that argument cheap to lose at the start, when changing direction costs a conversation, rather than expensive to lose at the end.",
+    "phases": {
+      "eyebrow": "Delivery",
+      "title": "Four stages, each ending in something you can judge",
+      "items": [
+        {
+          "title": "Framing",
+          "body": "We establish what is true before agreeing what to build: the systems in scope, the constraints that are not negotiable, the people who will operate the result, and the outcome that would count as success. It ends in a plan specific enough to cost.",
+          "output": "A costed plan, a named architecture, and the risks ranked"
+        },
+        {
+          "title": "Sprints",
+          "body": "Short cycles against working software. You see the real thing at every step — not a mock-up — early enough that changing your mind is still cheap. Scope is reviewed at each boundary rather than defended.",
+          "output": "Working software at the end of every cycle"
+        },
+        {
+          "title": "Production",
+          "body": "Deployment, security review, observability and operational handover are part of the build, not a phase that follows it. A system that works only on the machine that built it is not finished.",
+          "output": "Running under real load, with monitoring you can read"
+        },
+        {
+          "title": "Run",
+          "body": "Support, evolution and the transfer of ownership to your team: documentation, walkthroughs and the code review habits that let them take it on. A permanent dependency on us is not a successful outcome.",
+          "output": "Your team able to change the system without us"
+        }
+      ]
+    },
+    "commitments": {
+      "eyebrow": "Quality",
+      "title": "What we hold ourselves to",
+      "items": [
+        {
+          "title": "Tests where they earn their keep",
+          "body": "Coverage of the logic that carries risk, not a percentage target. A suite nobody trusts is worse than no suite, because it is still slow."
+        },
+        {
+          "title": "Review before merge, always",
+          "body": "Every change is read by someone other than its author. It is the cheapest defect-finding mechanism in software and the first one teams abandon under pressure."
+        },
+        {
+          "title": "Decisions written down",
+          "body": "Architecture choices are recorded with the alternatives and the reasoning, so a future maintainer inherits the argument rather than just the outcome."
+        },
+        {
+          "title": "No silent scope",
+          "body": "If something is going to take longer or cost more, you hear it when we find out, not at the end. Bad news does not improve with age."
+        }
+      ]
+    },
+    "security": {
+      "eyebrow": "Security",
+      "title": "Practices that apply to every engagement",
+      "items": [
+        "Least privilege by default: access is granted for a task and a period, not held indefinitely.",
+        "Secrets never live in source control; credentials are rotated on handover as a matter of course.",
+        "Dependencies are pinned and monitored, and upgrades are treated as routine work rather than emergencies.",
+        "Personal data handling is decided in the design phase, because retrofitting it onto a live system is expensive and sometimes impossible.",
+        "Anything we build to run in production is reviewed against the security expectations of your sector, not ours."
+      ]
+    },
+    "communication": {
+      "eyebrow": "Working together",
+      "title": "How the engagement actually feels",
+      "body": "You have direct access to the people writing the code — no account layer between a question and the person who can answer it. A written update every week covering what moved, what did not, and what is next. A live review at every sprint boundary. And an honest answer when you ask whether something is worth doing, including when it is not.",
+      "items": [
+        { "title": "Weekly", "body": "A written update: what moved, what did not, what is next." },
+        { "title": "Every sprint", "body": "A live review against working software, not a status deck." },
+        { "title": "Always", "body": "Direct access to the engineers, in your channel of choice." }
+      ]
+    },
+    "ctaTitle": "Start with framing",
+    "ctaLead": "Most engagements begin with a short, fixed-scope piece of work that turns the problem into a costed plan. Tell us what you are facing."
+  },
+
+  "aboutPage": {
+    "seoTitle": "About",
+    "seoDescription": "Next Level Code is a founder-led software practice, delivering custom software, applied AI and commercial APIs for banks, public institutions and enterprises.",
+    "eyebrow": "About",
+    "title": "A small practice built for consequential systems",
+    "lead": "Next Level Code exists because the software that matters most to an organisation is rarely the software that is easiest to buy. It has to fit an estate that already exists, satisfy people who did not ask for it, and keep working after everyone involved has moved on.",
+    "model": {
+      "eyebrow": "How we are built",
+      "title": "Founder-led, delivered by a collective",
+      "body": "Founded in {foundedYear}, Next Level Code is a founder-led practice. Our projects are delivered by a hand-picked collective of software architects, senior engineers and AI specialists, led by the founder — assembled for the shape of each engagement rather than staffed from a bench.",
+      "rationale": "That structure is deliberate. It means the people on your project were chosen for it, that the person accountable for the outcome is also close enough to the work to see it going wrong, and that we can say no to engagements we are not right for. The trade is that we take on fewer projects at once — which is the point."
+    },
+    "principles": {
+      "eyebrow": "What we optimise for",
+      "title": "Four positions we actually hold",
+      "items": [
+        {
+          "title": "The estate as it is, not as it should be",
+          "body": "Every interesting system has history. Treating that history as an obstacle to be cleared is how modernisation projects fail; treating it as the design constraint is how they land."
+        },
+        {
+          "title": "Boring where it counts",
+          "body": "We use well-understood technology for the parts that must not fail, and spend the novelty budget where it creates advantage. Interesting infrastructure is a liability someone inherits."
+        },
+        {
+          "title": "Written for the next reader",
+          "body": "Code is read far more often than it is written, usually by someone with less context and less time. That reader is who we optimise for."
+        },
+        {
+          "title": "An honest no",
+          "body": "We will tell you when a project should be smaller, delayed, bought instead of built, or not done. It costs us revenue and it is the reason clients come back."
+        }
+      ]
+    },
+    "expertise": {
+      "eyebrow": "Where we work",
+      "title": "Sectors and capabilities",
+      "sectorsHeading": "Sectors",
+      "sectors": [
+        "Banking and central banking",
+        "Public institutions",
+        "Telecommunications",
+        "Document and business services",
+        "Retail and partner networks"
+      ],
+      "capabilitiesHeading": "Capabilities",
+      "capabilities": [
+        "Custom web, mobile and cloud systems",
+        "Legacy integration and modernisation",
+        "Applied AI: LLM applications, RAG, agents, computer vision",
+        "Commercial APIs and productisation",
+        "Architecture audit and technical due diligence"
+      ]
+    },
+    "facts": {
+      "eyebrow": "The practice",
+      "title": "Where we stand today",
+      "yearsLabel": "Years in operation"
+    },
+    "ctaTitle": "Tell us what you are trying to build",
+    "ctaLead": "We reply within 24 hours on business days — with a straight answer about whether we are the right people for it."
+  },
+
+  "productsPage": {
+    "seoTitle": "APIs & products",
+    "seoDescription": "Commercial APIs your teams can integrate in days: document intelligence, grounded knowledge answers and document verification. Pricing on request.",
+    "eyebrow": "APIs & products",
+    "title": "Capability you integrate, not a project you run",
+    "lead": "Where a problem is well understood and the value is in having it working now, an API is the shorter path. Each of these solves one problem properly, with the contracts and documentation to make adoption a scheduled task rather than an investigation.",
+    "problemHeading": "The problem it solves",
+    "useCasesHeading": "Where it is used",
+    "benefitsHeading": "What you get",
+    "integrationHeading": "Integration",
+    "assurancesHeading": "Security and reliability",
+    "pricingLabel": "Pricing",
+    "pricingOnRequest": "On request — priced against volume and support level",
+    "docsNote": "Every endpoint has full reference documentation, with worked examples and predictable versioning.",
+    "ctaTitle": "See it working against your own data",
+    "ctaLead": "A demo runs against a sample of your documents, not ours. Tell us the use case and we will set it up. We reply within 24 hours on business days."
+  },
+
+  "servicesPage": {
+    "seoTitle": "Services",
+    "seoDescription": "Custom software, applied AI, commercial APIs and technical consulting — four ways to engage senior engineers who deliver to production.",
+    "eyebrow": "Services",
+    "title": "Four ways we engage",
+    "lead": "Most engagements begin with one of these and grow into another as the work reveals what it actually needs. All of them are delivered by senior engineers, to production.",
+    "engagement": {
+      "eyebrow": "Engagement models",
+      "title": "Three ways to start",
+      "items": [
+        {
+          "title": "Discovery sprint",
+          "body": "A short, fixed-scope engagement that turns a problem into a costed plan: constraints mapped, architecture proposed, risks named. It ends with a decision you can take to a budget holder — including the decision not to build."
+        },
+        {
+          "title": "Project delivery",
+          "body": "A defined outcome, delivered end to end and taken into production. Fixed scope with a fixed price, or an agreed capacity with a scope that adapts as the work teaches you something."
+        },
+        {
+          "title": "Embedded capacity",
+          "body": "Senior engineers working inside your team, to your process and your standards, for a defined period. Useful when the constraint is bandwidth rather than direction."
+        }
+      ]
+    },
+    "outcomesHeading": "What you get",
+    "capabilitiesHeading": "What that involves",
+    "stackHeading": "Technologies we work with",
+    "relatedWorkHeading": "Where we have done this",
+    "backToServices": "All services",
+    "ctaTitle": "Start with a conversation, not a specification",
+    "ctaLead": "Tell us the problem and the constraints. If we are not the right fit we will say so. We reply within 24 hours on business days."
+  },
+
+  "workPage": {
+    "seoTitle": "Client work",
+    "seoDescription": "Case studies from BNP Paribas, Banque de France, Orange, Essilor, Maileva and the French Ministry of Agriculture — systems built to run in production.",
+    "eyebrow": "Client work",
+    "title": "Six references, all in production",
+    "lead": "Banking, central banking, public institutions, telecommunications and optical retail. Each of these systems was built to operate inside an estate that already existed.",
+    "contextHeading": "Context",
+    "solutionHeading": "Solution",
+    "benefitsHeading": "Benefits",
+    "servicesHeading": "Services involved",
+    "sectorLabel": "Sector",
+    "projectLabel": "Project",
+    "previous": "Previous",
+    "next": "Next",
+    "backToWork": "All client work",
+    "ctaTitle": "Facing something comparable?",
+    "ctaLead": "Tell us about the system, the constraints and the timeline. We reply within 24 hours on business days."
+  },
+
+  "metrics": {
+    "founded": "Founded",
+    "projectsDelivered": "Client projects delivered",
+    "clientReferences": "Named client references"
+  },
+
+  "common": {
+    "loading": "Loading…",
+    "clients": "Clients",
+    "clientsHeading": "Trusted by",
+    "onRequest": "On request",
+    "published": "Published",
+    "updated": "Updated",
+    "readingTime": "{minutes} min read"
+  }
+}

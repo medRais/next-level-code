@@ -1,0 +1,113 @@
+---
+/**
+ * The home hero.
+ *
+ * Carries the site's one orchestrated moment: the three bars of the ≡ draw in,
+ * the title follows, then the lead and the calls to action. Under 1.5s end to
+ * end, and gone entirely under `prefers-reduced-motion`.
+ *
+ * Item delays are declared here rather than in CSS so the running order is
+ * readable in one place.
+ */
+
+import Button from '../ui/Button.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Glyph from '../brand/Glyph.astro';
+import { localePath, type LocaleCode } from '../../i18n/config';
+import { useTranslations } from '../../i18n/ui';
+
+interface Props {
+  locale: LocaleCode;
+}
+
+const { locale }: Props = Astro.props;
+const t = useTranslations(locale);
+
+/** The ≡ bars finish at ~270ms; everything else follows from there. */
+const DELAYS = { eyebrow: 300, title: 380, lead: 520, actions: 660 } as const;
+---
+
+<section class="hero on-ink">
+  <div class="container-site hero__inner">
+    {/* The mark is wrapped rather than styled through a passed class: a class
+        handed to a child component does not carry this component's style
+        scope, so the rule would silently never match. */}
+    <div class="hero__mark">
+      <Glyph size="2.25rem" animated />
+    </div>
+
+    <div data-hero-item style={`--hero-delay: ${DELAYS.eyebrow}ms;`}>
+      <Eyebrow tone="ink">{t('home.hero.eyebrow')}</Eyebrow>
+    </div>
+
+    <h1 class="hero__title" data-hero-item style={`--hero-delay: ${DELAYS.title}ms;`}>
+      {t('home.hero.title')}
+    </h1>
+
+    <p class="hero__lead" data-hero-item style={`--hero-delay: ${DELAYS.lead}ms;`}>
+      {t('home.hero.lead')}
+    </p>
+
+    <div class="hero__actions" data-hero-item style={`--hero-delay: ${DELAYS.actions}ms;`}>
+      <Button href={localePath(locale, '/contact/')} size="lg" tone="ink">
+        {t('cta.primary')}
+      </Button>
+      <Button href={localePath(locale, '/products/')} size="lg" variant="outline" tone="ink">
+        {t('cta.secondary')}
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    /* A hair of tone-on-tone lift, within the ink family — the only gradient
+       the brief allows. */
+    background-image: linear-gradient(
+      160deg,
+      var(--color-ink) 0%,
+      color-mix(in oklab, var(--color-ink-surface) 55%, var(--color-ink)) 100%
+    );
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-block: clamp(4.5rem, 3.5rem + 7vw, 9rem);
+    max-inline-size: 62rem;
+  }
+
+  .hero__mark {
+    display: flex;
+    color: var(--color-porcelain);
+    margin-block-end: 2.75rem;
+  }
+
+  .hero__title {
+    margin: 0.75rem 0 0;
+    font-size: var(--text-display-1);
+    font-weight: 300;
+    line-height: 0.98;
+    letter-spacing: 0.01em;
+    color: var(--color-porcelain);
+    max-inline-size: 20ch;
+  }
+
+  .hero__lead {
+    margin: 1.75rem 0 0;
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    color: var(--color-mist);
+    max-inline-size: 58ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-start: 2.75rem;
+  }
+</style>

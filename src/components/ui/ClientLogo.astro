@@ -1,0 +1,120 @@
+---
+/**
+ * A single client logo, greyed at rest and resolving to full colour on hover.
+ *
+ * If the image file is absent the client's name is set in fine display type
+ * instead. The band keeps its rhythm either way, and the build never fails
+ * over a missing asset — which is the brief's explicit requirement.
+ *
+ * The grey-to-colour transition is the one place the site animates `filter`
+ * rather than `transform`/`opacity`. The brief asks for that effect by name,
+ * and browsers composite these filters, so it does not cost frames.
+ */
+
+import { Image } from 'astro:assets';
+import { getClientLogo } from '../../lib/client-logos';
+
+interface Props {
+  /** Key into src/assets/clients/, without extension. */
+  logo: string;
+  /** Client name — the alt text, and what the wordmark treatment renders. */
+  name: string;
+  /**
+   * `wordmark` sets the client's name in our own display type rather than
+   * using their artwork. Chosen deliberately per client, not as a fallback.
+   */
+  treatment?: 'image' | 'wordmark';
+  /**
+   * Hides the mark from assistive technology. Correct wherever the client is
+   * already named in adjacent text or by the enclosing link's label —
+   * otherwise the name is announced twice.
+   */
+  decorative?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  logo,
+  name,
+  treatment = 'image',
+  decorative = false,
+  class: className,
+  ...rest
+}: Props = Astro.props;
+
+/** A missing file lands on the same typographic treatment, so the band keeps
+    its rhythm and the build never fails over an absent asset. */
+const image = treatment === 'wordmark' ? undefined : getClientLogo(logo);
+
+/** Rendered at 2× the display height so the logo stays sharp on dense screens. */
+const RENDER_HEIGHT = 96;
+---
+
+<div class:list={['client-logo', className]} {...rest}>
+  {
+    image ? (
+      <Image
+        src={image}
+        alt={decorative ? '' : name}
+        height={RENDER_HEIGHT}
+        loading="lazy"
+        decoding="async"
+        class="client-logo__img"
+      />
+    ) : (
+      <span class="client-logo__wordmark" aria-hidden={decorative ? 'true' : undefined}>
+        {name}
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .client-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 3rem;
+  }
+
+  .client-logo__img {
+    max-block-size: 2.75rem;
+    inline-size: auto;
+    max-inline-size: 100%;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition:
+      filter var(--duration-hover) var(--ease-swift),
+      opacity var(--duration-hover) var(--ease-swift);
+  }
+
+  .client-logo:hover .client-logo__img {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  /* The client's name set in the site's own display type — thin, spaced and
+     monochrome, so it reads as a peer to the greyed marks beside it rather
+     than as a missing image. It resolves to full ink on hover, matching the
+     grey-to-colour movement of the logos. */
+  .client-logo__wordmark {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    /* Full opacity: this is text, and dimming slate to 75% dropped it to
+       2.89:1, well under AA. The greyed logos beside it are images, which are
+       not held to a contrast ratio — the wordmark is. */
+    color: var(--color-slate);
+    transition: color var(--duration-hover) var(--ease-swift);
+  }
+
+  .client-logo:hover .client-logo__wordmark {
+    color: var(--color-ink);
+  }
+</style>

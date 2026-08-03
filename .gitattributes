@@ -1,0 +1,19 @@
+# Normalise line endings across Windows development and Linux CI.
+# The build runs on ubuntu-latest, so LF in the repository is what matters.
+* text=auto eol=lf
+
+# GitHub Pages reads these byte for byte — stray CRLF can break the domain
+# binding and the crawler directives.
+CNAME       text eol=lf
+public/CNAME text eol=lf
+*.txt       text eol=lf
+
+# Never touched by line-ending conversion.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary

@@ -1,0 +1,90 @@
+---
+/**
+ * 404.
+ *
+ * GitHub Pages serves this file for any unmatched path, so it must be a
+ * complete page with working navigation rather than a bare message — for many
+ * visitors it will be their first view of the site.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Glyph from '../components/brand/Glyph.astro';
+
+import { DEFAULT_LOCALE, localePath } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+const locale = DEFAULT_LOCALE;
+const t = useTranslations(locale);
+---
+
+<BaseLayout
+  title={t('notFound.title')}
+  description={t('notFound.body')}
+  path="/404/"
+  noindex
+>
+  <section class="notfound on-ink">
+    <div class="container-site notfound__inner">
+      <Glyph size="2rem" class="text-porcelain" />
+
+      <p class="notfound__code">{t('notFound.eyebrow')}</p>
+      <h1 class="notfound__title">{t('notFound.title')}</h1>
+      <p class="notfound__body">{t('notFound.body')}</p>
+
+      <div class="notfound__actions">
+        <Button href={localePath(locale, '/')} size="lg" tone="ink">
+          {t('notFound.primaryAction')}
+        </Button>
+        <Button href={localePath(locale, '/work/')} size="lg" variant="outline" tone="ink">
+          {t('notFound.secondaryAction')}
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    display: flex;
+    align-items: center;
+    /* Fills the viewport minus the header, so the footer does not ride up. */
+    min-block-size: min(70vh, 40rem);
+  }
+
+  .notfound__inner {
+    padding-block: clamp(4rem, 3rem + 5vw, 7rem);
+    max-inline-size: 44rem;
+  }
+
+  .notfound__code {
+    margin: 2.5rem 0 0;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    color: var(--color-cobalt-light);
+  }
+
+  .notfound__title {
+    margin: 1rem 0 0;
+    font-size: var(--text-display-1);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .notfound__body {
+    margin: 1.5rem 0 0;
+    font-size: var(--text-lead);
+    line-height: 1.6;
+    color: var(--color-mist);
+  }
+
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-start: 2.5rem;
+  }
+</style>

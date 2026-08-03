@@ -1,0 +1,29 @@
+---
+/**
+ * Wraps content in a one-shot scroll reveal.
+ *
+ * The hidden state and the transition live in global.css; this component only
+ * marks the element and sets its stagger. Without JavaScript, or under
+ * `prefers-reduced-motion`, it renders as a plain element with no effect on
+ * layout.
+ */
+
+interface Props {
+  /** Stagger offset in milliseconds — used to cascade cards across a grid. */
+  delay?: number;
+  as?: 'div' | 'section' | 'article' | 'li' | 'header';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { delay = 0, as: Tag = 'div', class: className, ...rest }: Props = Astro.props;
+---
+
+<Tag
+  data-reveal
+  class={className}
+  style={delay > 0 ? `--reveal-delay: ${delay}ms;` : undefined}
+  {...rest}
+>
+  <slot />
+</Tag>

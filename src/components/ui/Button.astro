@@ -1,0 +1,200 @@
+---
+/**
+ * The site's only button.
+ *
+ * Three variants, matching the brief's CTA hierarchy: `primary` for
+ * "Start a project", `outline` for the secondary "Explore our APIs",
+ * `ghost` for tertiary in-page links. There is exactly one primary button
+ * per screen — cobalt is a signal, not a decoration.
+ *
+ * Renders an `<a>` when given `href`, a `<button>` otherwise.
+ *
+ * Hover fills are painted by an overlay pseudo-element whose opacity
+ * transitions, rather than by animating `background-color` directly. Colour
+ * and border transitions elsewhere are paint-only and never trigger layout.
+ */
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'ghost';
+  /** The surface the button sits on — decides the light or ink treatment. */
+  tone?: 'light' | 'ink';
+  size?: 'md' | 'lg';
+  type?: 'button' | 'submit';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'primary',
+  tone = 'light',
+  size = 'md',
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const isExternal = typeof href === 'string' && /^https?:\/\//.test(href);
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, `btn--on-${tone}`, className]}
+  {...rest}
+>
+  <span class="btn__label"><slot /></span>
+</Tag>
+
+<style>
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    border-radius: var(--radius-hair);
+    border: 1px solid transparent;
+    cursor: pointer;
+    isolation: isolate;
+    transition:
+      transform var(--duration-micro) var(--ease-swift),
+      color var(--duration-micro) var(--ease-swift),
+      border-color var(--duration-micro) var(--ease-swift);
+  }
+
+  /* The fill that appears on hover. Opacity only, so it composites. */
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--duration-micro) var(--ease-swift);
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .btn:hover::before {
+    opacity: 1;
+  }
+
+  .btn__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ── Sizes ─────────────────────────────────────────────────────────────── */
+  .btn--md {
+    padding-block: 0.8125rem;
+    padding-inline: 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn--lg {
+    padding-block: 1rem;
+    padding-inline: 2rem;
+    font-size: 1rem;
+  }
+
+  /* ── Primary ───────────────────────────────────────────────────────────── */
+  .btn--primary {
+    background-color: var(--color-cobalt);
+    color: var(--color-porcelain);
+  }
+
+  .btn--primary::before {
+    background-color: var(--color-cobalt-hover);
+  }
+
+  /* On ink the accent must be the lighter tint to stay legible against the
+     surrounding mist-coloured copy. */
+  .btn--primary.btn--on-ink {
+    background-color: var(--color-cobalt);
+    color: var(--color-porcelain);
+  }
+
+  /* ── Outline ───────────────────────────────────────────────────────────── */
+  .btn--outline {
+    background-color: transparent;
+    border-color: var(--color-hairline-strong);
+    color: var(--color-ink);
+  }
+
+  .btn--outline::before {
+    background-color: color-mix(in oklab, var(--color-ink) 4%, transparent);
+  }
+
+  .btn--outline:hover {
+    border-color: var(--color-ink);
+  }
+
+  .btn--outline.btn--on-ink {
+    border-color: var(--color-hairline-dark-strong);
+    color: var(--color-porcelain);
+  }
+
+  .btn--outline.btn--on-ink::before {
+    background-color: color-mix(in oklab, var(--color-porcelain) 8%, transparent);
+  }
+
+  .btn--outline.btn--on-ink:hover {
+    border-color: var(--color-porcelain);
+  }
+
+  /* ── Ghost ─────────────────────────────────────────────────────────────── */
+  .btn--ghost {
+    background-color: transparent;
+    color: var(--color-cobalt);
+    padding-inline: 0;
+    /* An underline that draws in from the reading edge. */
+  }
+
+  .btn--ghost .btn__label {
+    position: relative;
+  }
+
+  .btn--ghost .btn__label::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: -0.25rem;
+    block-size: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--duration-hover) var(--ease-precise);
+  }
+
+  :global([dir='rtl']) .btn--ghost .btn__label::after {
+    transform-origin: right center;
+  }
+
+  .btn--ghost:hover .btn__label::after {
+    transform: scaleX(1);
+  }
+
+  .btn--ghost:hover {
+    transform: none;
+  }
+
+  .btn--ghost.btn--on-ink {
+    color: var(--color-cobalt-light);
+  }
+</style>

@@ -1,0 +1,350 @@
+/* ============================================================================
+   Next Level Code — design system
+   ----------------------------------------------------------------------------
+   The whole visual language descends from the logo: thin geometric capitals,
+   wide tracking, a stylised "E" drawn as three detached bars (≡), monochrome
+   ink on porcelain with a single cobalt accent.
+
+   Rules encoded here, not left to discipline alone:
+   - Cobalt is never decorative. It marks calls to action, links, active states
+     and key figures — nothing else.
+   - Layout uses CSS logical properties exclusively, so right-to-left locales
+     mirror without a single override.
+   - Only `transform` and `opacity` animate.
+   ========================================================================== */
+
+/* Self-hosted, `font-display: swap` built in. Both families are subset by
+   unicode-range, so an English page downloads the Latin file only — the
+   Cyrillic subsets ship with the package but are never fetched until a
+   Cyrillic locale is published. */
+@import '@fontsource-variable/jost';
+@import '@fontsource-variable/inter';
+@import 'tailwindcss';
+
+@theme {
+  /* ── Palette ───────────────────────────────────────────────────────────────
+     The six brand tokens are fixed by the brief. Everything below them is
+     derived from those six — no new hues are introduced. */
+  --color-porcelain: #fafbfc;
+  --color-ink: #0b1220;
+  --color-ink-surface: #16223a;
+  --color-cobalt: #2e5bff;
+  --color-slate: #64748b;
+  --color-mist: #8fa3bf;
+
+  /* Cobalt on ink measures 3.6:1 — below AA. This tint of the same hue
+     measures 6.3:1 and is the ONLY form the accent takes on dark surfaces.
+     It is the same accent, not a second one. */
+  --color-cobalt-light: #6e90ff;
+  --color-cobalt-hover: #1f4ae0;
+
+  /* Separators are derived from ink/porcelain at low opacity. Mid-greys look
+     muddy against porcelain, so there are none. */
+  --color-hairline: color-mix(in oklab, #0b1220 8%, transparent);
+  --color-hairline-strong: color-mix(in oklab, #0b1220 14%, transparent);
+  --color-hairline-dark: color-mix(in oklab, #fafbfc 10%, transparent);
+  --color-hairline-dark-strong: color-mix(in oklab, #fafbfc 18%, transparent);
+
+  /* ── Typography ────────────────────────────────────────────────────────────
+     Jost is a geometric grotesque on the Futura skeleton — the same wide
+     apertures and circular bowls as the wordmark, so at weight 300 with open
+     tracking it reads as an extension of the logo rather than a companion to
+     it. Inter carries body copy: engineered for small sizes, tall x-height
+     that matches Jost's, no stylistic opinion of its own. Both cover Latin
+     and Cyrillic, which is why Space Grotesk was rejected. */
+  --font-display: 'Jost Variable', Jost, ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SFMono-Regular', Menlo, monospace;
+
+  /* Arabic pairing, declared for the future and deliberately not loaded in
+     V1. Publishing `ar` means adding the @font-face import; nothing else. */
+  --font-display-ar: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif;
+  --font-body-ar: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif;
+
+  /* Fluid scale — no breakpoint jumps between 360px and 1440px+. */
+  --text-display-1: clamp(2.75rem, 1.55rem + 4.6vw, 4.5rem);
+  --text-display-1--line-height: 0.98;
+  --text-display-1--letter-spacing: 0.01em;
+  --text-display-1--font-weight: 300;
+
+  --text-display-2: clamp(2.125rem, 1.55rem + 2.4vw, 3.25rem);
+  --text-display-2--line-height: 1.06;
+  --text-display-2--letter-spacing: 0.005em;
+  --text-display-2--font-weight: 300;
+
+  --text-display-3: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --text-display-3--line-height: 1.18;
+  --text-display-3--font-weight: 400;
+
+  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --text-lead--line-height: 1.6;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.28em;
+  --text-eyebrow--font-weight: 500;
+
+  /* ── Geometry ──────────────────────────────────────────────────────────────
+     Near-square corners. Softness would contradict a brand built on precision. */
+  --radius-hair: 2px;
+  --radius-card: 4px;
+  --radius-pill: 999px;
+
+  --container-site: 76rem;
+  --container-prose: 44rem;
+
+  /* ── Motion ────────────────────────────────────────────────────────────────
+     Decelerating curves only. No bounce, no elastic — the brief forbids both
+     and they would read as playful rather than exact. */
+  --ease-precise: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Rest at zero elevation; hover does the work. */
+  --shadow-lift: 0 1px 2px rgb(11 18 32 / 0.04), 0 14px 34px -14px rgb(11 18 32 / 0.2);
+  --shadow-lift-dark: 0 1px 2px rgb(0 0 0 / 0.3), 0 18px 40px -16px rgb(0 0 0 / 0.5);
+}
+
+/* Durations live outside @theme: they are consumed by hand-written CSS below
+   rather than by generated utilities. */
+:root {
+  --duration-micro: 180ms;
+  --duration-hover: 260ms;
+  --duration-reveal: 700ms;
+}
+
+/* ============================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header height, so in-page anchors are not hidden behind it. */
+    scroll-padding-block-start: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-porcelain);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  /* Headings default to ink, which is invisible on an ink section. Flipping
+     them wherever `.on-ink` is in force fixes the whole class of bug at the
+     source, rather than leaving every dark section to remember an override —
+     a heading that silently renders dark-on-dark is easy to ship and hard to
+     notice. */
+  .on-ink :is(h1, h2, h3, h4) {
+    color: var(--color-porcelain);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, branded, and never removed — keyboard users get the same
+     precision as everyone else. */
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt);
+    outline-offset: 3px;
+    border-radius: var(--radius-hair);
+  }
+  /* Dark sections need the tinted accent to stay legible. */
+  .on-ink :focus-visible {
+    outline-color: var(--color-cobalt-light);
+  }
+
+  ::selection {
+    background-color: var(--color-cobalt);
+    color: var(--color-porcelain);
+  }
+
+  /* Images never overflow their column, at any viewport. */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Arabic letterforms must stay connected: the brand's wide tracking is
+     switched off wholesale for locales flagged `allowsLetterSpacing: false`
+     in src/i18n/config.ts. Costs nothing today, saves a retrofit later. */
+  html[data-letter-spacing='off'] .tracking-brand,
+  html[data-letter-spacing='off'] .text-eyebrow {
+    letter-spacing: normal;
+  }
+}
+
+/* ============================================================================
+   Utilities
+   ========================================================================== */
+
+/* Page gutter. Padding is logical, so RTL mirrors it automatically. */
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* The wordmark's signature spacing — "N E X T". Reserved for eyebrows,
+   section labels and the logo itself. Never body copy. */
+@utility tracking-brand {
+  letter-spacing: 0.28em;
+}
+
+/* Vertical rhythm for full-width sections. */
+@utility section-y {
+  padding-block: clamp(4rem, 3rem + 4vw, 7.5rem);
+}
+
+/* Marks a subtree as sitting on an ink background so nested components can
+   swap to their dark-surface treatment without prop drilling. */
+@utility on-ink {
+  color: var(--color-mist);
+  background-color: var(--color-ink);
+}
+
+/* ============================================================================
+   Motion
+
+   Every animation is opt-in via a `data-` attribute and every one of them is
+   gated behind `.js`, which is set by an inline script in the document head.
+   Without JavaScript the page renders fully visible and static — the content
+   is never hostage to a script that failed to load.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll reveal: fade + short rise, once, never re-triggered. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-reveal) var(--ease-precise),
+      transform var(--duration-reveal) var(--ease-precise);
+    /* Grids stagger by setting --reveal-delay per child. */
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* Hero opening sequence: the three bars of the ≡ assemble, the title
+     follows, then the calls to action. Under 1.5s end to end.
+
+     Items opt in individually rather than by being a child of the sequence:
+     the ≡ mark animates its own bars, and it must not also be fading and
+     rising as a block while they draw. */
+  .js [data-hero-item] {
+    opacity: 0;
+    animation: hero-rise 800ms var(--ease-precise) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  .js [data-hero-bar] {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: hero-bar 520ms var(--ease-precise) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+  /* Logical mirroring: the bars must draw from the reading edge. */
+  [dir='rtl'] .js [data-hero-bar] {
+    transform-origin: right center;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-bar {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Non-negotiable: motion is an enhancement, so it disappears entirely when
+   the user has asked for less of it. Content stays exactly where it is. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js [data-reveal],
+  .js [data-hero-item],
+  .js [data-hero-bar] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================================
+   Syntax highlighting
+
+   Shiki runs at build time and emits inline styles; only the surface needs
+   to be pulled into the palette so code samples read as part of the page.
+   ========================================================================== */
+
+.astro-code {
+  background-color: var(--color-ink-surface) !important;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-hairline-dark);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  /* Long lines scroll inside the block. `max-inline-size` is what actually
+     keeps that promise: without it the block sizes to its content and pushes
+     its container wider, taking the whole page into horizontal overflow. */
+  max-inline-size: 100%;
+  overflow-x: auto;
+  /* Code is left-to-right in every locale, including Arabic. */
+  direction: ltr;
+  text-align: left;
+}

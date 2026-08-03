@@ -1,0 +1,76 @@
+---
+/**
+ * A key figure with a count-up on first sight.
+ *
+ * The final value is rendered server-side, so it is what search engines index
+ * and what a visitor sees with JavaScript off or reduced motion on. The
+ * script only animates up to the number already in the DOM.
+ *
+ * Only figures the owner has confirmed belong here — the brief forbids
+ * publishing invented metrics.
+ */
+
+interface Props {
+  /** The number to count to. */
+  value: number;
+  /** Rendered after the number, e.g. "+" or "%". */
+  suffix?: string;
+  label: string;
+  tone?: 'light' | 'ink';
+  /**
+   * Set false for values that are not quantities — a year counting up from
+   * zero reads as a loading state, not as an achievement.
+   */
+  animate?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  value,
+  suffix = '',
+  label,
+  tone = 'light',
+  animate = true,
+  class: className,
+  ...rest
+}: Props = Astro.props;
+---
+
+<div class:list={['counter', `counter--${tone}`, className]} {...rest}>
+  <span class="counter__value" data-counter={animate ? value : undefined}>{value}{suffix}</span>
+  <span class="counter__label">{label}</span>
+</div>
+
+<style>
+  .counter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .counter__value {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1;
+    /* Key figures are one of the four things cobalt is allowed to mark. */
+    color: var(--color-cobalt);
+    /* Digits must not reflow as they tick. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  .counter--ink .counter__value {
+    color: var(--color-cobalt-light);
+  }
+
+  .counter__label {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-slate);
+  }
+
+  .counter--ink .counter__label {
+    color: var(--color-mist);
+  }
+</style>
