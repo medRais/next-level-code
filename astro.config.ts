@@ -9,13 +9,13 @@ import icon from 'astro-icon';
 import { DEFAULT_LOCALE, LOCALE_CODES } from './src/i18n/config';
 
 /**
- * Next Level Code — https://www.nextlevelcode.tech
+ * Next Level Code — https://nextlevelcode.tech
  *
  * Deployment target is GitHub Pages on a custom domain, so the build is fully
  * static and served from the domain root (base `/`). See `public/CNAME`.
  */
 export default defineConfig({
-  site: 'https://www.nextlevelcode.tech',
+  site: 'https://nextlevelcode.tech',
   trailingSlash: 'always',
   build: {
     // Emits `/services/index.html` so GitHub Pages serves clean URLs without

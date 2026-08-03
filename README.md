@@ -1,7 +1,7 @@
 # Next Level Code — corporate site
 
 Static marketing site for **Next Level Code**, served at
-<https://www.nextlevelcode.tech> from GitHub Pages.
+<https://nextlevelcode.tech> from GitHub Pages.
 
 The product brief, design direction and content rules live in
 [`AGENTS.md`](./AGENTS.md) — read it before changing anything visible.

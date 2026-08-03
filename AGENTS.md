@@ -34,12 +34,14 @@ Interdiction du lorem ipsum et des phrases creuses génériques ("nous sommes pa
 
 ## 3. Contrainte d'hébergement — CRITIQUE
 
-Le site est déployé sur **GitHub Pages** (repo `medrais/…`, domaine custom `www.nextlevelcode.tech`).
+Le site est déployé sur **GitHub Pages** (repo `medrais/…`, domaine custom `nextlevelcode.tech`).
+
+> **Décision de mise en production (août 2026)** : le domaine canonique retenu est l'**apex `nextlevelcode.tech`**, et non `www`. Le site était déjà indexé sur l'apex ; y rester supprime toute migration 301 et tout risque SEO. `www` redirige vers l'apex.
 
 Conséquences non négociables :
 - **Site 100 % statique.** Aucun backend, aucune base de données, aucun SSR à l'exécution.
 - Formulaire de contact via un service externe (Formspree, Web3Forms ou équivalent gratuit) avec fallback `mailto:`.
-- Conserver/générer un fichier **`CNAME`** contenant `www.nextlevelcode.tech` dans le dossier de sortie publié.
+- Conserver/générer un fichier **`CNAME`** contenant `nextlevelcode.tech` dans le dossier de sortie publié.
 - Déploiement automatisé par **GitHub Actions** (workflow build → deploy vers Pages). Fournir le fichier `.github/workflows/deploy.yml`.
 - Tous les chemins d'assets doivent fonctionner sur le domaine custom (base `/`).
 

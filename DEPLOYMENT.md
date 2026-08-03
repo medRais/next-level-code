@@ -2,7 +2,7 @@
 
 The site is a fully static Astro build published to **GitHub Pages** from the
 `main` branch of `medRais/next-level-code`, served at
-**https://www.nextlevelcode.tech**.
+**https://nextlevelcode.tech**.
 
 ## How deployment works
 
@@ -28,25 +28,35 @@ DNS is **already correct** and needs no change:
 | `nextlevelcode.tech` A | `185.199.108.153`, `.109.153`, `.110.153`, `.111.153` | ✅ in place |
 | `www.nextlevelcode.tech` CNAME | `medrais.github.io` | ✅ in place |
 
-What changes is which hostname is canonical:
+The canonical host is the **apex, `nextlevelcode.tech`**. `www` redirects to
+it, which is how it already behaved before the rebuild.
 
-| | Today | After cutover |
-|---|---|---|
-| Canonical | `nextlevelcode.tech` | `www.nextlevelcode.tech` |
-| The other one | `www` → 301 → apex | apex → 301 → `www` |
+| | |
+|---|---|
+| Canonical | `nextlevelcode.tech` |
+| `www` | 301 → apex, handled by GitHub Pages |
 
-GitHub Pages performs that redirect automatically once the repository's custom
-domain is set to the `www` host — you do not configure the apex separately.
+### Why the apex, when the plan originally said `www`
 
-> **Worth knowing before you commit to `www`.** The live site is currently
-> indexed on the apex domain. Moving the canonical host to `www` is a standard
-> 301 site migration: Google passes ranking through permanent redirects, so the
-> impact is normally small and temporary, but it is not zero, and it means
-> adding `https://www.nextlevelcode.tech` as a property in Search Console. The
-> `google3b35ea81435c516d.html` verification file is carried over in `public/`,
-> so verifying the new property is a two-minute job. Staying on the apex would
-> avoid the migration entirely — if that is preferable, change `public/CNAME`
-> and `site` in `astro.config.ts` to the apex before merging.
+The build initially targeted `www.nextlevelcode.tech`, per AGENTS.md §3. That
+was decided before the new site was live. Once it was deployed, the apex was
+serving it correctly and was still the indexed host, which made the trade-off
+concrete rather than theoretical:
+
+- Moving to `www` would have been a **301 site migration on an already-indexed
+  domain** — small and temporary in impact, but not zero, and it would have
+  required a second Search Console property.
+- Staying on the apex costs **nothing**. No migration, no re-verification, no
+  ranking risk, and the existing Search Console property keeps working.
+
+So the site config moved to the apex rather than the domain moving to `www`:
+`public/CNAME` and `site` in `astro.config.ts` both say `nextlevelcode.tech`,
+which makes canonical tags, the sitemap and `robots.txt` agree with the host
+that actually serves.
+
+**If you ever do want `www`**, it is those same two files plus the Pages custom
+domain setting — and at that point the 301 migration caveat above applies
+again.
 
 ## Content gates — clear these before merging
 
@@ -172,29 +182,28 @@ until step 4.
    ```
    The push triggers `deploy.yml`. Watch it in the Actions tab.
 
-5. **Set the custom domain**
-   Settings → Pages → *Custom domain* → `www.nextlevelcode.tech` → Save.
-   Wait for the DNS check to pass, then tick **Enforce HTTPS** (the certificate
-   can take a few minutes to issue).
+5. **Confirm the custom domain**
+   Settings → Pages → *Custom domain* should read `nextlevelcode.tech`, and
+   **Enforce HTTPS** should be ticked.
 
-   > If the repo setting and `public/CNAME` ever disagree, Pages can end up in a
-   > redirect loop. They must both say `www.nextlevelcode.tech`.
+   > The Pages setting and `public/CNAME` must agree. If they disagree, Pages
+   > can end up in a redirect loop. Both say `nextlevelcode.tech`.
 
 6. **Verify**
    ```bash
-   curl -sI https://www.nextlevelcode.tech/          # expect 200
-   curl -sI https://nextlevelcode.tech/              # expect 301 → www
-   curl -s  https://www.nextlevelcode.tech/robots.txt
-   curl -s  https://www.nextlevelcode.tech/sitemap-index.xml
+   curl -sI https://nextlevelcode.tech/              # expect 200
+   curl -sI https://www.nextlevelcode.tech/          # expect 301 -> apex
+   curl -s  https://nextlevelcode.tech/robots.txt
+   curl -s  https://nextlevelcode.tech/sitemap-index.xml
    ```
    Then check in a browser: home renders, navigation works, the contact form
    submits, and the 404 page shows for a bad URL.
 
 7. **Search Console**
-   Add `https://www.nextlevelcode.tech` as a property, verify it (the
-   verification file is already served), and submit
-   `https://www.nextlevelcode.tech/sitemap-index.xml`.
-   Keep the apex property in place — it will report the redirect.
+   Nothing to do. The apex property already exists and stays valid, because the
+   canonical host did not change. Resubmit
+   `https://nextlevelcode.tech/sitemap-index.xml` so the new URLs are picked up
+   promptly.
 
 ## Rollback
 
