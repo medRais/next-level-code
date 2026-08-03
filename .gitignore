@@ -28,3 +28,6 @@ Thumbs.db
 
 # claude code local overrides
 .claude/settings.local.json
+
+# lighthouse reports
+lh-*.json

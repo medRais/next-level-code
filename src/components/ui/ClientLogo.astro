@@ -107,15 +107,14 @@ const RENDER_HEIGHT = 96;
     text-transform: uppercase;
     text-align: center;
     white-space: nowrap;
+    /* Full opacity: this is text, and dimming slate to 75% dropped it to
+       2.89:1, well under AA. The greyed logos beside it are images, which are
+       not held to a contrast ratio — the wordmark is. */
     color: var(--color-slate);
-    opacity: 0.75;
-    transition:
-      color var(--duration-hover) var(--ease-swift),
-      opacity var(--duration-hover) var(--ease-swift);
+    transition: color var(--duration-hover) var(--ease-swift);
   }
 
   .client-logo:hover .client-logo__wordmark {
     color: var(--color-ink);
-    opacity: 1;
   }
 </style>

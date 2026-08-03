@@ -333,7 +333,11 @@ const jsonLd = [
     padding: 2rem;
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-card);
-    background-color: color-mix(in oklab, var(--color-ink) 2%, var(--color-porcelain));
+    /* No background tint here. A 3% ink wash reads as #F2F3F5, which drops
+     the mandated slate secondary text from 4.59:1 to 4.28:1 — under AA.
+     Section rhythm comes from hairline rules and the ink sections
+     instead, which keeps both mandated colour tokens exactly as
+     specified. See AGENTS.md §6.2 and §8. */
   }
 
   .case-aside__logo {
