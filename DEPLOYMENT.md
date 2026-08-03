@@ -4,6 +4,63 @@ The site is a fully static Astro build published to **GitHub Pages** from the
 `main` branch of `medRais/next-level-code`, served at
 **https://nextlevelcode.tech**.
 
+---
+
+## Status — 3 August 2026
+
+**The site is LIVE on the apex and serving correctly.** Cutover is complete;
+what remains is content, not engineering.
+
+### Verified live
+
+| Check | Result |
+|---|---|
+| `https://nextlevelcode.tech/` | 200, serving the new site |
+| All 24 routes | 200, spot-checked across every section |
+| Unknown URL | 404, serving the branded error page |
+| Canonical / `og:url` / sitemap / `robots.txt` / `CNAME` | all agree on the apex; no `www` anywhere |
+| `sitemap-0.xml` | 21 URLs — 24 routes minus the two `noindex` legal pages and the 404 |
+| Deploy workflow | green on `b1d7a3a`, with no legacy branch-builder run alongside it |
+
+Quality gates at the last full run: 24 pages built, `npm run check` clean
+(0 errors, warnings and hints), Lighthouse 100 on performance, accessibility,
+best practices and SEO across both mobile and desktop.
+
+Rollback remains available: the previous site is preserved on the `old-site`
+branch at `9dce679`.
+
+### Open items
+
+**1. Replace the placeholder API catalogue.** `/products/` is live with three
+illustrative APIs. Details are in the content gates below. Nothing there
+commits the company to an untrue claim — pricing is "on request" throughout
+and the `Product` JSON-LD publishes no price — but they are not the real
+products. This is the last content gate.
+
+**2. Submit the contact form once from production.** The form was verified
+end to end and the email arrived, but that test ran against a local dev
+server. The deployed page posts to the same Web3Forms endpoint, so this is a
+confirmation rather than a real risk — worth doing once from
+`https://nextlevelcode.tech/contact/` all the same.
+
+**3. Re-verify the `www` redirect.** At the time of writing,
+`https://www.nextlevelcode.tech/` returns **404** instead of redirecting to
+the apex. Before the cutover it redirected correctly, so this is a regression
+introduced by the custom-domain change and is expected to clear on its own —
+GitHub provisions the apex↔`www` redirect and its certificate asynchronously
+after a domain change.
+
+```bash
+curl -sI https://www.nextlevelcode.tech/    # want: 301 -> https://nextlevelcode.tech/
+```
+
+If it is still 404 after a day, re-save the custom domain in **Settings →
+Pages** (clear the field, Save, re-enter `nextlevelcode.tech`, Save). The apex
+is unaffected either way — this only concerns visitors who type the `www`
+prefix.
+
+---
+
 ## How deployment works
 
 | Workflow | Trigger | What it does |
@@ -58,12 +115,13 @@ that actually serves.
 domain setting — and at that point the 301 migration caveat above applies
 again.
 
-## Content gates — clear these before merging
+## Content gates
 
-**Status: 1 of 4 PENDING** — technology stacks, legal details and the contact
-form are all resolved. The site is technically complete and the build is green.
-**The only thing standing between this branch and go-live is the real API
-catalogue**, which currently carries three illustrative placeholders.
+**Status: 1 of 4 PENDING.** Technology stacks and legal details are resolved.
+The contact form is verified end to end, though that test ran against a local
+dev server — one production submission remains worth doing (see Status above).
+**The real API catalogue is the only outstanding gate.** The site went live
+with three illustrative placeholders in its place, knowingly.
 
 None of them breaks the build — that is precisely why this list exists. `npm
 run check` passes, `npm run build` passes, CI passes and Lighthouse scores 100
