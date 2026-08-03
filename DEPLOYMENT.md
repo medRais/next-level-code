@@ -50,10 +50,9 @@ domain is set to the `www` host — you do not configure the apex separately.
 
 ## Content gates — clear these before merging
 
-**Status: 3 of 4 PENDING** (technology stacks resolved). The site is
-technically complete and the build is green, but three pieces of content are
-still placeholders or unconfirmed values, to be filled in directly in the code
-by the owner.
+**Status: 2 of 4 PENDING** — technology stacks and legal details resolved. The
+site is technically complete and the build is green. What remains is the real
+API catalogue, and one end-to-end test of the contact form.
 
 None of them breaks the build — that is precisely why this list exists. `npm
 run check` passes, `npm run build` passes, CI passes and Lighthouse scores 100
@@ -90,19 +89,33 @@ grep -rn -A10 "^stack:" src/content/services/en/*.md
       gone. Verified mechanically: nothing outside the confirmed list appears,
       and no confirmed item was dropped.
 
-- [ ] **Complete the legal pages.**
-      13 `TODO(owner)` markers across `src/content/legal/en/notice.md` and
-      `privacy.md`: legal form, registered address, SIREN/SIRET, VAT, share
-      capital, publication director, telephone, governing law and jurisdiction,
-      and the enquiry retention period. Both pages show a warning banner until
-      these are filled — remove the banner with the last TODO.
+- [x] ~~**Complete the legal pages.**~~ **RESOLVED**, with two caveats below.
+      Both pages now carry the confirmed identity — SASU, Next Level Code,
+      7 rue Du 8 Mai 1845, SIREN 933 215 741, publication director RAIS
+      Mohamed, contact email and telephone, GitHub as host. No `TODO(owner)`
+      marker remains anywhere in the codebase and the warning banners are gone.
 
-- [ ] **Confirm the contact address and test the form.**
-      `CONTACT_EMAIL` in `src/data/company.ts` is an assumption. It appears in
-      the footer, on /contact/, and as the contact form's failure fallback.
-      Send one real enquiry through the form and confirm it arrives: the
-      failure path has been tested, the success path deliberately has not,
-      since testing it delivers a message to the owner's inbox.
+      Two things the owner declined to supply, both worth a second look before
+      launch:
+
+      1. **The registered address has no postcode or city.** French
+         *mentions légales* require the full registered office address. As it
+         stands the address is incomplete.
+      2. **Share capital is not stated.** Article R123-238 of the Code de
+         commerce requires a SASU to state its share capital in its legal
+         notice. It is currently absent.
+
+      Also inferred rather than supplied: applicable law is stated as French,
+      which follows from the SASU form and the French registered office.
+      Remove that section if it is wrong.
+
+- [ ] **Test the contact form end to end.**
+      The address is confirmed: `CONTACT_EMAIL` in `src/data/company.ts` is
+      `contact@nextlevelcode.tech`, used in the footer, on /contact/, in the
+      legal pages and as the form's failure fallback. What remains is one real
+      enquiry sent through the form to confirm it arrives. The failure path
+      has been tested; the success path deliberately has not, since testing it
+      delivers a message to the owner's inbox.
 
 ## Cutover checklist
 

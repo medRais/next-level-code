@@ -1,27 +1,21 @@
 ---
 title: Legal notice
-lastUpdated: 2026-08-02
+lastUpdated: 2026-08-03
 seo:
   title: Legal notice
   description: Publisher, hosting and intellectual property information for the Next Level Code website, nextlevelcode.tech.
 ---
 
-> **This page is incomplete.** It is awaiting the company's registered details
-> and must be completed before the site goes live. Every `TODO` below needs a
-> real value.
-
 ## Publisher
 
 This website is published by **Next Level Code**.
 
-- **Legal form:** `TODO(owner)` — e.g. SASU, SARL, auto-entrepreneur
-- **Registered address:** `TODO(owner)`
-- **Registration number:** `TODO(owner)` — SIREN / SIRET
-- **VAT number:** `TODO(owner)` — intra-community VAT, if registered
-- **Share capital:** `TODO(owner)` — if applicable to the legal form
-- **Publication director:** `TODO(owner)`
-- **Contact:** contact@nextlevelcode.tech — `TODO(owner)` confirm this address
-- **Telephone:** `TODO(owner)`
+- **Legal form:** SASU (société par actions simplifiée unipersonnelle)
+- **Registered address:** 7 rue Du 8 Mai 1845
+- **SIREN:** 933 215 741
+- **Publication director:** RAIS Mohamed
+- **Email:** contact@nextlevelcode.tech
+- **Telephone:** +33 7 88 99 96 58
 
 ## Hosting
 
@@ -52,6 +46,5 @@ no control over their content and accepts no responsibility for it.
 
 ## Applicable law
 
-This notice is governed by `TODO(owner)` law. Any dispute relating to the use
-of this site falls under the jurisdiction of the competent courts of
-`TODO(owner)`.
+This notice is governed by French law. Any dispute relating to the use of this
+site falls under the jurisdiction of the competent French courts.

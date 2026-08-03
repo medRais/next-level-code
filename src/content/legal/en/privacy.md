@@ -1,20 +1,18 @@
 ---
 title: Privacy policy
-lastUpdated: 2026-08-02
+lastUpdated: 2026-08-03
 seo:
   title: Privacy policy
   description: What data the Next Level Code website collects, why, how long it is kept, and the rights you have over it under the GDPR.
 ---
 
-> **This page is incomplete.** The controller's identity and the retention
-> periods must be confirmed before the site goes live. Every `TODO` below
-> needs a real value.
-
 ## Who is responsible for your data
 
-The data controller is **Next Level Code**, `TODO(owner)` registered address.
+The data controller is **Next Level Code**, a SASU registered under SIREN
+933 215 741, with its registered office at 7 rue Du 8 Mai 1845.
+
 For any question about this policy or about your data, write to
-contact@nextlevelcode.tech — `TODO(owner)` confirm this address.
+contact@nextlevelcode.tech.
 
 ## What this site collects
 
@@ -46,9 +44,11 @@ with anyone beyond the processor named above.
 
 ## How long we keep it
 
-Enquiries are retained for `TODO(owner)` months where they do not lead to an
-engagement, and for the duration of the business relationship plus the
-applicable statutory period where they do.
+We keep your message for as long as it takes to answer it and to conclude any
+discussion that follows. Where an enquiry leads to a business relationship, the
+correspondence is kept for the duration of that relationship and for the period
+afterwards required by applicable accounting and commercial law. Where it does
+not, the message is deleted once the exchange is closed.
 
 ## Server logs
 

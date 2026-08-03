@@ -8,7 +8,7 @@ import SectionHeader from '../../components/ui/SectionHeader.astro';
 
 import { DEFAULT_LOCALE, localePath } from '../../i18n/config';
 import { useContent, useTranslations } from '../../i18n/ui';
-import { CONTACT_EMAIL } from '../../data/company';
+import { CONTACT_EMAIL, CONTACT_PHONE } from '../../data/company';
 
 const locale = DEFAULT_LOCALE;
 const t = useTranslations(locale);
@@ -79,6 +79,13 @@ const jsonLd = [
           <p class="direct__row">
             <span class="direct__label">{t('contactPage.emailLabel')}</span>
             <a class="direct__value" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          </p>
+          <p class="direct__row">
+            <span class="direct__label">{t('contactPage.phoneLabel')}</span>
+            {/* tel: needs the number unspaced; the label stays readable. */}
+            <a class="direct__value" href={`tel:${CONTACT_PHONE.replace(/\s/g, '')}`}>
+              {CONTACT_PHONE}
+            </a>
           </p>
         </div>
       </aside>

@@ -192,6 +192,7 @@
     "formHeading": "Send us a message",
     "directHeading": "Or reach us directly",
     "emailLabel": "Email",
+    "phoneLabel": "Telephone",
     "expectHeading": "What happens next",
     "expect": [
       "We read it ourselves — there is no qualification layer between you and the engineers.",

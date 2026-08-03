@@ -41,12 +41,18 @@ export const CLIENT_PROJECTS_DELIVERED = 25;
 export const CLIENT_REFERENCES = 6;
 
 /**
- * Public contact address. Also the fallback the contact form offers if the
- * submission fails, so a visitor is never left without a way to reach us.
- *
- * TODO(owner): confirm the address this should be.
+ * Public contact address, confirmed by the owner. Also the fallback the
+ * contact form offers if a submission fails, so a visitor is never left
+ * without a way to reach us.
  */
 export const CONTACT_EMAIL = 'contact@nextlevelcode.tech';
+
+/**
+ * Public telephone number, confirmed by the owner. Stored in international
+ * form because the site addresses an international B2B audience; the national
+ * form is 07 88 99 96 58.
+ */
+export const CONTACT_PHONE = '+33 7 88 99 96 58';
 
 /**
  * Web3Forms access key.
