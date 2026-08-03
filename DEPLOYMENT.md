@@ -205,6 +205,38 @@ until step 4.
    `https://nextlevelcode.tech/sitemap-index.xml` so the new URLs are picked up
    promptly.
 
+## Incident, 3 August 2026 — the site 404'd for ~25 minutes
+
+Worth recording, because the failure mode is invisible until it takes the site
+down and the obvious explanation was the wrong one.
+
+**Symptom.** Both `nextlevelcode.tech` and `www` returned GitHub's "There isn't
+a GitHub Pages site here" 404, while `medrais.github.io/next-level-code/`
+served the site correctly and the Deploy workflow reported success.
+
+**Cause.** The Pages **source** had reverted from "GitHub Actions" to "Deploy
+from a branch". Under branch mode GitHub serves the repository root of `main` —
+and since the rebuild, `main`'s root has no `index.html`, because the site is
+built into `dist/`. So Pages had nothing to serve and unbound the domain.
+
+**The tell** was in the Actions list: a `pages build and deployment` run
+appearing at all. That is GitHub's legacy branch builder. If the source is
+"GitHub Actions" it never runs. Seeing it fail alongside a successful
+`Deploy to GitHub Pages` run means the source setting is wrong, whatever the
+settings page appears to say.
+
+**Not the cause**, despite looking like it: the `public/CNAME` change from
+`www` to the apex landed in the same push. It was coincidental.
+
+**Two rules that follow:**
+
+1. Changing the Pages **source** or **custom domain** is a settings action that
+   must be done *before* pushing a matching `CNAME` — never in the same step,
+   and never assumed to have persisted. Verify it stuck.
+2. After any Pages settings change, re-check that
+   `curl -sI https://nextlevelcode.tech/` returns 200. A successful Deploy run
+   is not evidence the site is reachable; it only proves the artifact uploaded.
+
 ## Rollback
 
 If something is wrong after cutover:
