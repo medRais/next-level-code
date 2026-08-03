@@ -48,10 +48,47 @@ domain is set to the `www` host — you do not configure the apex separately.
 > avoid the migration entirely — if that is preferable, change `public/CNAME`
 > and `site` in `astro.config.ts` to the apex before merging.
 
+## Content gates — clear these before merging
+
+The site is technically complete, but three pieces of content are still
+placeholders or unconfirmed. None of them blocks a build, which is exactly why
+they need a checklist: nothing will fail if they are forgotten.
+
+- [ ] **Replace the three illustrative API products.**
+      `src/content/products/en/*.md` — Document Intelligence, Knowledge Answers
+      and Document Verification are credible inventions, not the real
+      catalogue. Endpoint names, payloads and the `api.nextlevelcode.tech` host
+      are illustrative. Each file carries a header comment saying so. Pricing
+      is left "on request" throughout and the Product JSON-LD publishes no
+      price, so nothing here commits the company to an untrue claim — but the
+      products themselves must be swapped for the real list before launch.
+      Replacing them is a content edit; no code changes.
+
+- [ ] **Confirm or correct the technology stacks.**
+      `stack:` in `src/content/services/en/*.md`. These are plausible defaults
+      written under the latitude of AGENTS.md §2, and they read as claims about
+      the practice. Delete the lists entirely if you would rather claim nothing.
+
+- [ ] **Complete the legal pages.**
+      13 `TODO(owner)` markers across `src/content/legal/en/notice.md` and
+      `privacy.md`: legal form, registered address, SIREN/SIRET, VAT, share
+      capital, publication director, telephone, governing law and jurisdiction,
+      and the enquiry retention period. Both pages show a warning banner until
+      these are filled — remove the banner with the last TODO.
+
+- [ ] **Confirm the contact address and test the form.**
+      `CONTACT_EMAIL` in `src/data/company.ts` is an assumption. It appears in
+      the footer, on /contact/, and as the contact form's failure fallback.
+      Send one real enquiry through the form and confirm it arrives: the
+      failure path has been tested, the success path deliberately has not,
+      since testing it delivers a message to the owner's inbox.
+
 ## Cutover checklist
 
 Run in order. Steps 1–3 are safe to do in advance; the site does not change
 until step 4.
+
+0. **Clear the content gates above.**
 
 1. **Verify the branch builds clean**
    ```bash
