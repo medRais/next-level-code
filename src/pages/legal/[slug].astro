@@ -123,8 +123,12 @@ const formattedDate = new Intl.DateTimeFormat(locale, {
     margin-block-end: 0.5rem;
   }
 
+  /* Underlined, not just coloured. Tailwind's preflight resets link
+     decoration, and cobalt against slate body text is only 1.08:1 — well
+     under the 3:1 WCAG requires when colour is the sole distinguisher. */
   .prose :global(a) {
     color: var(--color-cobalt);
+    text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 
@@ -142,12 +146,15 @@ const formattedDate = new Intl.DateTimeFormat(locale, {
     color: var(--color-ink);
   }
 
-  /* The incompleteness warning at the top of each page. */
+  /* The incompleteness warning at the top of each page.
+     No background wash: a 5% cobalt tint reads as #F0F3FC, which drops slate
+     body text to 4.28:1 — under AA. Same trap as the section tints removed in
+     Phase 4; the mandated slate simply has no headroom over porcelain. The
+     cobalt rule carries the emphasis instead. */
   .prose :global(blockquote) {
     margin: 0 0 2.5rem;
-    padding: 1.25rem 1.5rem;
+    padding: 0.25rem 0 0.25rem 1.5rem;
     border-inline-start: 2px solid var(--color-cobalt);
-    background-color: color-mix(in oklab, var(--color-cobalt) 5%, transparent);
   }
 
   .prose :global(blockquote p:last-child) {

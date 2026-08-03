@@ -50,9 +50,23 @@ domain is set to the `www` host — you do not configure the apex separately.
 
 ## Content gates — clear these before merging
 
-The site is technically complete, but three pieces of content are still
-placeholders or unconfirmed. None of them blocks a build, which is exactly why
-they need a checklist: nothing will fail if they are forgotten.
+**Status: all four PENDING.** The site is technically complete and the build is
+green, but four pieces of content are deliberately left as placeholders or
+unconfirmed values, to be filled in directly in the code by the owner.
+
+None of them breaks the build — that is precisely why this list exists. `npm
+run check` passes, `npm run build` passes, CI passes and Lighthouse scores 100
+with every placeholder still in place. Nothing in the toolchain will stop a
+placeholder reaching production; only this checklist will.
+
+Run this at any time to see exactly what is still outstanding:
+
+```bash
+# every owner TODO, placeholder product and published stack claim
+grep -rn "TODO(owner)" src/
+grep -rln "PLACEHOLDER PRODUCT" src/content/products/en/
+grep -rn -A10 "^stack:" src/content/services/en/*.md
+```
 
 - [ ] **Replace the three illustrative API products.**
       `src/content/products/en/*.md` — Document Intelligence, Knowledge Answers
@@ -65,9 +79,13 @@ they need a checklist: nothing will fail if they are forgotten.
       Replacing them is a content edit; no code changes.
 
 - [ ] **Confirm or correct the technology stacks.**
-      `stack:` in `src/content/services/en/*.md`. These are plausible defaults
-      written under the latitude of AGENTS.md §2, and they read as claims about
-      the practice. Delete the lists entirely if you would rather claim nothing.
+      `stack:` in `src/content/services/en/*.md` — four files. These are
+      plausible defaults written under the latitude of AGENTS.md §2, and on a
+      commercial site they read as claims about what the practice actually
+      works with. Edit the lists to the real technologies, or delete them
+      entirely (`stack: []`) if you would rather claim nothing — the service
+      pages render correctly either way, since the section is conditional on
+      the list being non-empty.
 
 - [ ] **Complete the legal pages.**
       13 `TODO(owner)` markers across `src/content/legal/en/notice.md` and

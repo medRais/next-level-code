@@ -277,8 +277,13 @@ const jsonLd = [
     font-weight: 500;
   }
 
+  /* Underlined, not just coloured — Tailwind's preflight resets link
+     decoration, and cobalt on slate body text is 1.08:1, under the 3:1 WCAG
+     requires when colour alone distinguishes a link. No current article has an
+     inline link, so this is pre-emptive rather than a live fix. */
   .prose :global(a) {
     color: var(--color-cobalt);
+    text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 
