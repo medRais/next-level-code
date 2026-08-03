@@ -50,9 +50,10 @@ domain is set to the `www` host — you do not configure the apex separately.
 
 ## Content gates — clear these before merging
 
-**Status: 2 of 4 PENDING** — technology stacks and legal details resolved. The
-site is technically complete and the build is green. What remains is the real
-API catalogue, and one end-to-end test of the contact form.
+**Status: 1 of 4 PENDING** — technology stacks, legal details and the contact
+form are all resolved. The site is technically complete and the build is green.
+**The only thing standing between this branch and go-live is the real API
+catalogue**, which currently carries three illustrative placeholders.
 
 None of them breaks the build — that is precisely why this list exists. `npm
 run check` passes, `npm run build` passes, CI passes and Lighthouse scores 100
@@ -118,13 +119,22 @@ grep -rn -A10 "^stack:" src/content/services/en/*.md
       company was created on 2024-09-25, matching `FOUNDED_YEAR = 2024`, and
       its legal form code 5710 is SAS/SASU.
 
-- [ ] **Test the contact form end to end.**
-      The address is confirmed: `CONTACT_EMAIL` in `src/data/company.ts` is
-      `contact@nextlevelcode.tech`, used in the footer, on /contact/, in the
-      legal pages and as the form's failure fallback. What remains is one real
-      enquiry sent through the form to confirm it arrives. The failure path
-      has been tested; the success path deliberately has not, since testing it
-      delivers a message to the owner's inbox.
+- [x] ~~**Test the contact form end to end.**~~ **RESOLVED.**
+      The owner submitted a real enquiry through the form and confirmed it
+      arrived. Both paths are now proven: the success path by that live test,
+      the failure path by stubbing the request in the browser and confirming
+      the visitor gets a `mailto:` fallback and a re-enabled submit button
+      rather than a dead end.
+
+      `CONTACT_EMAIL` in `src/data/company.ts` is confirmed as
+      `contact@nextlevelcode.tech`, used in the footer, on /contact/, in both
+      legal pages, and as the form's failure fallback.
+
+      Worth re-testing if any of these change: the Web3Forms access key, the
+      mailbox it is bound to, or the domain. The key is public by design and
+      lives in the markup, so rotating it is a content edit — but a rotated
+      key that is never activated fails silently, which is exactly what this
+      test catches.
 
 ## Cutover checklist
 
