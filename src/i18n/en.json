@@ -81,9 +81,9 @@
     "successTitle": "Message sent",
     "successBody": "Thank you. We reply to every qualified enquiry within 24 hours on business days.",
     "errorTitle": "Something went wrong",
-    "errorBody": "The message could not be sent. Please email us directly and we will pick it up straight away.",
+    "errorBody": "The message could not be sent — the network or the form service may be unavailable.",
     "requiredHint": "Required",
-    "emailFallback": "Or email us directly",
+    "emailFallback": "Email us directly",
     "responsePromise": "We reply within 24 hours on business days."
   },
 
